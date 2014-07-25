@@ -1,0 +1,90 @@
+{% set navigation_bar = [
+    ('/item1/', 'item1', 'Item 1'),
+    ('/item2/', 'item2', 'Item 2'),
+] -%}
+
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+            {% block head %}
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+            <title></title>
+            <meta name="description" content="">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+
+            <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+
+            <link rel="stylesheet" href="/static/css/main.css">
+            <!-- <link rel="stylesheet" href="/static/css/yeti/bootstrap.min.css"> -->
+
+            <script src="/static/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+            <script src="/static/js/vendor/jquery-1.11.0.min.js"></script>
+            <script src="/static/js/vendor/bootstrap.min.js"></script>
+
+            <script src="/static/js/main.js"></script>
+            {% endblock %}
+    </head>
+    <body>
+            <!--[if lt IE 7]>
+                    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+        <nav class="navbar navbar-default navbar-fixed" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    {% if current_user.is_authenticated() == True %}
+                    <!-- Hide the expandy thing if they're not logged in. -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    {% endif %}
+                    <a class="navbar-brand" href="/">Website</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                {% if current_user.is_authenticated() == True %}
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    {% if current_user.has_role('admin') == True %}
+                    <ul class="nav navbar-nav">
+                        {% for href, id, caption in navigation_bar %}
+                        <li  {% if id == active_page %} class="active"{% endif %}>
+                            <a href="{{ href|e }}">{{ caption|e }}</a>
+                        </li>
+                        {% endfor %}
+                        
+                    </ul>
+                    {% endif %}
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if current_user.has_role('admin') == True %}
+                        <li {% if "settings" == active_page %} class="active"{% endif %} >
+                            <a href="/settings/"><span class="glyphicon glyphicon-cog"></span><span class="hidden-lg hidden-md hidden-sm">&nbsp;Settings</span></a>
+                        </li>
+                        {% endif %}
+                        <li><a href="/confirm_logout/"><span class="glyphicon glyphicon-log-out"></span><span class="hidden-lg hidden-md hidden-sm">&nbsp;Logout</span></a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+                {% endif %}
+            </div><!-- /.container-fluid -->
+        </nav>
+        <div class="container">
+            {% block content %}
+            <p>Template has not been configured</p>
+            {% endblock %}
+            <!-- <footer>
+                {% block footer %}
+                <p>&copy; Company 2014</p>
+                {% endblock %}
+            </footer> -->
+        </div>
+
+        
+    </body>
+</html>
