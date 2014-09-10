@@ -44,7 +44,6 @@ app.config['SECURITY_EMAIL_SENDER'] = 'security@localhost'
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
-app.user_datastore = user_datastore
 
 db.create_all()
 
