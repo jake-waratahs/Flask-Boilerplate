@@ -1,6 +1,6 @@
 {% set navigation_bar = [
-    ('/item1/', 'item1', 'Item 1'),
-    ('/item2/', 'item2', 'Item 2'),
+    (url_for('ClassyViewExample:index'), 'item1', 'Item 1'),
+    (url_for('ClassyViewExample:index'), 'item1', 'Item 1'),
 ] -%}
 
 
@@ -44,7 +44,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     {% endif %}
-                    <a class="navbar-brand" href="/">Website</a>
+                    <a class="navbar-brand" href="{{ url_for('Index:index') }}">Website</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -53,7 +53,7 @@
                     {% if current_user.has_role('admin') == True %}
                     <ul class="nav navbar-nav">
                         {% for href, id, caption in navigation_bar %}
-                        <li  {% if id == active_page %} class="active"{% endif %}>
+                        <li  {% if href == request.path %} class="active"{% endif %}>
                             <a href="{{ href|e }}">{{ caption|e }}</a>
                         </li>
                         {% endfor %}
