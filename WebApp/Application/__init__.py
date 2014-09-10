@@ -16,8 +16,8 @@ app = Flask(__name__)
 
 # DB Config
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///datastore.db'
-app.config['SECRET_KEY'] = 'lakufy23kiu4yjkhd,asasd2213@#$!@321h@!#1jdg23kuhj3'
-app.config['SECURITY_PASSWORD_SALT'] = "912873@!#28974ew987df9as87d2jghj21g3jh2"
+app.config['SECRET_KEY'] = 'Change Me'
+app.config['SECURITY_PASSWORD_SALT'] = "Change Me"
 # Please don't use plaintext.
 app.config['SECURITY_PASSWORD_HASH'] = 'plaintext'
 
@@ -25,11 +25,15 @@ api = restful.Api(app)
 db = SQLAlchemy(app)
 
 
+# Import everything so the auto-reloader works.
+from Application.views import *
+from Application.models import *
+from Application.api import *
 
-import Application.views
-import Application.api
-import Application.models
-from Application.models.User import User, Role
+from Application.models import (
+    User, 
+    Role
+)
 
 # Setup Flask-Security
 app.config['SECURITY_RECOVERABLE'] = True
@@ -46,7 +50,6 @@ db.create_all()
 
 
 # Flask Security Email Setup
-# After 'Create app'
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
@@ -77,6 +80,13 @@ def setup():
 
 setup()
     
+
+# ---------------------
+# Jinja Filters
+# ---------------------
+from lib.jinja_filters import insert_filters
+insert_filters(app)
+
 
 # ---------------------
 # Setup App Debug Emails so we can monitor exceptions

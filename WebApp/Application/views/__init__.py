@@ -1,2 +1,2 @@
-from example import *
 from ClassyViewExample import *
+from example import *
