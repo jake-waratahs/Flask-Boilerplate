@@ -5,7 +5,7 @@ if '--help' in sys.argv or '-?' in sys.argv:
 	print "Usage: ./%s  [(--hostname|-h) <0.0.0.0>] [(-p|--port) <8000>] [--debug|-d]" % (sys.argv[0])
 	exit()
 
-debug = 'False'
+debug = False
 host = '0.0.0.0'
 port = '8000'
 
