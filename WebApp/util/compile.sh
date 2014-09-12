@@ -12,7 +12,7 @@ for file in $files
 do
 	# echo "------------------"
 	# echo "Compiling: $file"
-	echo " * - Compiling: $file"
+	echo "   - Compiling: $file"
 	basename=`echo $file | sed s/[\.\\\/A-Za-z0-9\-]*\\\///g`
 	basename=`echo $basename | sed s/.less//g`
 
