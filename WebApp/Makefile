@@ -16,7 +16,7 @@ all: debug
 debug: venv regenerate db configure
 	. $(VENV_ACTIVATE); python $(RUN_SCRIPT) $(ARGS) --debug
 
-test: venv regenerate db configure
+test: venv regenerate db
 	. $(VENV_ACTIVATE); python $(RUN_TEST_SCRIPT) $(ARGS) --debug
 
 clean:

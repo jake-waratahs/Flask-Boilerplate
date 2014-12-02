@@ -41,7 +41,6 @@ setup.configure_app()
 uploads.configure_uploads(app)
 jinja_filters.configure_filters(app)
 
-
 # ---------------------
 # Setup App Debug via Sentry
 # ---------------------
