@@ -25,18 +25,12 @@ Everything to get you up and running with flask. Take a peek inside the
 `requirements.txt` file to get an idea of what’s included.
 
 -   flask-restful for an extensive API
-
 -   flask-security for login management
-
 -   flask-sqlalchemy for an ORM (Got to save the data somewhere)
-
 -   flask-classy for Views (MVC)
-
 -   flask-uploads for making your life easier with file uploads.
-
 -   flask-babel for easier translations and easy localisation (Timezones are
     hard)
-
 -   flask-wtforms for easy user input
 
 When you first run the webapp, an administrator user is created in the database.
@@ -80,21 +74,18 @@ Full Makefile Usage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make configure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 This command will configure the development environment. Enter the required
 info. Leaving a blank response will use the default value.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make [ARGS='[-p 8000]|[--port 8000]']
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 Start the development environment. You can send further command line arguments
 to the python target  by supplying them via the `ARGS` parameter.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make test
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 Runs tests on the target.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
