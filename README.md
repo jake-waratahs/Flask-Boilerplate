@@ -2,7 +2,7 @@ Flask Boilerplate
 =================
 
 ### © Nick Whyte 2014. TwoPi Code
-
+[![build status](http://ci.nickwhyte.com/projects/2/status.png?ref=master)](http://ci.nickwhyte.com/projects/2?ref=master)
 Getting Started
 ---------------
 
