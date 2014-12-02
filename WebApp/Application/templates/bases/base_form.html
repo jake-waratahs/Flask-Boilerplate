@@ -1,0 +1,15 @@
+{% extends "bases/base.html" %}
+{% from "macros.html" import csrf_setup, render_field %}
+
+{% block head %}
+    {{super()}}
+    <script src="{{ url_for('static', filename='vendor/bootstrap-select/js/bootstrap-select.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='vendor/bootstrap-select/css/bootstrap-select.min.css') }}">
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.selectpicker').selectpicker();
+        });
+    </script>
+    {{  csrf_setup() }}
+
+{% endblock %}

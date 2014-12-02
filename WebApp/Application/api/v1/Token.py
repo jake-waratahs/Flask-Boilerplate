@@ -1,8 +1,6 @@
-from flask.ext import restful
 from flask.ext.restful import reqparse
 from Application import api
-from Application.models import *
-from flask.ext.security import auth_token_required, roles_required, http_auth_required
+from flask.ext.security import http_auth_required
 from APIMaster import APIMaster
 
 class Token(APIMaster):
@@ -45,3 +43,5 @@ class Token(APIMaster):
         else:
             # User isn't valid.
             return {"message":"Invalid Credentials"}, 400
+
+api.add_resource(Token, '/api/v1/token/')

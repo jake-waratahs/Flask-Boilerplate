@@ -1,8 +1,10 @@
+mysql-python
+py-bcrypt
 flask
 flask-restful
 flask-security
 flask-sqlalchemy
 flask-classy
-mysql-python
-py-bcrypt
-slimit
+flask-uploads
+flask-babel
+

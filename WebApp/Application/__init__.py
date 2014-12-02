@@ -34,15 +34,17 @@ security = Security(app, user_datastore)
 db.create_all()
 mail = Mail(app)
 
-from Application.lib import setup
-setup()
-    
+# WTforms/CSRF Protection
+from flask_wtf.csrf import CsrfProtect
+csrf = CsrfProtect(app)
 
-# ---------------------
-# Jinja Filters
-# ---------------------
-from lib.jinja_filters import insert_filters
-insert_filters(app)
+# Lib Setup
+import Application.lib.setup as setup
+import Application.lib.uploads as uploads
+import Application.lib.jinja_filters as jinja_filters
+setup.configure_app()
+uploads.configure_uploads(app)
+jinja_filters.configure_filters(app)
 
 
 # ---------------------

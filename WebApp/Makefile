@@ -14,10 +14,10 @@ REQUIREMENTS="requirements.txt"
 all: debug
 
 debug: venv regenerate db configure
-	. $(VENV_ACTIVATE); python $(RUN_SCRIPT) $(ARGS)
+	. $(VENV_ACTIVATE); python $(RUN_SCRIPT) $(ARGS) --debug
 
 test: venv regenerate db configure
-	. $(VENV_ACTIVATE); python $(RUN_TEST_SCRIPT) $(ARGS)
+	. $(VENV_ACTIVATE); python $(RUN_TEST_SCRIPT) $(ARGS) --debug
 
 clean:
 	if [ "$(CONFIG_TYPE)" = "MySQLStd" ]; then echo "DROP DATABASE IF EXISTS $(DB_DATABASE);" | mysql -u $(DB_USER); fi

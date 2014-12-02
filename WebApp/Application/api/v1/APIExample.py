@@ -1,9 +1,6 @@
-from flask.ext import restful
-from flask.ext.restful import reqparse
-from Application import api
-from Application.models import *
-from flask.ext.security import auth_token_required, roles_required
+from flask.ext.security import auth_token_required
 from APIMaster import APIMaster
+from Application import api
 
 class APIExample(APIMaster):
     def get(self):
@@ -19,3 +16,5 @@ class APIExample(APIMaster):
 
     def delete(self):
         return {"message":"method not implemented"}, 400
+
+api.add_resource(APIExample, '/api/v1/example/')

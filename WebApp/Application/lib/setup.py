@@ -3,7 +3,7 @@ from Application.models.Role import Role
 from Application import app, db, user_datastore
 from flask.ext.security.utils import encrypt_password
 
-def setup():
+def configure_app():
     with app.app_context():
         db.create_all()
 

@@ -1,6 +1,6 @@
 from Application import app
-from flask import render_template, Response
-from flask.ext.security import login_required, current_user, roles_required
+from flask import render_template
+from flask.ext.security import login_required
 from Application.models import *
 from flask.ext.classy import FlaskView, route
 
@@ -12,5 +12,11 @@ class Index(FlaskView):
     def index(self):
         return render_template('index.html')
 
+
+    @route('/protected')
+    @login_required
+    def protected(self):
+    	return render_template('index.html', 
+    		content='This is a protected view')
 
 Index.register(app)
