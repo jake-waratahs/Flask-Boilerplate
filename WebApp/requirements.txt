@@ -5,3 +5,4 @@ flask-sqlalchemy
 flask-classy
 mysql-python
 py-bcrypt
+slimit

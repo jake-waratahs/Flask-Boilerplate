@@ -24,11 +24,7 @@ clean:
 	if [ "$(CONFIG_TYPE)" = "CI" ]; then echo "DROP DATABASE IF EXISTS $(DB_DATABASE);" | mysql -u $(DB_USER); fi
 	rm -rf ./Application/$(DB_BASE).db
 	rm -rf $(VENV_LOCATION)/.db
-	rm -rf $(VENV_LOCATION)/.configure
 
-update:
-	# Update CSS/JS Sources
-	
 
 # Regenerate static files
 regenerate:
@@ -46,7 +42,7 @@ reconfigure:
 
 
 # A little bit of hack
-configure:  $(VENV_LOCATION)/.configure
+configure:  venv $(VENV_LOCATION)/.configure
 $(VENV_LOCATION)/.configure:	
 	. $(VENV_ACTIVATE); ./util/configure
 	touch $(VENV_LOCATION)/.configure
