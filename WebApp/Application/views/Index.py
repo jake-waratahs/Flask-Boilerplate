@@ -1,7 +1,6 @@
 from Application import app
 from flask import render_template
 from flask.ext.security import login_required
-from Application.models import *
 from flask.ext.classy import FlaskView, route
 
 # Classy index example.
