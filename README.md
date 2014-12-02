@@ -34,7 +34,7 @@ Everything to get you up and running with flask. Take a peek inside the
 -   flask-wtforms for easy user input
 
 When you first run the webapp, an administrator user is created in the database.
-(u: admin\@localhost, p: admin). You will probably want to change this if you
+(u: admin@localhost, p: admin). You will probably want to change this if you
 move your app to a production environment.
 
 Also included are some jinja filters to make your life easier. use `local_date`
