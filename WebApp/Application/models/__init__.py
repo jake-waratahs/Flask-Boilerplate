@@ -1,2 +1,2 @@
-from SampleEntity import *
-from User import *
+from Role import Role
+from User import User

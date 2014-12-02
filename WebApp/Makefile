@@ -26,6 +26,10 @@ clean:
 	rm -rf $(VENV_LOCATION)/.db
 	rm -rf $(VENV_LOCATION)/.configure
 
+update:
+	# Update CSS/JS Sources
+	
+
 # Regenerate static files
 regenerate:
 	./util/compile.sh ./Application/static/css
@@ -38,6 +42,8 @@ uninstall: clean
 reconfigure: 
 	. $(VENV_ACTIVATE); ./util/configure
 	touch $(VENV_LOCATION)/.configure
+
+
 
 # A little bit of hack
 configure:  $(VENV_LOCATION)/.configure

@@ -1,3 +1,2 @@
-from ClassyViewExample import *
-from Index import *
-from example import *
+from ClassyViewExample import ClassyViewExample
+from Index import Index

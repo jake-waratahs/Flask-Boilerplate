@@ -8,7 +8,7 @@ do
    then
       basename=`basename "$directory"`
       echo "   - Found Submodule: $basename"
-      echo "from $basename import *" >> $1/__init__.py
+      echo "from $basename import $basename" >> $1/__init__.py
    fi
 
 done
@@ -21,7 +21,7 @@ do
    then
 
       echo "   - Found Module: $basename"
-      echo "from $basename import *" >> $1/__init__.py
+      echo "from $basename import $basename" >> $1/__init__.py
    fi
 done
 echo " * $2 Regeneration Complete"

@@ -1,2 +1,3 @@
 WebApp/Application/datastore.db
 WebApp/.venv/*
+WebApp/bower_components/*
