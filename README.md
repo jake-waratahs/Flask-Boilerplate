@@ -1,7 +1,7 @@
 Flask Boilerplate
------------------
+=================
 
-### Nick Whyte - TwoPi Code © 2014
+### © Nick Whyte 2014. TwoPi Code
 
  
 
@@ -14,15 +14,11 @@ Setup the environment
 make configure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- 
-
 Run the environment
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make debug
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
- 
 
 What’s included?
 ----------------
@@ -54,14 +50,6 @@ or `local_date_time` to correctly format a python datetime object to the locale
 chosen in the configuration. Extend this further by using babel’s functionality
 for locale switching on a per user basis.
 
- 
-
- 
-
- 
-
- 
-
 Full Makefile Usage
 -------------------
 
@@ -72,8 +60,6 @@ make configure
 This command will configure the development environment. Enter the required
 info. Leaving a blank response will use the default value.
 
- 
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make [ARGS='[-p 8000]|[--port 8000]']
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,8 +68,6 @@ Start the development environment.
 
 You can send further command line arguments to the python target  by supplying
 them via the `ARGS` parameter.
-
- 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make test
@@ -94,8 +78,6 @@ Runs tests on the target.
 You can send further command line arguments to the python target  by supplying
 them via the \`ARGS\` parameter.
 
- 
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make clean
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -103,14 +85,11 @@ make clean
 Cleans the target. Drops the active database. (or deletes if you’re using
 SQLite)
 
- 
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make regenerate
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Regenerate imports for models and recompress/compile CSS.  
-
+Regenerate imports for models and recompress/compile CSS.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make reconfigure
@@ -118,20 +97,85 @@ make reconfigure
 
 Reconfigure the environment.
 
- 
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make uninstall
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Remove the virtual environment and clean the target
 
- 
+Advanced Configuration
+----------------------
+
+You can find the configuration files within
+`WebApp/Application/config/__init__.py`.
+
+You can override how configuration is chosen by editing the `get_config`
+function.
 
 Getting Started with MySQL
 --------------------------
 
 So, you’re sick of sqlite? No worries!
+
+Open a MYSQL console using a user that has root privileges
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mysql -u<user> -p<your_password>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Configure MySQL for a development user account
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- Create the user account 
+CREATE USER 'dev'@'localhost'; 
+-- Grant Privs for the dev account 
+GRANT ALL PRIVILEGES ON `dev%`.* TO 'dev'@'localhost'; 
+-- Exit Mysql 
+EXIT;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Set Environment Variable for MYSQL Development (The Dev Environment uses this to
+determine what you want to run)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+echo "export MYSQL_DEV='TRUE'" >> ~/.bashrc 
+echo "export MYSQL_DEV='TRUE'" >> ~/.zshrc
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Close your terminal, and re-open. You need to reload the environment variables.
+Then execute `make clean` then `make debug`
+
+How about some Continuous Integration
+-------------------------------------
+
+Want to run this on your CI Server? Configure your CI server to build the
+`./ci.sh`  file. This simply executes `make test`
+
+By default the MySQL driver is selected for CI. Your CI Server needs to have the
+environment variable of `BUILD_ID` or `CI_BUILD_ID` to have the CI Configuration
+chosen automatically, however, this can be overriden by following the setup in
+[Advanced Configuration][1].
+
+[1]: <#advanced-configuration>
+
+#### Setup MySQL on your CI Server
+
+Open a MYSQL console using a user that has root privileges
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mysql -u<user> -p<your_password>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Configure MySQL for a development user account
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- Create the user account 
+CREATE USER 'ci'@'localhost'; 
+-- Grant Privs for the dev account 
+GRANT ALL PRIVILEGES ON `ci%`.* TO 'ci'@'localhost'; 
+-- Exit Mysql 
+EXIT;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  
 
