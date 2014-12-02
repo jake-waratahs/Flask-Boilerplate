@@ -48,6 +48,32 @@ or `local_date_time` to correctly format a python datetime object to the locale
 chosen in the configuration. Extend this further by using babel’s functionality
 for locale switching on a per user basis.
 
+Why should I use this?
+----------------------
+
+I’ve developed full time in flask for 6 months now. The collection of packages
+bundled with this boilerplate (or rather, listed, available for download)
+(Makefile does this), represents a selection of packages I have found extremely
+helpful when getting an app up and running as quick as possible.
+
+By using this boilerplate, you should be able to get a functional MVC app within
+30 minutes (provided you’ve played with flask before and understand MVC). I have
+included examples for most of the libraries included and will bring many more in
+the future.
+
+Everything is nicely wrapped into an easy installation via a Makefile which
+simplifies the process of setting up a virtual environment and keeps your local
+python conflict free and happy :)
+
+Requirements
+------------
+
+-   A Computer
+
+-   Python 2 (Have not tested compatability on Python 3)
+
+-   The requirements and makefiles take care of the rest for you.
+
 Full Makefile Usage
 -------------------
 
