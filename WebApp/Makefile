@@ -56,5 +56,5 @@ $(VENV_LOCATION)/.db:
 venv: $(VENV_LOCATION)
 $(VENV_LOCATION): requirements.txt
 	test -d $(VENV_LOCATION) || virtualenv $(VENV_LOCATION)
-	. $(VENV_ACTIVATE); pip install -r $(REQUIREMENTS)
+	. $(VENV_ACTIVATE); pip install -r $(REQUIREMENTS) > /dev/null
 	touch $(VENV_LOCATION)
