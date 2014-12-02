@@ -14,12 +14,11 @@ from flask_mail import Mail
 
 app = Flask(__name__)
 
-# DB Config
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///datastore.db'
-app.config['SECRET_KEY'] = 'Change Me'
-app.config['SECURITY_PASSWORD_SALT'] = "Change Me"
-# Please don't use plaintext.
-app.config['SECURITY_PASSWORD_HASH'] = 'plaintext'
+# Configure the app.
+import config as config
+
+app.config.from_object(config.get_config())
+
 
 api = restful.Api(app)
 db = SQLAlchemy(app)
@@ -36,9 +35,6 @@ from Application.models import (
 )
 
 # Setup Flask-Security
-app.config['SECURITY_RECOVERABLE'] = True
-app.config['SECURITY_CHANGEABLE'] = True
-app.config['SECURITY_EMAIL_SENDER'] = 'security@localhost'
 
 
 
@@ -47,15 +43,6 @@ security = Security(app, user_datastore)
 
 db.create_all()
 
-
-# Flask Security Email Setup
-
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = ''
-app.config['MAIL_PASSWORD'] = ''
-app.config['SECURITY_UNAUTHORIZED_VIEW'] = '/unauthorised'
 mail = Mail(app)
 
 

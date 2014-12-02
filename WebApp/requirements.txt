@@ -3,3 +3,5 @@ flask-restful
 flask-security
 flask-sqlalchemy
 flask-classy
+mysql-python
+py-bcrypt

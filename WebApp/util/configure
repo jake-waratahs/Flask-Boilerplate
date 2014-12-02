@@ -1,0 +1,50 @@
+#!/usr/bin/python
+# Open the variables file.
+import re
+import os
+import uuid
+
+
+section = re.compile(r'^#(.*)')
+prop = re.compile(r'^([A-Za-z_][0-9A-Za-z_]*) *= *(.*)(#.*)?$')
+
+if os.path.isfile('Application/config/variables.py'):
+	new_app = False
+	fname = 'Application/config/variables.py'
+else:
+	new_app = True
+	fname = 'Application/config/variables.py.example'
+
+output_lines = []
+
+with open(fname) as f:
+	for line in f:
+		line = line.strip()
+		section_match = section.match(line) 
+		if section_match:
+			print "\033[32m" + section_match.group(1).strip() + "\033[0m"
+			output_lines.append("# %s" % (section_match.group(1).strip()))
+
+		prop_match = prop.match(line)
+		if prop_match:
+			if new_app and (prop_match.group(1).strip() == 'SECRET_KEY' or prop_match.group(1).strip() == 'SECURITY_PASSWORD_SALT'):
+				# Instead generate these
+				value = "'%s%s%s'" % (uuid.uuid4().hex, uuid.uuid4().hex, uuid.uuid4().hex)
+
+
+			else:
+				print "%s (%s):" % (prop_match.group(1).strip(), prop_match.group(2).strip()),
+				value = raw_input()
+				if value == '':
+					value = prop_match.group(2)
+
+				value = value.strip()
+
+			
+			output_lines.append("%s = %s" % (prop_match.group(1).strip(), value))
+
+# print output_lines
+with open('Application/config/variables.py', 'w') as f:
+	for line in output_lines:
+		f.write(line + "\n")
+
