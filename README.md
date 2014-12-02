@@ -2,9 +2,8 @@ Flask Boilerplate
 =================
 
 ### © Nick Whyte 2014. TwoPi Code
-[![build status](http://ci.nickwhyte.com/projects/2/status.png?ref=master)](http://ci.nickwhyte.com/projects/2?ref=master)
-Getting Started
----------------
+
+<http://ci.nickwhyte.com/projects/2?ref=master> Getting Started ---------------
 
 Setup the environment
 
@@ -25,16 +24,22 @@ Everything to get you up and running with flask. Take a peek inside the
 `requirements.txt` file to get an idea of what’s included.
 
 -   flask-restful for an extensive API
+
 -   flask-security for login management
+
 -   flask-sqlalchemy for an ORM (Got to save the data somewhere)
+
 -   flask-classy for Views (MVC)
+
 -   flask-uploads for making your life easier with file uploads.
+
 -   flask-babel for easier translations and easy localisation (Timezones are
     hard)
+
 -   flask-wtforms for easy user input
 
 When you first run the webapp, an administrator user is created in the database.
-(u: admin@localhost, p: admin). You will probably want to change this if you
+(u: admin\@localhost, p: admin). You will probably want to change this if you
 move your app to a production environment.
 
 Also included are some jinja filters to make your life easier. use `local_date`
@@ -83,7 +88,7 @@ make [ARGS='[-p 8000]|[--port 8000]']
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Start the development environment. You can send further command line arguments
-to the python target  by supplying them via the `ARGS` parameter.
+to the python target by supplying them via the `ARGS` parameter.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make test
@@ -125,6 +130,10 @@ You can find the configuration files within
 You can override how configuration is chosen by editing the `get_config`
 function.
 
+Configuration made during the `make reconfigure` and `make configure` build
+tasks can be edited in the `WebApp/Application/config/variables.py` file. If you
+wish to start fresh, delete this file and re-run `make configure`.
+
 Getting Started with MySQL
 --------------------------
 
@@ -162,7 +171,7 @@ How about some Continuous Integration
 -------------------------------------
 
 Want to run this on your CI Server? Configure your CI server to build the
-`./ci.sh`  file. This simply executes `make test`
+`./ci.sh` file. This simply executes `make test`
 
 By default the MySQL driver is selected for CI. Your CI Server needs to have the
 environment variable of `BUILD_ID` or `CI_BUILD_ID` to have the CI Configuration
