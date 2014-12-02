@@ -19,17 +19,12 @@ api = restful.Api(app)
 db = SQLAlchemy(app)
 
 # Import everything so the auto-reloader works.
-from Application.views import *
-from Application.models import *
-from Application.api import *
-
-from Application.models import (
-    User, 
-    Role
-)
+import Application.views as views
+import Application.models as models
+import Application.api as api
 
 # Setup Flask-Security
-user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+user_datastore = SQLAlchemyUserDatastore(db, models.User, models.Role)
 security = Security(app, user_datastore)
 db.create_all()
 mail = Mail(app)
