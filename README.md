@@ -3,8 +3,6 @@ Flask Boilerplate
 
 ### © Nick Whyte 2014. TwoPi Code
 
- 
-
 Getting Started
 ---------------
 
