@@ -17,7 +17,7 @@ debug: venv regenerate db configure
 	. $(VENV_ACTIVATE); python $(RUN_SCRIPT) $(ARGS) --debug
 
 test: venv regenerate db
-	. $(VENV_ACTIVATE); python $(RUN_TEST_SCRIPT) $(ARGS) --debug
+	. $(VENV_ACTIVATE); python $(RUN_TEST_SCRIPT)
 
 clean:
 	if [ "$(CONFIG_TYPE)" = "MySQLStd" ]; then echo "DROP DATABASE IF EXISTS $(DB_DATABASE);" | mysql -u $(DB_USER); fi

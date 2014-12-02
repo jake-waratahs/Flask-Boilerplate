@@ -95,8 +95,7 @@ to the python target  by supplying them via the `ARGS` parameter.
 make test
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Runs tests on the target. You can send further command line arguments to the
-python target  by supplying them via the \`ARGS\` parameter.
+Runs tests on the target.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make clean
