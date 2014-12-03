@@ -63,3 +63,12 @@ $(VENV_LOCATION): requirements.txt
 	test -d $(VENV_LOCATION) || virtualenv $(VENV_LOCATION)
 	. $(VENV_ACTIVATE); pip install -r $(REQUIREMENTS) > /dev/null
 	touch $(VENV_LOCATION)
+
+
+
+# The prereqs if you're super duper lazy
+prereqs: 
+	brew install node || echo "Failed to install node via homebrew";
+	sudo apt-get install nodejs || echo "Failed to install node via apt-get";
+	npm install -g less  || echo "Failed to less via npm";
+	pip install virtualenv || echo "Failed to install virtualenv";

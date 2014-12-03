@@ -6,13 +6,16 @@ Flask Boilerplate
 Getting Started
 ---------------
 
-Setup the environment
+#### 1. Install the [pre-requisites][2]
+
+[2]: <#requirements>
+#### Setup the environment
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make configure
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Run the environment
+#### Run the environment
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make debug
@@ -73,6 +76,8 @@ Requirements
 -	Python Virtualenv
 	Install via: `pip install virtualenv`
 -   The requirements and makefiles take care of the rest for you.
+
+If you're really lazy, done this before or you know what you're doing, `make prereqs` will install these pre-requisites for you, however please be aware things may go wrong. 
 
 Full Makefile Usage
 -------------------
