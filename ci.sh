@@ -3,10 +3,10 @@
 cd WebApp
 
 # Use the sample config if one doesn't exist in the project
-if [ ! -f WebApp/Application/config/variables.py ]
+if [ ! -f Application/config/variables.py ]
 	then
-	cp WebApp/Application/config/variables.py.example WebApp/Application/config/variables.py
+	cp Application/config/variables.py.example WebApp/Application/config/variables.py
 fi
 
-make test
-rm -rf WebApp/Application/config/variables.py
+make test &&
+rm -rf Application/config/variables.py
