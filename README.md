@@ -63,9 +63,13 @@ Requirements
 ------------
 
 -   A Computer
-
 -   Python 2 (Have not tested compatability on Python 3)
-
+-   Homebrew (If you're on OSX)
+-   Node JS  
+    Install via (OSX): `brew install node`
+    Install via (Linux): `sudo apt-get install nodejs`
+-   Less CSS  
+    Install via: `npm install -g less`
 -   The requirements and makefiles take care of the rest for you.
 
 Full Makefile Usage
