@@ -2,3 +2,4 @@ WebApp/Application/datastore.db
 WebApp/.venv/*
 WebApp/bower_components/*
 WebApp/Application/static/uploads/*
+WebApp/Application/config/variables.py
