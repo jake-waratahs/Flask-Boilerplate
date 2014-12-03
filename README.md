@@ -2,8 +2,9 @@ Flask Boilerplate
 =================
 
 ### © Nick Whyte 2014. TwoPi Code
-
-<http://ci.nickwhyte.com/projects/2?ref=master> Getting Started ---------------
+[![build status](http://ci.nickwhyte.com/projects/2/status.png?ref=master)](http://ci.nickwhyte.com/projects/2?ref=master)
+Getting Started
+---------------
 
 Setup the environment
 
@@ -24,22 +25,16 @@ Everything to get you up and running with flask. Take a peek inside the
 `requirements.txt` file to get an idea of what’s included.
 
 -   flask-restful for an extensive API
-
 -   flask-security for login management
-
 -   flask-sqlalchemy for an ORM (Got to save the data somewhere)
-
 -   flask-classy for Views (MVC)
-
 -   flask-uploads for making your life easier with file uploads.
-
 -   flask-babel for easier translations and easy localisation (Timezones are
     hard)
-
 -   flask-wtforms for easy user input
 
 When you first run the webapp, an administrator user is created in the database.
-(u: admin\@localhost, p: admin). You will probably want to change this if you
+(u: admin@localhost, p: admin). You will probably want to change this if you
 move your app to a production environment.
 
 Also included are some jinja filters to make your life easier. use `local_date`
