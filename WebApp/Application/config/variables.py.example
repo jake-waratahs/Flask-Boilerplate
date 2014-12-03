@@ -1,4 +1,5 @@
 # Global & Security
+APP_NAME='boilerplate'
 DB_BASE = 'boilerplate'
 SECRET_KEY = ''
 SECURITY_PASSWORD_SALT = ''

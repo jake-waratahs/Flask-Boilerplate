@@ -5,11 +5,30 @@
     {{super()}}
     <script src="{{ url_for('static', filename='vendor/bootstrap-select/js/bootstrap-select.min.js') }}"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='vendor/bootstrap-select/css/bootstrap-select.min.css') }}">
+    <script src="{{ url_for('static', filename='vendor/jasny-bootstrap/js/jasny-bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='vendor/jasny-bootstrap/css/jasny-bootstrap.min.css') }}">
     <script type="text/javascript">
         $(document).ready(function() {
             $('.selectpicker').selectpicker();
         });
     </script>
+    <style type="text/css">
+	    .btn-file input[type=file] {
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    min-width: 100%;
+	    min-height: 100%;
+	    font-size: 100px;
+	    text-align: right;
+	    filter: alpha(opacity=0);
+	    opacity: 0;
+	    outline: none;
+	    background: white;
+	    cursor: inherit;
+	    display: block;
+	}
+	</style>
     {{  csrf_setup() }}
 
 {% endblock %}

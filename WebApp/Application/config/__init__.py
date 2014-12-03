@@ -9,6 +9,7 @@ class Config(object):
 	if not variables.SECURITY_PASSWORD_SALT:
 		raise Exception("No Password salt Defined in variables.py!")
 
+	APP_NAME = variables.APP_NAME
 
 	MAIL_SERVER = variables.MAIL_SERVER
 	MAIL_PORT = variables.MAIL_PORT
