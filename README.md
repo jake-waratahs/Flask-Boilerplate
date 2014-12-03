@@ -21,6 +21,11 @@ make configure
 make debug
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+#### 4. Browse
+
+Browse to http://localhost:8000/ and poke around at the included examples
+in this boilerplate.
+
 What’s included?
 ----------------
 
