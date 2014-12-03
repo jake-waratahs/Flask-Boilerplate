@@ -30,6 +30,9 @@ class UploadsView(FlaskView):
         print form.errors
 
         # Spit out all the pre-existing uploaded images
+        if not os.path.exists(main_uploads._config.destination):
+            os.makedirs(main_uploads._config.destination)
+
         image_urls = map(main_uploads.url, os.listdir(main_uploads._config.destination))
 
         return render_template('/uploads_view/index.html', 
