@@ -1,0 +1,9 @@
+setup.cfg
+Flask-Boilerplate/run.py
+Flask-Boilerplate/test.py
+Flask_Boilerplate.egg-info/PKG-INFO
+Flask_Boilerplate.egg-info/SOURCES.txt
+Flask_Boilerplate.egg-info/dependency_links.txt
+Flask_Boilerplate.egg-info/requires.txt
+Flask_Boilerplate.egg-info/top_level.txt
+scripts/foiler

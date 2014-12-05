@@ -210,6 +210,9 @@ GRANT ALL PRIVILEGES ON `ci%`.* TO 'ci'@'localhost';
 EXIT;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- 
+ What’s Up Next (TODO)?
+----------------
 
- 
+- Write a utility to automatically migrate the models
+- Move away from makefiles using the above utility.
+- Pip/Pypi package 

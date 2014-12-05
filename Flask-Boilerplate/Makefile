@@ -13,7 +13,7 @@ REQUIREMENTS="requirements.txt"
 
 all: debug
 
-debug: venv regenerate db configure
+debug: venv regenerate db
 	. $(VENV_ACTIVATE); python $(RUN_SCRIPT) $(ARGS) --debug
 
 # Build target that does not require a configured app to run.
@@ -39,18 +39,6 @@ regenerate:
 uninstall: clean
 	rm -rf $(VENV_LOCATION)
 
-reconfigure:
-	. $(VENV_ACTIVATE); ./util/configure
-	touch WebApp/Application/config/.configured
-
-
-# A little bit of hack
-configure:  venv WebApp/Application/config/.configured
-WebApp/Application/config/.configured:
-	. $(VENV_ACTIVATE); ./util/configure
-	touch WebApp/Application/config/.configured
-
-
 db: venv $(VENV_LOCATION)/.db
 $(VENV_LOCATION)/.db:
 	if [ "$(CONFIG_TYPE)" = "MySQLStd" ]; then echo "CREATE DATABASE IF NOT EXISTS $(DB_DATABASE);" | mysql -u $(DB_USER); fi
@@ -64,11 +52,8 @@ $(VENV_LOCATION): requirements.txt
 	. $(VENV_ACTIVATE); pip install -r $(REQUIREMENTS) > /dev/null
 	touch $(VENV_LOCATION)
 
-
-
 # The prereqs if you're super duper lazy
 prereqs: 
-	brew install node || echo "Failed to install node via homebrew";
-	sudo apt-get install nodejs || echo "Failed to install node via apt-get";
+	brew install node || sudo apt-get install nodejs || echo "Failed to install node";
 	npm install -g less  || echo "Failed to less via npm";
 	pip install virtualenv || echo "Failed to install virtualenv";
