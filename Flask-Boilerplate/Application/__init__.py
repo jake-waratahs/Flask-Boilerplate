@@ -2,7 +2,7 @@ from flask import Flask
 # Get flask Resful for the API usage
 from flask.ext import restful
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.security import Security, SQLAlchemyUserDatastore, login_required
+from flask.ext.security import Security, SQLAlchemyUserDatastore
 from flask_mail import Mail
 
 # -------------------
@@ -41,9 +41,7 @@ setup.configure_app()
 uploads.configure_uploads(app)
 jinja_filters.configure_filters(app)
 
-# ---------------------
-# Setup App Debug via Sentry
-# ---------------------
+# Setup App Debug via Sentry (When in production)
 if not app.debug:
     from raven.contrib.flask import Sentry
     sentry = Sentry(APP)

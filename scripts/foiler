@@ -7,6 +7,9 @@ import uuid
 import json
 import subprocess
 import sys
+import zipfile
+import urllib2
+import StringIO
 
 # Requires Bower
 # npm install -g bower
@@ -14,17 +17,21 @@ import sys
 
 parser = argparse.ArgumentParser(description="Flask Boilerplate")
 parser.add_argument('mode', choices=[
-	'server',
-	'init',
-	'migrate',
-	'configure',
-	# 'install',
-	'test'])
+    'server',
+    'init',
+    'migrate',
+    'configure',
+    'global-config',
+    'install-framework',
+    'zippy',
+    'test'])
 
 parser.add_argument('package',action='store',nargs='?',
                         help='When using "import", a package name must be provided.',
                         metavar="package (when using import option)")
 
+
+github_suffix = '?client_id=3f1964306c943013ebac&client_secret=370266b12d878931bb32eec78aade02b10f4ed25'
 
 args = parser.parse_args()
 module_folder = os.path.dirname(os.path.abspath(__file__))
@@ -42,134 +49,296 @@ def copytree(src, dst, symlinks=False, ignore=None):
 
 
 def get_package_json():
-	path = traverse_for_file('./app.json')
-	if path:
-		with open(os.path.isfile(os.path.join(path, './app.json'))) as f:
-			d = json.loads(f.readlines())
+    path = traverse_for_file('./app.json')
+    if path:
+        with open(os.path.isfile(os.path.join(path, './app.json'))) as f:
+            d = json.loads(f.readlines())
 
-	return d
+    return d
 
 def traverse_for_file(fname):
-	path = os.getcwd()
-	while not os.path.isfile(os.path.join(path, './%s' % (fname))):
-		path = os.path.realpath(os.path.join(path, '../'))
-		if path == '/':
-			return None
-	return path
+    path = os.getcwd()
+    while not os.path.isfile(os.path.join(path, './%s' % (fname))):
+        path = os.path.realpath(os.path.join(path, '../'))
+        if path == '/':
+            return None
+    return path
 
 def within_valid_project():
-	if traverse_for_file('app.json'):
-		return True
-	return False
+    if traverse_for_file('app.json'):
+        return True
+    return False
 
+
+def extract(f,dist='dist', destination='./'):
+    # Destination is relative to app root.
+    with zipfile.ZipFile(f, mode='r') as zf:
+        zip_prefix = zf.namelist()[0]
+        dist_folder =  os.path.join(zip_prefix, dist)
+        extractable = filter(lambda f: f.startswith(dist_folder) and not f.endswith('/'), zf.namelist())
+        prefix = os.path.join(traverse_for_file('app.json'), destination)
+
+        for member in extractable:
+            with zf.open(member, 'r') as m:
+                output_name = os.path.join(prefix, member.replace(dist_folder, ''))
+                if output_name.strip() != '':
+                    output_directory = os.path.dirname(output_name)
+                    if not os.path.exists(output_directory):
+                        os.makedirs(output_directory)
+                    with open(output_name, 'w+') as o:
+                        o.write(m.read())
 
 if args.mode == 'init':
-	app_folder = os.path.join(os.getcwd())
-	if os.path.isfile(os.path.join(app_folder, './app.json')):
-		print "Cannot re-init in an already initialised application"
-		exit(1)
+    app_folder = os.path.join(os.getcwd())
+    if os.path.isfile(os.path.join(app_folder, './app.json')):
+        print "Cannot re-init in an already initialised application"
+        exit(1)
 
-	safe_name_re = re.compile('^[A-Za-z0-9_\-]+$')
+    safe_name_re = re.compile('^[A-Za-z0-9_\-]+$')
 
-	print "App Name: ",
+    print "App Name: ",
 
-	app_name = raw_input()
-	while not safe_name_re.match(app_name):
-		print "Please enter a valid app name ([A-Za-z0-9_\-]+)"
-		print "App Name: ",
-		app_name = raw_input()
+    app_name = raw_input()
+    while not safe_name_re.match(app_name):
+        print "Please enter a valid app name ([A-Za-z0-9_\-]+)"
+        print "App Name: ",
+        app_name = raw_input()
 
-	print "Initialising..."
-	
-	copytree(template_folder,app_folder)
+    print "Initialising..."
+    
+    copytree(template_folder,app_folder)
 
-	data = dict(app_name=app_name)
+    data = dict(app_name=app_name)
 
-	with open(os.path.join(app_folder, 'app.json'), 'w') as f:
-		f.write(json.dumps(data))
+    with open(os.path.join(app_folder, 'app.json'), 'w') as f:
+        f.write(json.dumps(data))
 
-	os.remove(os.path.join(app_folder, 'Application/config/variables.py'))
+    os.remove(os.path.join(app_folder, 'Application/config/variables.py'))
 
-	print "Initialised %s successfully." % (app_name)
+    print "Initialised %s successfully." % (app_name)
 
 
 elif args.mode == 'configure':
-	# Configure the app.
-	section = re.compile(r'^#(.*)')
-	prop = re.compile(r'^([A-Za-z_][0-9A-Za-z_]*) *= *(.*)(#.*)?$')
+    # Configure the app.
+    section = re.compile(r'^#(.*)')
+    prop = re.compile(r'^([A-Za-z_][0-9A-Za-z_]*) *= *(.*)(#.*)?$')
 
-	root_folder = traverse_for_file('app.json')
-	variables_file = os.path.join(root_folder, 'Application/config/variables.py')
-	variables_file_example = os.path.join(root_folder, 'Application/config/variables.py.example')
+    root_folder = traverse_for_file('app.json')
+    variables_file = os.path.join(root_folder, 'Application/config/variables.py')
+    variables_file_example = os.path.join(root_folder, 'Application/config/variables.py.example')
 
-	if os.path.isfile(variables_file):
-		new_app = False
-		fname = variables_file
-	else:
-		new_app = True
-		fname = variables_file_example
+    if os.path.isfile(variables_file):
+        new_app = False
+        fname = variables_file
+    else:
+        new_app = True
+        fname = variables_file_example
 
-	output_lines = []
+    output_lines = []
 
-	with open(fname) as f:
-		for line in f:
-			line = line.strip()
-			section_match = section.match(line) 
-			if section_match:
-				print "\033[32m" + section_match.group(1).strip() + "\033[0m"
-				output_lines.append("# %s" % (section_match.group(1).strip()))
+    with open(fname) as f:
+        for line in f:
+            line = line.strip()
+            section_match = section.match(line) 
+            if section_match:
+                print "\033[32m" + section_match.group(1).strip() + "\033[0m"
+                output_lines.append("# %s" % (section_match.group(1).strip()))
 
-			prop_match = prop.match(line)
-			if prop_match:
-				if new_app and (prop_match.group(1).strip() == 'SECRET_KEY' or prop_match.group(1).strip() == 'SECURITY_PASSWORD_SALT'):
-					# Instead generate these
-					value = "'%s%s%s'" % (uuid.uuid4().hex, uuid.uuid4().hex, uuid.uuid4().hex)
+            prop_match = prop.match(line)
+            if prop_match:
+                if new_app and (prop_match.group(1).strip() == 'SECRET_KEY' or prop_match.group(1).strip() == 'SECURITY_PASSWORD_SALT'):
+                    # Instead generate these
+                    value = "'%s%s%s'" % (uuid.uuid4().hex, uuid.uuid4().hex, uuid.uuid4().hex)
 
-				else:
-					print "%s (%s):" % (prop_match.group(1).strip(), prop_match.group(2).strip()),
-					value = raw_input()
-					if value == '':
-						value = prop_match.group(2)
+                else:
+                    print "%s (%s):" % (prop_match.group(1).strip(), prop_match.group(2).strip()),
+                    value = raw_input()
+                    if value == '':
+                        value = prop_match.group(2)
 
-					value = value.strip()
+                    value = value.strip()
 
-				
-				output_lines.append("%s = %s" % (prop_match.group(1).strip(), value))
+                
+                output_lines.append("%s = %s" % (prop_match.group(1).strip(), value))
 
-	# print output_lines
-	with open(variables_file, 'w') as f:
-		for line in output_lines:
-			f.write(line + "\n")
+    # print output_lines
+    with open(variables_file, 'w') as f:
+        for line in output_lines:
+            f.write(line + "\n")
 
 
 elif args.mode == 'server':
-	if not within_valid_project():
-		print "Not within a Flask Project"
-		exit(1)
-	# Compile and run the run script
-	root_folder = traverse_for_file('app.json')
-	subprocess.call(['make', 'debug'], cwd=root_folder, shell = True)
+    if not within_valid_project():
+        print "Not within a Flask Project"
+        exit(1)
+    # Compile and run the run script
+    root_folder = traverse_for_file('app.json')
+    subprocess.call(['make', 'debug'], cwd=root_folder, shell = True)
 
 elif args.mode == 'test':
-	if not within_valid_project():
-		print "Not within a Flask Project"
-		exit(1)
-	# Compile and run the run script
-	root_folder = traverse_for_file('app.json')
-	subprocess.call(['make test'], cwd=root_folder, shell = True)
-
-# elif args.mode == 'install':
-# 	# Here we will import new js packages
-# 	if not args.package:
-# 		print "You must supply a bower package to install"
-# 		exit(1)
-	
-# 	root_folder = traverse_for_file('app.json')
-# 	subprocess.call(['bower install %s' % args.package], cwd=root_folder, shell = True)
-
+    if not within_valid_project():
+        print "Not within a Flask Project"
+        exit(1)
+    # Compile and run the run script
+    root_folder = traverse_for_file('app.json')
+    subprocess.call(['make test'], cwd=root_folder, shell = True)
 
 
 elif args.mode == 'migrate':
-	# Here we will do a model migration
-	pass
+    # Here we will do a model migration
+    pass
+
+elif args.mode == 'global-config':
+    # Configure the globals for foiler.
+    # SQL Stuff, etc.
+    pass
+
+elif args.mode == 'install-framework':
+    if not args.package:
+        print "Please provide a package in the form of (<bower package>|<<github user>/<github repo>>)[#<tag name>]"
+        exit(1)
+
+    if not within_valid_project():
+        print "Not within a Flask Project"
+        exit(1)
+    
+    root_folder = traverse_for_file('app.json')
+
+    # Install frameworks
+    git_package = re.compile(r'^([A-Za-z0-9\-_\.]+/[A-Za-z0-9_\-\.]+)(#([A-Za-z0-9\._\-]+))?$')
+    bower_package = re.compile(r'^([A-Za-z0-9\._\-]+)(#([A-Za-z0-9\._\-]+))?$')
+
+    github_resolved = None
+    version = None
+
+    if git_package.match(args.package):
+        m = git_package.match(args.package)
+        github_resolved = m.group(1)
+        if m.group(3):
+            version = m.group(3)
+
+    elif bower_package.match(args.package):
+        m = bower_package.match(args.package)
+        # Turn this into a github package
+        try:
+            data = urllib2.urlopen("http://bower.herokuapp.com/packages/%s" % (args.package)).read()
+            data = json.loads(data)
+            # Get the github url
+            github_resolved = re.match(r'^git://github\.com/([A-Za-z0-9\._\-]+/[A-Za-z0-9\._\-]+)\.git$', data['url'])
+            if not github_resolved:
+                raise Exception('Unable to resolve github url: %s' % (data['url']))
+            github_resolved = github_resolved.group(1)
+
+        except Exception, e:
+            print "Error loading package:"
+            print e
+            exit(1)
+    
+        if m.group(3):
+            version = m.group(3)
+
+    else:
+        print "Not a valid package name/formation"
+        print "Please provide a package in the form of (<bower package>|<<github user>/<github repo>>)[#<tag name>]"
+        exit(1)
+
+    print "Found Package %s" % (github_resolved)
+
+    package_name = github_resolved.replace('/', '-')
+
+    try:
+        data = urllib2.urlopen("https://api.github.com/repos/%s/releases%s" % (github_resolved, github_suffix)).read()
+        data = json.loads(data)
+        if len(data) > 0:
+            found = False
+            active_release = None
+            if version:
+                for release in data:
+                    if re.search(version, release['tag_name']):
+                        active_release = release
+                        break
+                if not found:
+                    print "Could not find a release with that tag."
+                    exit(1)
+            else:
+                # Use the latest release
+                active_release = data[0]
+
+            response = urllib2.urlopen(active_release['assets'][0]['browser_download_url'] + github_suffix)
+            zipcontent= response.read()
+            f = StringIO.StringIO()
+            f.write(zipcontent)
+            f.seek(0)
+
+            # Extract all because this is dist
+            extract(f, dist='', destination='./Application/static/vendor/%s/' % (package_name))
+
+        else:
+            # We couldn't find a release. repo probably doesn't use github's release tags.
+            # Fallback to standard tags, use the standard zipball and find the dist folder
+
+            data = urllib2.urlopen("https://api.github.com/repos/%s/tags%s" % (github_resolved, github_suffix)).read()
+            data = json.loads(data)
+            active_tag = None
+            if version:
+                for tag in data:
+                    if version == tag['name']:
+                        active_tag = tag
+                        break
+            else:
+                active_tag = data[0]
+
+            if not active_tag:
+                print "Could not find a tag with the name: %s" % (version)
+                exit(1)
+
+            print active_tag
+
+            response = urllib2.urlopen(active_tag['zipball_url'] + github_suffix)
+            zipcontent= response.read()
+
+            f = StringIO.StringIO()
+            f.write(zipcontent)
+            f.seek(0)
+
+
+            with zipfile.ZipFile(f, mode='r') as zf:
+                zip_prefix = zf.namelist()[0]
+                dist_folder =  os.path.join(zip_prefix, 'dist/')
+                extractable = filter(lambda f: f.startswith(dist_folder) and not f.endswith('/'), zf.namelist())
+                prefix = os.path.join(traverse_for_file('app.json'), 'Application/static/vendor/%s/' % (package_name))
+
+                for member in extractable:
+                    with zf.open(member, 'r') as m:
+                        output_name = os.path.join(prefix, member.replace(dist_folder, ''))
+                        if output_name.strip() != '':
+                            output_directory = os.path.dirname(output_name)
+                            if not os.path.exists(output_directory):
+                                os.makedirs(output_directory)
+
+                            with open(output_name, 'w+') as o:
+                                o.write(m.read())
+
+
+
+            # f = open('dicks.zip')
+            # with zipfile.ZipFile(f, mode='w') as zf:
+            #     print f
+
+
+
+            pass
+
+        # Now get the zipball for the release
+
+    except Exception, e:
+        print e
+
+
+elif args.mode == 'zippy':
+    f = open('dicks.zip', 'r')
+    extract(f, dist='', destination='./lel')
+    
+
+
 
