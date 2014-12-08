@@ -12,7 +12,7 @@ Getting Started
 
 [2]: <#requirements>
 
-### 2. Install Foiler
+### 2. Install Foiler/Flask Boilerplate
 Foiler is the helper script for the boilerplate. It takes care of initialising, configuring, hosting and managing your flask application.
 
 To install foiler: 
@@ -61,11 +61,22 @@ Foiler has a multitude of command line options.
 
 Foiler should generally work no matter what child directory you are within. As long as somewhere up the parent chain, foiler will be able to perform operations on your application.
 
-### init
+
+``` 
+init
+```
 Initialises a new flask boilerplate in the current working directory. 
-### configure
+
+```
+configure
+```
+
 Configure/Reconfigure the app in the current working directory. 
-### server
+
+```
+server
+```
+
 Spawn a flask server for the app in the working directory. (For Development Only)
 ##### Additional Parameters
 - --hostname HOSTNAME -h HOSTNAME: 
@@ -73,10 +84,16 @@ Spawn a flask server for the app in the working directory. (For Development Only
 - --port PORT -p PORT:
 	Provide a binding port for the server.
 
-### test
+``` 
+test
+```
+
 Run the tests from the testfile in the project directory.
-### install-framework
-Install a CSS/JS package listed on bower OR a package from a github repository in the format of user/repo. 
+
+```
+install-framework
+```
+Install a **CSS/JS package **listed on bower OR a package from a github repository in the format of user/repo. 
 ##### Additional Parameters
 - --with-link -l: 
 	Automatically include this package in the WebApp's header (Experimental - Only includes minifies CSS/JS ending in .min.css)
