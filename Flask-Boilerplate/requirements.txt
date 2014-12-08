@@ -7,3 +7,4 @@ flask-sqlalchemy
 flask-classy
 flask-uploads
 flask-babel
+flask-migrate

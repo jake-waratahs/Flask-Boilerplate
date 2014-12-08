@@ -1,6 +1,5 @@
 #!/usr/bin/python
 import os
-import argparse
 import shutil
 import re
 import uuid
@@ -11,44 +10,13 @@ import zipfile
 import urllib2
 import StringIO
 
-# Requires Bower
-# npm install -g bower
-
-
-parser = argparse.ArgumentParser(description="Flask Boilerplate")
-parser.add_argument('mode', choices=[
-    'server',
-    'init',
-    'migrate',
-    'configure',
-    'global-config',
-    'install-framework',
-    'folder',
-    'test'])
-
-parser.add_argument('package',action='store',nargs='?',
-                        help='When using "import", a package name must be provided.',
-                        metavar="package (when using import option)")
-
-parser.add_argument('--with-link','-l', action='store_true', help="when using install-framework, automatically create links to the library")
+from flask_script import Manager, Command, Option
 
 
 github_suffix = '?client_id=3f1964306c943013ebac&client_secret=370266b12d878931bb32eec78aade02b10f4ed25'
 
-args = parser.parse_args()
 module_folder = os.path.dirname(os.path.abspath(__file__))
 template_folder = os.path.join(module_folder, '../Flask-Boilerplate/')
-
-# Because copytree kinda sucks
-def copytree(src, dst, symlinks=False, ignore=None):
-    for item in os.listdir(src):
-        s = os.path.join(src, item)
-        d = os.path.join(dst, item)
-        if os.path.isdir(s):
-            shutil.copytree(s, d, symlinks, ignore)
-        else:
-            shutil.copy2(s, d)
-
 
 def get_package_json():
     path = traverse_for_file('./app.json')
@@ -99,266 +67,314 @@ def extract(f,dist='dist', destination='./'):
                     with open(output_name, 'w+') as o:
                         o.write(m.read())
 
-if args.mode == 'init':
-    app_folder = os.path.join(os.getcwd())
-    if os.path.isfile(os.path.join(app_folder, './app.json')):
-        print "Cannot re-init in an already initialised application"
-        exit(1)
-
-    safe_name_re = re.compile('^[A-Za-z0-9_\-]+$')
-
-    print "App Name: ",
-
-    app_name = raw_input()
-    while not safe_name_re.match(app_name):
-        print "Please enter a valid app name ([A-Za-z0-9_\-]+)"
-        print "App Name: ",
-        app_name = raw_input()
-
-    print "Initialising..."
-    
-    copytree(template_folder,app_folder)
-
-    data = dict(app_name=app_name)
-
-    with open(os.path.join(app_folder, 'app.json'), 'w') as f:
-        f.write(json.dumps(data))
-
-    os.remove(os.path.join(app_folder, 'Application/config/variables.py'))
-
-    print "Initialised %s successfully." % (app_name)
-
-
-elif args.mode == 'configure':
-    # Configure the app.
-    section = re.compile(r'^#(.*)')
-    prop = re.compile(r'^([A-Za-z_][0-9A-Za-z_]*) *= *(.*)(#.*)?$')
-
-    root_folder = traverse_for_file('app.json')
-    variables_file = os.path.join(root_folder, 'Application/config/variables.py')
-    variables_file_example = os.path.join(root_folder, 'Application/config/variables.py.example')
-
-    if os.path.isfile(variables_file):
-        new_app = False
-        fname = variables_file
-    else:
-        new_app = True
-        fname = variables_file_example
-
-    output_lines = []
-
-    with open(fname) as f:
-        for line in f:
-            line = line.strip()
-            section_match = section.match(line) 
-            if section_match:
-                print "\033[32m" + section_match.group(1).strip() + "\033[0m"
-                output_lines.append("# %s" % (section_match.group(1).strip()))
-
-            prop_match = prop.match(line)
-            if prop_match:
-                if new_app and (prop_match.group(1).strip() == 'SECRET_KEY' or prop_match.group(1).strip() == 'SECURITY_PASSWORD_SALT'):
-                    # Instead generate these
-                    value = "'%s%s%s'" % (uuid.uuid4().hex, uuid.uuid4().hex, uuid.uuid4().hex)
-
-                else:
-                    print "%s (%s):" % (prop_match.group(1).strip(), prop_match.group(2).strip()),
-                    value = raw_input()
-                    if value == '':
-                        value = prop_match.group(2)
-
-                    value = value.strip()
-
-                
-                output_lines.append("%s = %s" % (prop_match.group(1).strip(), value))
-
-    # print output_lines
-    with open(variables_file, 'w') as f:
-        for line in output_lines:
-            f.write(line + "\n")
-
-
-elif args.mode == 'server':
-    if not within_valid_project():
-        print "Not within a Flask Project"
-        exit(1)
-    # Compile and run the run script
-    root_folder = traverse_for_folder_containing_file('app.json')
-    subprocess.call(['make', 'debug'], cwd=root_folder, shell = True)
-
-elif args.mode == 'test':
-    if not within_valid_project():
-        print "Not within a Flask Project"
-        exit(1)
-    # Compile and run the run script
-    root_folder = traverse_for_file('app.json')
-    subprocess.call(['make test'], cwd=root_folder, shell = True)
-
-
-elif args.mode == 'migrate':
-    # Here we will do a model migration
-    pass
-
-elif args.mode == 'global-config':
-    # Configure the globals for foiler.
-    # SQL Stuff, etc.
-    pass
-
-elif args.mode == 'install-framework':
-    if not args.package:
-        print "Please provide a package in the form of (<bower package>|<<github user>/<github repo>>)[#<tag name>]"
-        exit(1)
-
-    if not within_valid_project():
-        print "Not within a Flask Project"
-        exit(1)
-    
-    root_folder = traverse_for_file('app.json')
-
-    # Install frameworks
-    git_package = re.compile(r'^([A-Za-z0-9\-_\.]+/[A-Za-z0-9_\-\.]+)(#([A-Za-z0-9\._\-]+))?$')
-    bower_package = re.compile(r'^([A-Za-z0-9\._\-]+)(#([A-Za-z0-9\._\-]+))?$')
-
-    github_resolved = None
-    version = None
-
-    if git_package.match(args.package):
-        m = git_package.match(args.package)
-        github_resolved = m.group(1)
-        if m.group(3):
-            version = m.group(3)
-
-    elif bower_package.match(args.package):
-        m = bower_package.match(args.package)
-        # Turn this into a github package
-        try:
-            data = urllib2.urlopen("http://bower.herokuapp.com/packages/%s" % (args.package)).read()
-            data = json.loads(data)
-            # Get the github url
-            github_resolved = re.match(r'^git://github\.com/([A-Za-z0-9\._\-]+/[A-Za-z0-9\._\-]+)\.git$', data['url'])
-            if not github_resolved:
-                raise Exception('Unable to resolve github url: %s' % (data['url']))
-            github_resolved = github_resolved.group(1)
-
-        except Exception, e:
-            print "Error loading package:"
-            print e
-            exit(1)
-    
-        if m.group(3):
-            version = m.group(3)
-
-    else:
-        print "Not a valid package name/formation"
-        print "Please provide a package in the form of (<bower package>|<<github user>/<github repo>>)[#<tag name>]"
-        exit(1)
-
-    print "Found Package %s" % (github_resolved)
-
-    package_name = github_resolved.replace('/', '-')
-
-    try:
-        data = urllib2.urlopen("https://api.github.com/repos/%s/releases%s" % (github_resolved, github_suffix)).read()
-        data = json.loads(data)
-        if len(data) > 0:
-            found = False
-            active_release = None
-            if version:
-                for release in data:
-                    if re.search(version, release['tag_name']):
-                        active_release = release
-                        break
-                if not found:
-                    print "Could not find a release with that tag."
-                    exit(1)
-            else:
-                # Use the latest release
-                active_release = data[0]
-
-            response = urllib2.urlopen(active_release['assets'][0]['browser_download_url'] + github_suffix)
-            zipcontent= response.read()
-            f = StringIO.StringIO()
-            f.write(zipcontent)
-            f.seek(0)
-
-            # Extract all because this is dist
-            extract(f, dist='', destination='./Application/static/vendor/%s/' % (package_name))
-
+def copytree(src, dst, symlinks=False, ignore=None):
+    for item in os.listdir(src):
+        s = os.path.join(src, item)
+        d = os.path.join(dst, item)
+        if os.path.isdir(s):
+            shutil.copytree(s, d, symlinks, ignore)
         else:
-            # We couldn't find a release. repo probably doesn't use github's release tags.
-            # Fallback to standard tags, use the standard zipball and find the dist folder
+            shutil.copy2(s, d)
 
-            data = urllib2.urlopen("https://api.github.com/repos/%s/tags%s" % (github_resolved, github_suffix)).read()
-            data = json.loads(data)
-            active_tag = None
-            if version:
-                for tag in data:
-                    if version == tag['name']:
-                        active_tag = tag
-                        break
+# Do some hacking to flask_script to allow the use without an app.
+class HackCommand(Command):
+    def __call__(self, app=None, *args, **kwargs):
+        if app:
+            return super(Command, self).__call__(app, *args, **kwargs)
+        else:
+            return self.run(*args, **kwargs)
+
+class MyManager(Manager):
+    def __call__(self, app=None, **kwargs):
+        pass
+
+class Server(HackCommand):
+    "Spawn a flask server for the app in the current working directory."
+    option_list = (
+        Option('--hostname', '-h', dest='hostname', default='0.0.0.0', type=str),
+        Option('--port', '-p', dest='port', default=8000, type=int),
+    )
+
+    def run(self, port, hostname):
+        if not within_valid_project():
+            print "Not within a Flask Project"
+            exit(1)
+
+        # Compile and run the run script
+        root_folder = traverse_for_folder_containing_file('app.json')
+        subprocess.call(['make debug ARGS="--port %d --hostname %s"' % (port, hostname)], 
+            cwd=root_folder, shell = True)
+
+class Init(HackCommand):
+    "Initialise a new Flask Boilerplate in the current working directory."
+    def run(self):
+        app_folder = os.path.join(os.getcwd())
+        if os.path.isfile(os.path.join(app_folder, './app.json')):
+            print "Cannot re-init in an already initialised application"
+            exit(1)
+
+        safe_name_re = re.compile('^[A-Za-z0-9_\-]+$')
+
+        print "App Name: ",
+
+        app_name = raw_input()
+        while not safe_name_re.match(app_name):
+            print "Please enter a valid app name ([A-Za-z0-9_\-]+)"
+            print "App Name: ",
+            app_name = raw_input()
+
+        print "Initialising..."
+        copytree(template_folder,app_folder)
+
+        data = dict(app_name=app_name)
+
+        with open(os.path.join(app_folder, 'app.json'), 'w') as f:
+            f.write(json.dumps(data))
+
+        vars_file = os.path.join(app_folder, 'Application/config/variables.py')
+        if os.path.isfile(vars_file):
+            os.remove(vars_file)
+
+        print "Initialised %s successfully." % (app_name)
+
+
+class Configure(HackCommand):
+    "Configure/Reconfigure the app in the current working directory."
+    def run(self):
+        # Configure the app.
+        section = re.compile(r'^#(.*)')
+        prop = re.compile(r'^([A-Za-z_][0-9A-Za-z_]*) *= *(.*)(#.*)?$')
+
+        root_folder = traverse_for_folder_containing_file('app.json')
+        variables_file = os.path.join(root_folder, 'Application/config/variables.py')
+        variables_file_example = os.path.join(root_folder, 'Application/config/variables.py.example')
+
+        if os.path.isfile(variables_file):
+            new_app = False
+            fname = variables_file
+        else:
+            new_app = True
+            fname = variables_file_example
+
+        output_lines = []
+
+        with open(fname) as f:
+            for line in f:
+                line = line.strip()
+                section_match = section.match(line) 
+                if section_match:
+                    print "\033[32m" + section_match.group(1).strip() + "\033[0m"
+                    output_lines.append("# %s" % (section_match.group(1).strip()))
+
+                prop_match = prop.match(line)
+                if prop_match:
+                    if new_app and (prop_match.group(1).strip() == 'SECRET_KEY' or prop_match.group(1).strip() == 'SECURITY_PASSWORD_SALT'):
+                        # Instead generate these
+                        value = "'%s%s%s'" % (uuid.uuid4().hex, uuid.uuid4().hex, uuid.uuid4().hex)
+
+                    else:
+                        print "%s (%s):" % (prop_match.group(1).strip(), prop_match.group(2).strip()),
+                        value = raw_input()
+                        if value == '':
+                            value = prop_match.group(2)
+
+                        value = value.strip()
+
+                    
+                    output_lines.append("%s = %s" % (prop_match.group(1).strip(), value))
+
+        # print output_lines
+        with open(variables_file, 'w') as f:
+            for line in output_lines:
+                f.write(line + "\n")
+
+class Install_Framework(HackCommand):
+    "Install a CSS/JS package listed on bower OR A package from a github repository"
+    option_list = (
+        Option('packages', action='store', metavar='PACKAGE',nargs='+', help="A package listed on bower OR A github repository. (user/repo)."),
+        Option('--version', '-v', dest='version', type=str, help="Supply a version to use (Github tag or release)"),
+        Option('--with-link', '-l', dest='with_link', default=False, action='store_true', help="Automatically include this package in the WebApp's header (Experimental - Only includes minifies CSS/JS ending in .min.css)"),
+    )
+    def run(self, packages, version, with_link):
+        # Reuse my legacy code here
+
+        if not within_valid_project():
+            print "Not within a Flask Project"
+            exit(1)
+
+        root_folder = traverse_for_folder_containing_file('app.json')
+        git_package = re.compile(r'^([A-Za-z0-9\-_\.]+/[A-Za-z0-9_\-\.]+)$')
+        bower_package = re.compile(r'^([A-Za-z0-9\._\-]+)$')
+
+
+        for package in packages:
+
+            github_resolved = None
+            version = None
+
+            if git_package.match(package):
+                m = git_package.match(package)
+                github_resolved = m.group(1)
+
+            elif bower_package.match(package):
+                m = bower_package.match(package)
+                # Resolve this into a github package
+                try:
+                    data = urllib2.urlopen("http://bower.herokuapp.com/packages/%s" % (package)).read()
+                    data = json.loads(data)
+                    # Get the github url
+                    github_resolved = re.match(r'^git://github\.com/([A-Za-z0-9\._\-]+/[A-Za-z0-9\._\-]+)\.git$', data['url'])
+                    if not github_resolved:
+                        raise Exception('Unable to resolve github url: %s' % (data['url']))
+                    github_resolved = github_resolved.group(1)
+
+                except Exception, e:
+                    print "Error loading package:"
+                    print e
+                    exit(1)
+
             else:
-                active_tag = data[0]
-
-            if not active_tag:
-                print "Could not find a tag with the name: %s" % (version)
+                print "Not a valid package name/formation"
+                print "Please provide a package in the form of (<bower package>|<<github user>/<github repo>>)[#<tag name>]"
                 exit(1)
 
-            response = urllib2.urlopen(active_tag['zipball_url'] + github_suffix)
-            zipcontent= response.read()
+            print "Found Package %s" % (github_resolved)
 
-            f = StringIO.StringIO()
-            f.write(zipcontent)
-            f.seek(0)
+            package_name = github_resolved.replace('/', '-')
+
+            try:
+                data = urllib2.urlopen("https://api.github.com/repos/%s/releases%s" % (github_resolved, github_suffix)).read()
+                data = json.loads(data)
+                if len(data) > 0:
+                    found = False
+                    active_release = None
+                    if version:
+                        for release in data:
+                            if re.search(version, release['tag_name']):
+                                active_release = release
+                                break
+                        if not found:
+                            print "Could not find a release with that tag."
+                            exit(1)
+                    else:
+                        # Use the latest release
+                        active_release = data[0]
+
+                    response = urllib2.urlopen(active_release['assets'][0]['browser_download_url'] + github_suffix)
+                    zipcontent= response.read()
+                    f = StringIO.StringIO()
+                    f.write(zipcontent)
+                    f.seek(0)
+
+                    # Extract all because this is dist
+                    extract(f, dist='', destination='./Application/static/vendor/%s/' % (package_name))
+
+                else:
+                    # We couldn't find a release. repo probably doesn't use github's release tags.
+                    # Fallback to standard tags, use the standard zipball and find the dist folder
+
+                    data = urllib2.urlopen("https://api.github.com/repos/%s/tags%s" % (github_resolved, github_suffix)).read()
+                    data = json.loads(data)
+                    active_tag = None
+                    if version:
+                        for tag in data:
+                            if version == tag['name']:
+                                active_tag = tag
+                                break
+                    else:
+                        active_tag = data[0]
+
+                    if not active_tag:
+                        print "Could not find a tag with the name: %s" % (version)
+                        exit(1)
+
+                    response = urllib2.urlopen(active_tag['zipball_url'] + github_suffix)
+                    zipcontent= response.read()
+
+                    f = StringIO.StringIO()
+                    f.write(zipcontent)
+                    f.seek(0)
 
 
-            # Use the dist folder because thats where things /should/ be.
-            extract(f, dist='dist', destination='./Application/static/vendor/%s/' % (package_name))
+                    # Use the dist folder because thats where things /should/ be.
+                    extract(f, dist='dist', destination='./Application/static/vendor/%s/' % (package_name))
+
+                print "Installed: %s" % (package_name)
+
+                if with_link:
+                    print "Linking: %s" % (package_name)
+
+                    # We need to link it up
+                    scripts = []
+                    stylesheets = []
+
+                    def cleanname(name):
+                        g = re.search(r'(/static/vendor/.*)', name).group(1)
+                        return g
+
+                    for dirname, dirnames, filenames in os.walk(traverse_for_file('./Application/static/vendor/%s/' % (package_name))):
+                        for filename in filenames:
+                            fullpath =  os.path.join(dirname, filename)
+                            if "i18n" in fullpath:
+                                continue
+
+                            if re.search('\.min\.css$', filename):
+                                stylesheets.append(cleanname(fullpath))
+                            elif re.search("\.min\.js$", filename):
+                                scripts.append(cleanname(fullpath))
+
+                    f = traverse_for_file('./Application/static/vendor/')
+                    f = os.path.join(f, 'autoinclude.json')
+
+                    data = {'scripts':[], 'stylesheets':[]}
+
+                    if os.path.isfile(f):
+                        with open(f, 'r') as fh:
+                            data = json.loads(fh.read())
+                    
+                    for script in scripts:
+                        if not script in data['scripts']:
+                            data['scripts'].append(script)
+                            print " - Linked: %s" % (script)
+
+                    for stylesheet in stylesheets:
+                        if not stylesheet in data['stylesheets']:
+                            data['stylesheets'].append(stylesheet)
+                            print " - Linked: %s" % (stylesheet)
 
 
-        if args.with_link:
-            # We need to link it up
-            scripts = []
-            stylesheets = []
+                    with open(f, 'w+') as fh:
+                        fh.write(json.dumps(data))
 
-            def cleanname(name):
-                g = re.search(r'(/static/vendor/.*)', name).group(1)
-                return g
-
-            for dirname, dirnames, filenames in os.walk(traverse_for_file('./Application/static/vendor/%s/' % (package_name))):
-                for filename in filenames:
-                    fullpath =  os.path.join(dirname, filename)
-                    if "i18n" in fullpath:
-                        continue
-
-                    if re.search('\.min\.css$', filename):
-                        stylesheets.append(cleanname(fullpath))
-                    elif re.search("\.min\.js$", filename):
-                        scripts.append(cleanname(fullpath))
-
-            f = traverse_for_file('./Application/static/vendor/')
-            f = os.path.join(f, 'autoinclude.json')
-
-            data = {'scripts':[], 'stylesheets':[]}
-
-            if os.path.isfile(f):
-                with open(f, 'r') as fh:
-                    data = json.loads(fh.read())
-            
-            for script in scripts:
-                if not script in data['scripts']:
-                    data['scripts'].append(script)
-
-            for stylesheet in stylesheets:
-                if not stylesheet in data['stylesheets']:
-                    data['stylesheets'].append(stylesheet)
-
-            with open(f, 'w+') as fh:
-                fh.write(json.dumps(data))
-
-    except Exception, e:
-        print e
+            except Exception, e:
+                print e
 
 
-elif args.mode == 'folder':
-    pass
+
+class Test(HackCommand):
+    "Test the application using the supplied project tests"
+    def run(self):
+        if not within_valid_project():
+            print "Not within a Flask Project"
+            exit(1)
+        # Compile and run the run script
+        root_folder = traverse_for_folder_containing_file('app.json')
+        subprocess.call(['make test'], cwd=root_folder, shell = True)
+
+
+
+manager = MyManager(with_default_commands=False, 
+    description="Foiler: The Flask Boilerplate starter. "
+    "Easily configure and create WebApps using foiler.")
+
+manager.add_command('init', Init())
+manager.add_command('server', Server())
+manager.add_command('configure', Configure())
+manager.add_command('test', Test())
+manager.add_command('install-framework', Install_Framework())
+manager.run()
+
+
+
+exit()
 

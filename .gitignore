@@ -3,3 +3,4 @@ WebApp/.venv/*
 WebApp/bower_components/*
 WebApp/Application/static/uploads/*
 *.pyc
+Flask-Boilerplate/.venv/

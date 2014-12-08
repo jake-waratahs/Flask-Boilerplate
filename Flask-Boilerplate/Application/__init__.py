@@ -4,6 +4,7 @@ from flask.ext import restful
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.security import Security, SQLAlchemyUserDatastore
 from flask_mail import Mail
+
 import os
 
 # -------------------
@@ -19,6 +20,7 @@ app.config.from_object(config.get_config())
 
 api = restful.Api(app)
 db = SQLAlchemy(app)
+
 
 # Import everything so the auto-reloader works.
 import Application.views as views
@@ -39,7 +41,7 @@ csrf = CsrfProtect(app)
 import Application.lib.setup as setup
 import Application.lib.uploads as uploads
 import Application.lib.jinja_filters as jinja_filters
-setup.configure_app()
+# setup.configure_app()
 uploads.configure_uploads(app)
 jinja_filters.configure_filters(app)
 
@@ -47,6 +49,4 @@ jinja_filters.configure_filters(app)
 if not app.debug:
     from raven.contrib.flask import Sentry
     sentry = Sentry(APP)
-
-
 

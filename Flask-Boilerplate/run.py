@@ -1,36 +1,22 @@
 from Application import app
-import sys
-
-if '--help' in sys.argv or '-?' in sys.argv:
-	print "Usage: ./%s  [(--hostname|-h) <0.0.0.0>] [(-p|--port) <8000>] [--debug|-d]" % (sys.argv[0])
-	exit()
-
-debug = False
-host = '0.0.0.0'
-port = '8000'
+from flask.ext.script import Manager, Command, Option
 
 
-if '--hostname' in sys.argv:
-	pos = sys.argv.index('--hostname') + 1
-	host = sys.argv[pos]
+class Run(Command):
+	"Run the Flask Builtin Server (Not for production)"
 
-if '-h' in sys.argv:
-	pos = sys.argv.index('-h') + 1
-	host = sys.argv[pos]
+	option_list = (
+		Option('--hostname', '-h', dest='hostname', default='0.0.0.0', type=str),
+		Option('--port', '-p', dest='port', default=8000, type=int),
+		Option('--debug', '-d', dest='debug', default=False, action='store_true'),
+	)
 
-if '--port' in sys.argv:
-	pos = sys.argv.index('--port') +1
-	port = sys.argv[pos]
-
-if '-p' in sys.argv:
-	pos = sys.argv.index('-p') + 1
-	port = sys.argv[pos]
-	
-
-if '--debug' in sys.argv or '-d' in sys.argv:
-	print " * Warning: Running Debug"
-	debug = True
+	def run(self, port, hostname, debug):
+		app.run(debug=debug, host=hostname, port=port)
 
 
+manager = Manager(app,with_default_commands=False)
 
-app.run(debug=debug, host=host, port=int(port))
+manager.add_command('server', Run())
+if __name__ == "__main__":
+    manager.run(default_command="server")
