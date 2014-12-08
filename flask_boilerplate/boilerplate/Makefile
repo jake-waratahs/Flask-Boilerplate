@@ -20,6 +20,11 @@ debug: venv regenerate db
 test: venv regenerate db
 	. $(VENV_ACTIVATE); python $(RUN_TEST_SCRIPT)
 
+ci:	venv regenerate db
+	# Special directives for CI. We would like CI to use python mysql.
+	. $(VENV_ACTIVATE); pip install mysql-python
+	. $(VENV_ACTIVATE); python $(RUN_TEST_SCRIPT)
+
 clean:
 	if [ "$(CONFIG_TYPE)" = "MySQLStd" ]; then echo "DROP DATABASE IF EXISTS $(DB_DATABASE);" | mysql -u $(DB_USER); fi
 	if [ "$(CONFIG_TYPE)" = "CI" ]; then echo "DROP DATABASE IF EXISTS $(DB_DATABASE);" | mysql -u $(DB_USER); fi
