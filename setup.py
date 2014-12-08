@@ -1,8 +1,8 @@
 from distutils.core import setup
 setup(
   name = 'Flask-Boilerplate',
-  package_data={'Flask-Boilerplate':'Flask-Boilerplate'},
-  version = '0.9.0',
+  package_data={'Flask-Boilerplate':'Flask_Boilerplate'},
+  version = '0.9.1',
   description = 'A Boilerplate for flask with a bunch of utilities',
   author = 'Nick Whyte',
   author_email = 'nick@nickwhyte.com',
