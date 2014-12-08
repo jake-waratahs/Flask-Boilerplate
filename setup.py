@@ -22,7 +22,7 @@ setup(
   package_data={'flask_boilerplate':
     data},
   version = '1.0.2',
-  description = 'A Boilerplate for flask with a bunch of utilities',
+  description = 'A Boilerplate for flask with a bunch of utilities. See README.md for full docs',
   author = 'Nick Whyte',
   author_email = 'nick@nickwhyte.com',
   url = 'https://github.com/nickw444/flask-boilerplate', # use the URL to the github repo
