@@ -93,7 +93,7 @@ Run the tests from the testfile in the project directory.
 ```
 install-framework
 ```
-Install a **CSS/JS package **listed on bower OR a package from a github repository in the format of user/repo. 
+Install a CSS/JS package listed on bower OR a package from a github repository in the format of user/repo. 
 ##### Additional Parameters
 - --with-link -l: 
 	Automatically include this package in the WebApp's header (Experimental - Only includes minifies CSS/JS ending in .min.css)

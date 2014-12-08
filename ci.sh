@@ -1,4 +1,4 @@
 #!/bin/bash
 # Script for running on a CI Server
-cd Flask-Boilerplate
+cd flask_boilerplate/boilerplate
 make test
