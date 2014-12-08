@@ -1,0 +1,2 @@
+recursive-include boilerplate *
+recursive-exclude boilerplate *.pyc

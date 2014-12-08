@@ -9,14 +9,15 @@ import sys
 import zipfile
 import urllib2
 import StringIO
+import flask_boilerplate
 
 from flask_script import Manager, Command, Option
 
 
 github_suffix = '?client_id=3f1964306c943013ebac&client_secret=370266b12d878931bb32eec78aade02b10f4ed25'
 
-module_folder = os.path.dirname(os.path.abspath(__file__))
-template_folder = os.path.join(module_folder, '../Flask-Boilerplate/')
+module_folder = os.path.dirname(os.path.abspath(flask_boilerplate.__file__))
+template_folder = os.path.join(module_folder, './boilerplate/')
 
 def get_package_json():
     path = traverse_for_file('./app.json')
@@ -67,13 +68,16 @@ def extract(f,dist='dist', destination='./'):
                         o.write(m.read())
 
 def copytree(src, dst, symlinks=False, ignore=None):
+
     for item in os.listdir(src):
         s = os.path.join(src, item)
         d = os.path.join(dst, item)
         if os.path.isdir(s):
-            shutil.copytree(s, d, symlinks, ignore)
+            shutil.copytree(s, d, symlinks=symlinks, ignore=ignore)
         else:
-            shutil.copy2(s, d)
+            # hacky fix to stop pyc files
+            if not d.endswith('.pyc'):
+                shutil.copy2(s, d)
 
 # Do some hacking to flask_script to allow the use without an app.
 class HackCommand(Command):
@@ -123,7 +127,7 @@ class Init(HackCommand):
             app_name = raw_input()
 
         print "Initialising..."
-        copytree(template_folder,app_folder)
+        copytree(template_folder,app_folder, ignore=shutil.ignore_patterns('*.pyc'))
 
         data = dict(app_name=app_name)
 
