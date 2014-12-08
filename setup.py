@@ -21,12 +21,12 @@ setup(
   packages = ['flask_boilerplate'],
   package_data={'flask_boilerplate':
     data},
-  version = '1.0.0',
+  version = '1.0.1',
   description = 'A Boilerplate for flask with a bunch of utilities',
   author = 'Nick Whyte',
   author_email = 'nick@nickwhyte.com',
   url = 'https://github.com/nickw444/flask-boilerplate', # use the URL to the github repo
-  download_url = 'https://github.com/nickw444/flask-boilerplate/tarball/1.0.0',
+  download_url = 'https://github.com/nickw444/flask-boilerplate/tarball/1.0.1',
   keywords = ['flask', 'boilerplate', 'utility'], 
   classifiers = [],
   scripts=['scripts/foiler'],
