@@ -23,12 +23,14 @@ parser.add_argument('mode', choices=[
     'configure',
     'global-config',
     'install-framework',
-    'zippy',
+    'folder',
     'test'])
 
 parser.add_argument('package',action='store',nargs='?',
                         help='When using "import", a package name must be provided.',
                         metavar="package (when using import option)")
+
+parser.add_argument('--with-link','-l', action='store_true', help="when using install-framework, automatically create links to the library")
 
 
 github_suffix = '?client_id=3f1964306c943013ebac&client_secret=370266b12d878931bb32eec78aade02b10f4ed25'
@@ -56,12 +58,21 @@ def get_package_json():
 
     return d
 
-def traverse_for_file(fname):
+def traverse_for_folder_containing_file(fname):
     path = os.getcwd()
-    while not os.path.isfile(os.path.join(path, './%s' % (fname))):
+    while not os.path.isfile(os.path.join(path, fname)):
         path = os.path.realpath(os.path.join(path, '../'))
         if path == '/':
             return None
+    return path
+
+def traverse_for_file(fname):
+    path = os.getcwd()
+    while not (os.path.isfile(os.path.join(path, fname)) or os.path.exists(os.path.join(path, fname))):
+        path = os.path.realpath(os.path.join(path, '../'))
+        if path == '/':
+            return None
+    path = os.path.realpath(os.path.join(path, fname))
     return path
 
 def within_valid_project():
@@ -74,9 +85,9 @@ def extract(f,dist='dist', destination='./'):
     # Destination is relative to app root.
     with zipfile.ZipFile(f, mode='r') as zf:
         zip_prefix = zf.namelist()[0]
-        dist_folder =  os.path.join(zip_prefix, dist)
+        dist_folder =  os.path.join(zip_prefix, dist + "/" if dist != '' else dist)
         extractable = filter(lambda f: f.startswith(dist_folder) and not f.endswith('/'), zf.namelist())
-        prefix = os.path.join(traverse_for_file('app.json'), destination)
+        prefix = os.path.realpath(os.path.join(traverse_for_folder_containing_file('app.json'), destination))
 
         for member in extractable:
             with zf.open(member, 'r') as m:
@@ -172,7 +183,7 @@ elif args.mode == 'server':
         print "Not within a Flask Project"
         exit(1)
     # Compile and run the run script
-    root_folder = traverse_for_file('app.json')
+    root_folder = traverse_for_folder_containing_file('app.json')
     subprocess.call(['make', 'debug'], cwd=root_folder, shell = True)
 
 elif args.mode == 'test':
@@ -292,8 +303,6 @@ elif args.mode == 'install-framework':
                 print "Could not find a tag with the name: %s" % (version)
                 exit(1)
 
-            print active_tag
-
             response = urllib2.urlopen(active_tag['zipball_url'] + github_suffix)
             zipcontent= response.read()
 
@@ -302,43 +311,54 @@ elif args.mode == 'install-framework':
             f.seek(0)
 
 
-            with zipfile.ZipFile(f, mode='r') as zf:
-                zip_prefix = zf.namelist()[0]
-                dist_folder =  os.path.join(zip_prefix, 'dist/')
-                extractable = filter(lambda f: f.startswith(dist_folder) and not f.endswith('/'), zf.namelist())
-                prefix = os.path.join(traverse_for_file('app.json'), 'Application/static/vendor/%s/' % (package_name))
-
-                for member in extractable:
-                    with zf.open(member, 'r') as m:
-                        output_name = os.path.join(prefix, member.replace(dist_folder, ''))
-                        if output_name.strip() != '':
-                            output_directory = os.path.dirname(output_name)
-                            if not os.path.exists(output_directory):
-                                os.makedirs(output_directory)
-
-                            with open(output_name, 'w+') as o:
-                                o.write(m.read())
+            # Use the dist folder because thats where things /should/ be.
+            extract(f, dist='dist', destination='./Application/static/vendor/%s/' % (package_name))
 
 
+        if args.with_link:
+            # We need to link it up
+            scripts = []
+            stylesheets = []
 
-            # f = open('dicks.zip')
-            # with zipfile.ZipFile(f, mode='w') as zf:
-            #     print f
+            def cleanname(name):
+                g = re.search(r'(/static/vendor/.*)', name).group(1)
+                return g
 
+            for dirname, dirnames, filenames in os.walk(traverse_for_file('./Application/static/vendor/%s/' % (package_name))):
+                for filename in filenames:
+                    fullpath =  os.path.join(dirname, filename)
+                    if "i18n" in fullpath:
+                        continue
 
+                    if re.search('\.min\.css$', filename):
+                        stylesheets.append(cleanname(fullpath))
+                    elif re.search("\.min\.js$", filename):
+                        scripts.append(cleanname(fullpath))
 
-            pass
+            f = traverse_for_file('./Application/static/vendor/')
+            f = os.path.join(f, 'autoinclude.json')
 
-        # Now get the zipball for the release
+            data = {'scripts':[], 'stylesheets':[]}
+
+            if os.path.isfile(f):
+                with open(f, 'r') as fh:
+                    data = json.loads(fh.read())
+            
+            for script in scripts:
+                if not script in data['scripts']:
+                    data['scripts'].append(script)
+
+            for stylesheet in stylesheets:
+                if not stylesheet in data['stylesheets']:
+                    data['stylesheets'].append(stylesheet)
+
+            with open(f, 'w+') as fh:
+                fh.write(json.dumps(data))
 
     except Exception, e:
         print e
 
 
-elif args.mode == 'zippy':
-    f = open('dicks.zip', 'r')
-    extract(f, dist='', destination='./lel')
-    
-
-
+elif args.mode == 'folder':
+    pass
 

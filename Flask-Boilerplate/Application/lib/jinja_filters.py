@@ -1,19 +1,38 @@
 from flask.ext.babel import format_datetime, format_date
+from flask import render_template
 from datetime import datetime
 from urllib import quote
-
+from Application import app
+import os
+import json
 
 def configure_filters(app):
-	# app.jinja_env.filters['] = func
-	# app.jinja_env.globals['test'] = 'Hello World'
-	app.jinja_env.filters['local_date'] = local_date
-	app.jinja_env.filters['local_date_time'] = local_date_time
-	app.jinja_env.filters['percent_escape'] = percent_escape
-	app.jinja_env.filters['time_since'] = timesince
+    # app.jinja_env.filters['] = func
+    app.jinja_env.globals['html_assets'] = get_autoincluded_assets()
+    app.jinja_env.filters['local_date'] = local_date
+    app.jinja_env.filters['local_date_time'] = local_date_time
+    app.jinja_env.filters['percent_escape'] = percent_escape
+    app.jinja_env.filters['time_since'] = timesince
 
 def local_date_time(datestamp):
     if datestamp:
         return format_datetime(datestamp)
+
+def get_autoincluded_assets():
+    fn = os.path.realpath(
+        os.path.join(
+            app.config['APPLICATION_ROOT'], './static/vendor/autoinclude.json'))
+    
+    data = None
+    with open(fn, 'r') as f:
+        data = json.loads(f.read())
+
+    if data and 'scripts' in data and 'stylesheets' in data:
+        with app.app_context():
+            return render_template('utilities/sources.html', 
+                scripts=data['scripts'], 
+                stylesheets=data['stylesheets'])
+
 
 def local_date(datestamp):
     return format_date(datestamp)

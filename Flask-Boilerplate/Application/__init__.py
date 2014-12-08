@@ -4,12 +4,14 @@ from flask.ext import restful
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.security import Security, SQLAlchemyUserDatastore
 from flask_mail import Mail
+import os
 
 # -------------------
 #  Initial App Setup
 # -------------------
 
 app = Flask(__name__)
+app.config['APPLICATION_ROOT'] = os.path.dirname(os.path.realpath(__file__))
 
 # Configure the app.
 import config as config
