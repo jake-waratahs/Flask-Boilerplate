@@ -21,10 +21,9 @@ template_folder = os.path.join(module_folder, '../Flask-Boilerplate/')
 def get_package_json():
     path = traverse_for_file('./app.json')
     if path:
-        with open(os.path.isfile(os.path.join(path, './app.json'))) as f:
-            d = json.loads(f.readlines())
-
-    return d
+        with open(path, 'r') as f:
+            d = json.loads(f.read())
+            return d
 
 def traverse_for_folder_containing_file(fname):
     path = os.getcwd()
@@ -172,12 +171,21 @@ class Configure(HackCommand):
                         # Instead generate these
                         value = "'%s%s%s'" % (uuid.uuid4().hex, uuid.uuid4().hex, uuid.uuid4().hex)
 
+                    elif new_app and prop_match.group(1).strip() == 'APP_NAME':
+                        value = '"%s"' % get_package_json()['app_name'] 
                     else:
                         print "%s (%s):" % (prop_match.group(1).strip(), prop_match.group(2).strip()),
                         value = raw_input()
+
+                        was_empty = False
                         if value == '':
+                            was_empty = True
                             value = prop_match.group(2)
 
+                        if not (was_empty or value == 'True' or value == 'False' or re.match(r'^[0-9]+(\.[0-9]*)?$', value)):
+                            value = "'%s'" % (value)
+
+                        
                         value = value.strip()
 
                     
