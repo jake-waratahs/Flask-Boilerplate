@@ -14,7 +14,7 @@ import flask_boilerplate
 from flask_script import Manager, Command, Option
 
 
-github_suffix = '?client_id=3f1964306c943013ebac&client_secret=370266b12d878931bb32eec78aade02b10f4ed25'
+github_suffix = ''
 
 module_folder = os.path.dirname(os.path.abspath(flask_boilerplate.__file__))
 template_folder = os.path.join(module_folder, './boilerplate/')
