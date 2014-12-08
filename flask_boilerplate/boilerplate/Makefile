@@ -16,9 +16,6 @@ all: debug
 debug: venv regenerate db
 	. $(VENV_ACTIVATE); python $(RUN_SCRIPT) server $(ARGS) --debug 
 
-# Build target that does not require a configured app to run.
-boilerplate: venv regenerate db
-	. $(VENV_ACTIVATE); python $(RUN_SCRIPT) $(ARGS) --debug
 
 test: venv regenerate db
 	. $(VENV_ACTIVATE); python $(RUN_TEST_SCRIPT)
