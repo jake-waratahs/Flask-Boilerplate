@@ -1,8 +1,11 @@
 from distutils.core import setup
+
+
 setup(
   name = 'Flask-Boilerplate',
-  package_data={'Flask-Boilerplate':'Flask_Boilerplate'},
-  version = '0.9.1',
+  packages=['flask_boilerplate'],
+  # package_data={'Flask-Boilerplate':'Flask_Boilerplate'},
+  version = '0.9.2',
   description = 'A Boilerplate for flask with a bunch of utilities',
   author = 'Nick Whyte',
   author_email = 'nick@nickwhyte.com',
@@ -12,7 +15,7 @@ setup(
   classifiers = [],
   scripts=['scripts/foiler'],
   install_requires=[
-        "flask",
+        "Flask",
         "virtualenv",
         "flask-script",
     ],
