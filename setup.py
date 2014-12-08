@@ -5,7 +5,7 @@ setup(
   name = 'Flask-Boilerplate',
   packages=['flask_boilerplate'],
   package_data={'Flask-Boilerplate':'flask_boilerplate/boilerplate'},
-  version = '0.9.3',
+  version = '0.9.4',
   description = 'A Boilerplate for flask with a bunch of utilities',
   author = 'Nick Whyte',
   author_email = 'nick@nickwhyte.com',
