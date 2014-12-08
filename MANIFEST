@@ -7,6 +7,7 @@ flask_boilerplate/boilerplate/Makefile
 flask_boilerplate/boilerplate/requirements.txt
 flask_boilerplate/boilerplate/run.py
 flask_boilerplate/boilerplate/test.py
+flask_boilerplate/boilerplate/Application/.DS_Store
 flask_boilerplate/boilerplate/Application/__init__.py
 flask_boilerplate/boilerplate/Application/api/__init__.py
 flask_boilerplate/boilerplate/Application/api/v1/APIExample.py
