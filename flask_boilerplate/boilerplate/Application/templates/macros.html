@@ -19,8 +19,7 @@
             {% elif field.type == 'BooleanField' %}
                 <div class="checkbox">
                     <label>
-                        {{ field(**kwargs)|safe }}
-                        {{ field.label }}
+                        {{ field(**kwargs)|safe }}<strong>{{ field.label.text }}</strong>
                     </label>
                 </div>
             {% elif field.type in ('DateField', 'TextField', 'StringField', 'TextAreaField', 'PasswordField') %}

@@ -1,6 +1,7 @@
 py-bcrypt
 flask
 flask-restful
+flask-wtf
 flask-security
 flask-sqlalchemy
 flask-classy
