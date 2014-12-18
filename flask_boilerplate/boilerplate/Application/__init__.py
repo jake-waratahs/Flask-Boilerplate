@@ -12,7 +12,7 @@ import os
 # -------------------
 
 app = Flask(__name__)
-app.config['APPLICATION_ROOT'] = os.path.dirname(os.path.realpath(__file__))
+app.config['APPLICATION_FOLDER_ROOT'] = os.path.dirname(os.path.realpath(__file__))
 
 # Configure the app.
 import config as config

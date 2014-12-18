@@ -89,7 +89,7 @@
 {% endmacro %}
 
 {% macro render_field_label(field) %}
-    {% if field.label.text and kwargs.pop('use_label', True) %}
+    {% if field.label.text and field.type  != 'HiddenField' and kwargs.pop('use_label', True) %}
         <label for="{{ field.id }}">{{ field.label }}</label>
     {% endif %}
 {% endmacro %}

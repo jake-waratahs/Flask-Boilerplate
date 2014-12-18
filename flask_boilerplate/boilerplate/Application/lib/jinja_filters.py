@@ -21,7 +21,7 @@ def local_date_time(datestamp):
 def get_autoincluded_assets():
     fn = os.path.realpath(
         os.path.join(
-            app.config['APPLICATION_ROOT'], './static/vendor/autoinclude.json'))
+            app.config['APPLICATION_FOLDER_ROOT'], './static/vendor/autoinclude.json'))
     
     data = None
     with open(fn, 'r') as f:
