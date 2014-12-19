@@ -28,6 +28,7 @@ clean:
 	if [ "$(CONFIG_TYPE)" = "CI" ]; then echo "DROP DATABASE IF EXISTS $(DB_DATABASE);" | mysql -u $(DB_USER); fi
 	rm -rf ./Application/$(DB_BASE).db
 	rm -rf $(VENV_LOCATION)/.db
+	touch 'requirements.txt'
 
 
 # Regenerate static files
@@ -47,7 +48,7 @@ $(VENV_LOCATION)/.db:
 
 
 venv: $(VENV_LOCATION)
-$(VENV_LOCATION): requirements.txt
+$(VENV_LOCATION): requirements.txt requirements-mysql.txt
 	echo $(DB_DATABASE_DRIVER)
 	test -d $(VENV_LOCATION) || virtualenv $(VENV_LOCATION) -p $(PYTHON_BINARY)
 	. $(VENV_ACTIVATE); pip install -r requirements.txt

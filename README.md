@@ -173,11 +173,9 @@ echo "export MYSQL_DEV='TRUE'" >> ~/.zshrc
 
 Close your terminal, and re-open. You need to reload the environment variables.
 
-Add `mysql-python` to your `requirements.txt` file.
-
 Then execute `make clean`, `make venv` then `make debug`.
 
-How about some Continuous Integration
+Continuous Integration
 -------------------------------------
 
 Want to run this on your CI Server? Configure your CI server to build using `make test`
@@ -202,11 +200,9 @@ Configure MySQL for a CI user account
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- Create the user account 
 CREATE USER 'ci'@'localhost'; 
--- Grant Privs for the dev account 
+-- Grant Privs for the ci account 
 GRANT ALL PRIVILEGES ON `ci%`.* TO 'ci'@'localhost'; 
 -- Exit Mysql 
 EXIT;
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Be sure to add `mysql-python` to your `requirements.txt` file as the CI Server needs a driver to communicate with the SQL Server.
 
