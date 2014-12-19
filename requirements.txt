@@ -8,3 +8,4 @@ flask-classy
 flask-uploads
 flask-babel
 flask-migrate
+meinheld

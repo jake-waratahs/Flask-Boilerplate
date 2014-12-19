@@ -6,7 +6,7 @@ DB_DATABASE_DRIVER=`python Application/config -k DB_DRIVER`
 DB_USER=`python Application/config -k DB_USERNAME`
 DB_BASE=`python Application/config -k DB_BASE`
 
-RUN_SCRIPT='run.py'
+RUN_SCRIPT='app'
 RUN_TEST_SCRIPT='test.py'
 
 PYTHON_BINARY=/usr/bin/python3
@@ -51,5 +51,5 @@ $(VENV_LOCATION): requirements.txt
 	echo $(DB_DATABASE_DRIVER)
 	test -d $(VENV_LOCATION) || virtualenv $(VENV_LOCATION) -p $(PYTHON_BINARY)
 	. $(VENV_ACTIVATE); pip install -r requirements.txt
-	if [ "$(DB_DATABASE_DRIVER)" = "mysql+pymysql" ]; then . $(VENV_ACTIVATE); pip install -r 'mysql-requirements.txt'; fi
+	if [ "$(DB_DATABASE_DRIVER)" = "mysql+pymysql" ]; then . $(VENV_ACTIVATE); pip install -r 'requirements-mysql.txt'; fi
 	touch $(VENV_LOCATION)

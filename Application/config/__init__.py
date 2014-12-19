@@ -1,5 +1,9 @@
 import os, sys
-from .keys import SECRET_KEY, SECURITY_PASSWORD_SALT
+
+SECRET_KEY = None
+SECURITY_PASSWORD_SALT = None
+if sys.argv[0] != 'Application/config':
+	from .keys import SECRET_KEY, SECURITY_PASSWORD_SALT
 
 class Config(object):	
 	# General App Config
