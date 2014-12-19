@@ -1,4 +1,8 @@
 import os, sys
+from .keys import SECRET_KEY, SECURITY_PASSWORD_SALT
+
+print (SECRET_KEY)
+print(SECURITY_PASSWORD_SALT)
 
 class Config(object):	
 	APP_NAME = 'Boilerplate'
@@ -38,8 +42,6 @@ class Production(Config):
 	SQLALCHEMY_POOL_RECYCLE = 30
 
 	SENTRY_DSN = ''
-
-
 
 class Development(Config):
 	DEBUG = True
