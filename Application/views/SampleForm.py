@@ -20,18 +20,18 @@ class SampleForm(FlaskView):
 
     @route('/standard-form/', methods=['GET','POST'])
     def index(self):
-    	form = BackupSettingsForm()
-    	if form.validate_on_submit():
-    		print "Form Validated"
+        form = BackupSettingsForm()
+        if form.validate_on_submit():
+            print("Form Validated")
 
         return render_template('sample_form/form.html', form=form)
 
     @route('/model-form/', methods=['GET','POST'])
     def model_form(self):
-    	form = UserForm(obj=User.query.first())
+        form = UserForm(obj=User.query.first())
 
-    	if form.validate_on_submit():
-    		print "Form Validated"
+        if form.validate_on_submit():
+            print("Form Validated")
 
         return render_template('sample_form/model_form.html', form=form)
 

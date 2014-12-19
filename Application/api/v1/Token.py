@@ -1,7 +1,7 @@
 from flask.ext.restful import reqparse
 from Application import api
 from flask.ext.security import http_auth_required
-from APIMaster import APIMaster
+from .APIMaster import APIMaster
 
 class Token(APIMaster):
     @http_auth_required

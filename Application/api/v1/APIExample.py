@@ -1,5 +1,5 @@
 from flask.ext.security import auth_token_required
-from APIMaster import APIMaster
+from .APIMaster import APIMaster
 from Application import api
 
 class APIExample(APIMaster):

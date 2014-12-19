@@ -1,2 +1,2 @@
-from APIExample import APIExample
-from Token import Token
+from .APIExample import APIExample
+from .Token import Token

@@ -1,7 +1,7 @@
 from flask.ext.babel import format_datetime, format_date
 from flask import render_template
 from datetime import datetime
-from urllib import quote
+from urllib.parse import quote
 from Application import app
 import os
 import json

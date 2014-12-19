@@ -23,11 +23,9 @@ class UploadsView(FlaskView):
     def index(self):
         form = FileUploadForm()
         if form.validate_on_submit():
-            print "ON SUBMIT YO"
             filename = main_uploads.save(form.file_upload.data)
             flash("Uploaded %s" % (filename), 'success')
 
-        print form.errors
 
         # Spit out all the pre-existing uploaded images
         if not os.path.exists(main_uploads._config.destination):
