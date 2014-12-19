@@ -1,10 +1,10 @@
 # Determine the DB Driver
 CONFIG_TYPE=`python Application/config`
-DB_DATABASE=`python Application/config -k _CONFIG_DB_NAME`
+DB_DATABASE=`python Application/config -k DB_DATABASE`
 DB_DATABASE_DRIVER=`python Application/config -k DB_DRIVER`
 
-DB_USER=`python Application/config -k _CONFIG_DB_USER`
-DB_BASE=`python Application/config -k _CONFIG_DB_BASE`
+DB_USER=`python Application/config -k DB_USERNAME`
+DB_BASE=`python Application/config -k DB_BASE`
 
 RUN_SCRIPT='run.py'
 RUN_TEST_SCRIPT='test.py'

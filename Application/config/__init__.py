@@ -1,22 +1,19 @@
 import os, sys
 from .keys import SECRET_KEY, SECURITY_PASSWORD_SALT
 
-print (SECRET_KEY)
-print(SECURITY_PASSWORD_SALT)
-
 class Config(object):	
+	# General App Config
 	APP_NAME = 'Boilerplate'
-	_CONFIG_DB_BASE = 'boilerplate'
-	SECURITY_PASSWORD_SALT = 'change me'
-	SECRET_KEY = 'change me'
-
-
+	DB_BASE = 'boilerplate'
+	
+	# Mail Configuration
 	MAIL_SERVER = 'smtp.gmail.com'
 	MAIL_PORT = 587
 	MAIL_USE_SSL = False
 	MAIL_USERNAME = ''
 	MAIL_PASSWORD = ''
 
+	# Babel configuration
 	BABEL_DEFAULT_LOCALE = 'en'
 	BABEL_DEFAULT_TIMEZONE = 'Australia/Sydney'
 
@@ -24,46 +21,74 @@ class Config(object):
 	SECURITY_RECOVERABLE = True
 	SECURITY_CHANGEABLE = True
 	SECURITY_EMAIL_SENDER = 'security@localhost'
-	SECURITY_UNAUTHORIZED_VIEW = '/unauthorised'
-	
+	SECURITY_UNAUTHORIZED_VIEW = '/unauthorised'	
 	SECURITY_PASSWORD_HASH = 'bcrypt'
+	SECURITY_PASSWORD_SALT = SECURITY_PASSWORD_SALT
+	SECRET_KEY = SECRET_KEY
+
 
 	
 class Production(Config):
+	# SQL Configuration for Production
 	DB_DRIVER = 'mysql+pymysql'
-	SQLALCHEMY_DATABASE_URI = '%s://%s:%s@127.0.0.1/%s' % (
-		DB_DRIVER, 
-		'username',
-		'password',
-		Config._CONFIG_DB_BASE,
-		)
-
-	SQLALCHEMY_POOL_SIZE = 20
-	SQLALCHEMY_POOL_RECYCLE = 30
+	DB_USERNAME = 'username'
+	DB_PASSWORD = 'password'
+	DB_HOST = '127.0.0.1'
+	DB_DATABASE = ''
 
 	SENTRY_DSN = ''
 
+	SQLALCHEMY_DATABASE_URI = '%s://%s:%s@%s/%s' % (
+			DB_DRIVER, 
+			DB_USERNAME,
+			DB_PASSWORD,
+			DB_HOST,
+			DB_DATABASE,
+		)
+
 class Development(Config):
+
 	DEBUG = True
 	DB_DRIVER = 'sqlite'
-	SQLALCHEMY_DATABASE_URI = 'sqlite:///%s.db' % Config._CONFIG_DB_BASE
+
+
+	SQLALCHEMY_DATABASE_URI = '%s:///%s.db' % (
+		DB_DRIVER,
+		Config.DB_BASE
+	)
 
 class MySQLStd(Development):
 	# For use with TwoPi Std SQL Development Setup
-	_CONFIG_DB_NAME = 'DEV_%s' % Development._CONFIG_DB_BASE
-	_CONFIG_DB_USER = 'dev'
-	DB_DRIVER = 'mysql+pymysql'
-	SQLALCHEMY_DATABASE_URI = '%s://dev@127.0.0.1/%s' % (DB_DRIVER,_CONFIG_DB_NAME)
+	# See readme
 
+	DB_DRIVER = 'mysql+pymysql'
+	DB_USERNAME = 'dev'
+	DB_HOST = '127.0.0.1'
+	DB_DATABASE = 'DEV_%s' % Development.DB_BASE
+
+	SQLALCHEMY_DATABASE_URI = '%s://%s@%s/%s' % (
+			DB_DRIVER, 
+			DB_USERNAME,
+			DB_HOST,
+			DB_DATABASE,
+		)
 
 class CI(Production):
 	SQLALCHEMY_ECHO = False
-	_CONFIG_DB_NAME = 'CI_%s' % Production._CONFIG_DB_BASE
-	_CONFIG_DB_USER = 'ci'
-	DB_DRIVER = 'mysql+pymysql'
-	SQLALCHEMY_DATABASE_URI = '%s://ci@127.0.0.1:3306/%s' % (DB_DRIVER,_CONFIG_DB_NAME)
 	DEBUG = True
 
+	DB_DRIVER = 'mysql+pymysql'
+	DB_USERNAME = 'ci'
+	DB_HOST = '127.0.0.1'
+	DB_DATABASE = 'CI_%s' % Development.DB_BASE
+
+	SQLALCHEMY_DATABASE_URI = '%s://%s@%s/%s' % (
+			DB_DRIVER, 
+			DB_USERNAME,
+			DB_HOST,
+			DB_DATABASE,
+		)
+	
 
 def get_config():
 	if os.environ.get('BUILD_ID') or os.environ.get('CI_BUILD_ID'):
