@@ -33,10 +33,13 @@ class Host(Command):
 		server.listen((hostname, port))
 		server.run(app)
 
+from commands.InstallFramework import InstallFramework
+
 
 manager = Manager(app,with_default_commands=False)
 manager.add_command('server', Run())
 manager.add_command('meinheld', Host())
+manager.add_command('install', InstallFramework())
 
 
 if __name__ == "__main__":
