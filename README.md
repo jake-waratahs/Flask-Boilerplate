@@ -1,4 +1,4 @@
-Flask Boilerplate
+Flask Boilerplate (Python 3)
 =================
 
 ### © Nick Whyte 2014. TwoPi Code
@@ -8,93 +8,56 @@ Flask Boilerplate
 Getting Started
 ---------------
 
-##### 1. Install the [pre-requisites][2]
+#### 1. Install the [pre-requisites][2]
 
-[2]: <#requirements>
+[2]: <#pre-requisites>
 
-### 2. Install Foiler/Flask Boilerplate
-Foiler is the helper script for the boilerplate. It takes care of initialising, configuring, hosting and managing your flask application.
-
-To install foiler: 
+#### 2. Clone to the current working directory
 
 ```
-pip install flask-boilerplate
+git clone git@github.com:nickw444/Flask-Boilerplate.git .
 ```
 
-### 3. Ready. Set. Go!
-Use `foiler` to make a new flask instance. Go to the place you wish to set up and type:
-
+#### 3. Setup
 ```
-foiler init
+make venv
 ```
+This command will configure a virtual environment and setup all the required prerequisites outlined in the requirements.txt file. 
 
-Foiler will ask you a few q	uestions and copy all the required files into your project to get you started. Next, you will need to configure the Application. Type:
-
+#### 4. Run
 ```
-foiler configure
-```
-Foiler will ask you values for some variables in it's configuration. If you are unsure, hit the return key to use the default value. 
-
-You can view all the configuration directives in the [advanced configuration][3] section.
-
-[3]: <#advanced-configuration>
-
-When you're all configured, you will be ready to start up the server and navigate to the web page. Type:
-
-```
-foiler server
+make debug
 ```
 
-Running this command for the first time will take a little bit of extra time. It needs to download the pre-requisites for the project. Once started up, you will see the message
-
-```
- * Running on http://0.0.0.0:8000/
- * Restarting with reloader
-```
 Navigate to [http://localhost:8000/](http://localhost:8000/) and poke around at the included examples in this boilerplate.
 
 You are now up and running and ready to start programming with Flask.
 
-Foiler Features
-----------------
-Foiler has a multitude of command line options. 
+When you first run the webapp, an administrator user is created in the database.
+(u: admin@localhost, p: admin). You will probably want to change this if you move your app to a production environment. This function is called within `__init__.py`,  `setup.configure_app()` which executes the `lib/setup.py` file.
 
-Foiler should generally work no matter what child directory you are within. As long as somewhere up the parent chain, foiler will be able to perform operations on your application.
+#### 5. [Configure][3]
+You should consider configuring the app further with your settings
+[3]: <#Configuration>
 
 
-``` 
-init
-```
-Initialises a new flask boilerplate in the current working directory. 
+Going Further
+---------------
 
-```
-configure
-```
+`./app` has a few extra features:
 
-Configure/Reconfigure the app in the current working directory. 
+### `./app server`
+Run the default flask web server, with auto reload by default. See `./app server --help` for usage.
 
-```
-server
-```
+### `./app meinheld`
+Run a meinheld server. Convenient for quick use in production. See `./app meinheld --help` for usage.
 
-Spawn a flask server for the app in the working directory. (For Development Only)
-##### Additional Parameters
-- --hostname HOSTNAME -h HOSTNAME: 
-	Provide a binding hostname for the server
-- --port PORT -p PORT:
-	Provide a binding port for the server.
+### `./app install`
+Install a bower or github javascript package into the /static/vendor folder. See `./app install --help` for further usage.
 
-``` 
-test
-```
+#### Example:
+`./app install bootstrap --version 3.3.1 --with-link`
 
-Run the tests from the testfile in the project directory.
-
-```
-install-framework
-```
-Install a CSS/JS package listed on bower OR a package from a github repository in the format of user/repo. 
-##### Additional Parameters
 - --with-link -l: 
 	Automatically include this package in the WebApp's header (Experimental - Only includes minifies CSS/JS ending in .min.css)
 - --version VERSION -v VERSION: 
@@ -116,34 +79,13 @@ Everything to get you up and running with flask. Take a peek inside the
 -   flask-babel for easier translations and easy localisation (Timezones are
     hard)
 -   flask-wtforms for easy user input
+-	Meinheld web server
 
-When you first run the webapp, an administrator user is created in the database.
-(u: admin@localhost, p: admin). You will probably want to change this if you
-move your app to a production environment.
 
 Also included are some jinja filters to make your life easier. use `local_date`
 or `local_date_time` to correctly format a python datetime object to the locale
 chosen in the configuration. Extend this further by using babel’s functionality
 for locale switching on a per user basis.
-
-Requirements
-------------
-
--   [Homebrew (If you're on OSX)](http://brew.sh/) 
--   Node JS
-    Install via (OSX): `brew install node`
-    Install via (Linux): `sudo apt-get install nodejs`
--   Less CSS Compiler
-    Install via: `npm install -g less`
--	Homebrew Python 2 (If you are not already using it)
-	Install Via `brew install python; brew link python;`
--	Python Virtualenv
-	Install via: `pip install virtualenv`
--	Flask
-	Install Via `pip install flask`
--	Flask-Script
-	Install Via `pip install flask-script`
-
 
 Why should I use this?
 ----------------------
@@ -162,16 +104,12 @@ Everything is nicely wrapped into an easy installation via a Makefile which
 simplifies the process of setting up a virtual environment and keeps your local
 python conflict free and happy :)
 
-
-
-
 Full Makefile Usage
 -------------------
-Although the foiler wrapper is very convenient, I am using a Makefile wrapper which means you don't need to have foiler installed on every machine you wish to develop on. The following docs outline what the makefile can do for you. 
-
+Although the app wrapper is very convenient, I am also using a Makefile wrapper.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-make [ARGS='[-p 8000]|[--port 8000]']
+make debug [ARGS='[-p 8000]|[--port 8000]']
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Start the development environment. You can send further command line arguments
@@ -202,7 +140,8 @@ make uninstall
 
 Remove the virtual environment and clean the target
 
-Advanced Configuration
+
+Configuration
 ----------------------
 
 You can find the configuration files within
@@ -211,9 +150,6 @@ You can find the configuration files within
 You can override how configuration is chosen by editing the `get_config`
 function.
 
-Configuration made during the `make reconfigure` and `make configure` build
-tasks can be edited in the `WebApp/Application/config/variables.py` file. If you
-wish to start fresh, delete this file and re-run `make configure`.
 
 Getting Started with MySQL
 --------------------------
@@ -263,7 +199,7 @@ environment variable of `BUILD_ID` or `CI_BUILD_ID` to have the CI Configuration
 chosen automatically, however, this can be overriden by following the setup in
 [Advanced Configuration][1].
 
-[1]: <#advanced-configuration>
+[1]: <#configuration>
 
 #### Setup MySQL on your CI Server
 
@@ -286,10 +222,3 @@ EXIT;
 
 Be sure to add `mysql-python` to your `requirements.txt` file as the CI Server needs a driver to communicate with the SQL Server.
 
-
- What’s Up Next (TODO)?
-----------------
-
-- Write a utility to automatically migrate the models
-- Move away from makefiles using the above utility.
-- Pip/Pypi package 

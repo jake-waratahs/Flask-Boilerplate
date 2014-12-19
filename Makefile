@@ -9,7 +9,7 @@ DB_BASE=`python Application/config -k DB_BASE`
 RUN_SCRIPT='app'
 RUN_TEST_SCRIPT='test.py'
 
-PYTHON_BINARY=/usr/bin/python3
+PYTHON_BINARY=`which python3`
 VENV_LOCATION=.venv
 VENV_ACTIVATE="$(VENV_LOCATION)/bin/activate"
 

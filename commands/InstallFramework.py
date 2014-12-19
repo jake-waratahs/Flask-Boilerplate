@@ -76,111 +76,110 @@ class InstallFramework(Command):
 
             package_name = github_resolved.replace('/', '-')
 
-            # try:
-            data = urlopen("https://api.github.com/repos/%s/releases%s" % (github_resolved, github_suffix)).read()
-            data = json.loads(data.decode('UTF-8'))
-            if len(data) > 0:
-                found = False
-                active_release = None
-                if version:
-                    for release in data:
-                        if re.search(version, release['tag_name']):
-                            active_release = release
-                            break
-                    if not found:
-                        print("Could not find a release with that tag.")
-                        exit(1)
-                else:
-                    # Use the latest release
-                    active_release = data[0]
-
-                response = urlopen(active_release['assets'][0]['browser_download_url'] + github_suffix)
-                zipcontent= response.read()
-                f = BytesIO()
-                f.write(zipcontent)
-                f.seek(0)
-
-                # Extract all because this is dist
-                extract(f, dist='', destination='./Application/static/vendor/%s/' % (package_name))
-
-            else:
-                # We couldn't find a release. repo probably doesn't use github's release tags.
-                # Fallback to standard tags, use the standard zipball and find the dist folder
-
-                data = urlopen("https://api.github.com/repos/%s/tags%s" % (github_resolved, github_suffix)).read()
+            try:
+                data = urlopen("https://api.github.com/repos/%s/releases%s" % (github_resolved, github_suffix)).read()
                 data = json.loads(data.decode('UTF-8'))
-                active_tag = None
-                if version:
-                    for tag in data:
-                        if version == tag['name']:
-                            active_tag = tag
-                            break
+                if len(data) > 0:
+                    found = False
+                    active_release = None
+                    if version:
+                        for release in data:
+                            if re.search(version, release['tag_name']):
+                                active_release = release
+                                break
+                        if not found:
+                            print("Could not find a release with that tag.")
+                            exit(1)
+                    else:
+                        # Use the latest release
+                        active_release = data[0]
+
+                    response = urlopen(active_release['assets'][0]['browser_download_url'] + github_suffix)
+                    zipcontent= response.read()
+                    f = BytesIO()
+                    f.write(zipcontent)
+                    f.seek(0)
+
+                    # Extract all because this is dist
+                    extract(f, dist='', destination='./Application/static/vendor/%s/' % (package_name))
+
                 else:
-                    active_tag = data[0]
+                    # We couldn't find a release. repo probably doesn't use github's release tags.
+                    # Fallback to standard tags, use the standard zipball and find the dist folder
 
-                if not active_tag:
-                    print("Could not find a tag with the name: %s" % (version))
-                    exit(1)
+                    data = urlopen("https://api.github.com/repos/%s/tags%s" % (github_resolved, github_suffix)).read()
+                    data = json.loads(data.decode('UTF-8'))
+                    active_tag = None
+                    if version:
+                        for tag in data:
+                            if version == tag['name']:
+                                active_tag = tag
+                                break
+                    else:
+                        active_tag = data[0]
 
-                response = urlopen(active_tag['zipball_url'] + github_suffix)
-                zipcontent= response.read()
+                    if not active_tag:
+                        print("Could not find a tag with the name: %s" % (version))
+                        exit(1)
 
-                f = BytesIO()
-                f.write(zipcontent)
-                f.seek(0)
+                    response = urlopen(active_tag['zipball_url'] + github_suffix)
+                    zipcontent= response.read()
 
-
-                # Use the dist folder because thats where things /should/ be.
-                extract(f, dist='dist', destination='./Application/static/vendor/%s/' % (package_name))
-
-            print("Installed: %s" % (package_name))
-
-            if with_link:
-                print("Linking: %s" % (package_name))
-
-                # We need to link it up
-                scripts = []
-                stylesheets = []
-
-                def cleanname(name):
-                    g = re.search(r'(/static/vendor/.*)', name).group(1)
-                    return g
-
-                for dirname, dirnames, filenames in os.walk('./Application/static/vendor/%s/' % (package_name)):
-                    for filename in filenames:
-                        fullpath =  os.path.join(dirname, filename)
-                        if "i18n" in fullpath:
-                            continue
-
-                        if re.search('\.min\.css$', filename):
-                            stylesheets.append(cleanname(fullpath))
-                        elif re.search("\.min\.js$", filename):
-                            scripts.append(cleanname(fullpath))
-
-                f = './Application/static/vendor/'
-                f = os.path.join(f, 'autoinclude.json')
-
-                data = {'scripts':[], 'stylesheets':[]}
-
-                if os.path.isfile(f):
-                    with open(f, 'r') as fh:
-                        data = json.loads(fh.read())
-                
-                for script in scripts:
-                    if not script in data['scripts']:
-                        data['scripts'].append(script)
-                        print(" - Linked: %s" % (script))
-
-                for stylesheet in stylesheets:
-                    if not stylesheet in data['stylesheets']:
-                        data['stylesheets'].append(stylesheet)
-                        print(" - Linked: %s" % (stylesheet))
+                    f = BytesIO()
+                    f.write(zipcontent)
+                    f.seek(0)
 
 
-                with open(f, 'w+') as fh:
-                    fh.write(json.dumps(data))
+                    # Use the dist folder because thats where things /should/ be.
+                    extract(f, dist='dist', destination='./Application/static/vendor/%s/' % (package_name))
+
+                print("Installed: %s" % (package_name))
+
+                if with_link:
+                    print("Linking: %s" % (package_name))
+
+                    # We need to link it up
+                    scripts = []
+                    stylesheets = []
+
+                    def cleanname(name):
+                        g = re.search(r'(/static/vendor/.*)', name).group(1)
+                        return g
+
+                    for dirname, dirnames, filenames in os.walk('./Application/static/vendor/%s/' % (package_name)):
+                        for filename in filenames:
+                            fullpath =  os.path.join(dirname, filename)
+                            if "i18n" in fullpath:
+                                continue
+
+                            if re.search('\.min\.css$', filename):
+                                stylesheets.append(cleanname(fullpath))
+                            elif re.search("\.min\.js$", filename):
+                                scripts.append(cleanname(fullpath))
+
+                    f = './Application/static/vendor/'
+                    f = os.path.join(f, 'autoinclude.json')
+
+                    data = {'scripts':[], 'stylesheets':[]}
+
+                    if os.path.isfile(f):
+                        with open(f, 'r') as fh:
+                            data = json.loads(fh.read())
+                    
+                    for script in scripts:
+                        if not script in data['scripts']:
+                            data['scripts'].append(script)
+                            print(" - Linked: %s" % (script))
+
+                    for stylesheet in stylesheets:
+                        if not stylesheet in data['stylesheets']:
+                            data['stylesheets'].append(stylesheet)
+                            print(" - Linked: %s" % (stylesheet))
 
 
-            # except Exception as e:
-                # print(e)
-print ("DICKS")
+                    with open(f, 'w+') as fh:
+                        fh.write(json.dumps(data))
+
+
+            except Exception as e:
+                print(e)
