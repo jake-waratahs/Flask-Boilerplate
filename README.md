@@ -108,9 +108,8 @@ Full Makefile Usage
 -------------------
 Although the app wrapper is very convenient, I am also using a Makefile wrapper.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-make debug [ARGS='[-p 8000]|[--port 8000]']
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#### `make debug [ARGS='[-p 8000]|[--port 8000]']`
 
 Start the development environment. You can send further command line arguments
 to the python target by supplying them via the `ARGS` parameter.
