@@ -1,13 +1,14 @@
 from flask.ext.uploads import (
     UploadSet,
-    configure_uploads,
     UploadConfiguration,
     patch_request_class,
     IMAGES
 )
 
 # Stores CYO Creations
-allowed = ('png', 'jpg', 'jpeg', 'TIFF', 'tiff')
+
+# Use lowercase only.
+allowed = ('png', 'jpg', 'jpeg', 'tiff')
 main_uploads_config = UploadConfiguration('./Application/static/uploads/',
                                  base_url='/static/uploads/',
                                  allow=allowed,

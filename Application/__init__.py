@@ -41,7 +41,8 @@ csrf = CsrfProtect(app)
 import Application.lib.setup as setup
 import Application.lib.uploads as uploads
 import Application.lib.jinja_filters as jinja_filters
-# setup.configure_app()
+
+setup.configure_app()
 uploads.configure_uploads(app)
 jinja_filters.configure_filters(app)
 
