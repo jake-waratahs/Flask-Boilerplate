@@ -38,7 +38,7 @@ When you first run the webapp, an administrator user is created in the database.
 
 #### 5. [Configure][3]
 You should consider configuring the app further with your settings
-[3]: <#Configuration>
+[3]: <#configuration>
 
 
 Going Further
@@ -46,16 +46,16 @@ Going Further
 
 `./app` has a few extra features:
 
-### `./app server`
+#### `./app server`
 Run the default flask web server, with auto reload by default. See `./app server --help` for usage.
 
-### `./app meinheld`
+#### `./app meinheld`
 Run a meinheld server. Convenient for quick use in production. See `./app meinheld --help` for usage.
 
-### `./app install`
+#### `./app install`
 Install a bower or github javascript package into the /static/vendor folder. See `./app install --help` for further usage.
 
-#### Example:
+### Example:
 `./app install bootstrap --version 3.3.1 --with-link`
 
 - --with-link -l: 
@@ -115,29 +115,18 @@ make debug [ARGS='[-p 8000]|[--port 8000]']
 Start the development environment. You can send further command line arguments
 to the python target by supplying them via the `ARGS` parameter.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-make test
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+#### `make test`
 Runs tests on the target.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-make clean
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+#### `make clean`
 Cleans the target. Drops the active database. (or deletes if you’re using
 SQLite)
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-make regenerate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+#### `make regenerate`
 Regenerate imports for models and recompress/compile CSS.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-make uninstall
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+#### `make uninstall`
 Remove the virtual environment and clean the target
 
 
