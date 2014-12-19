@@ -22,8 +22,8 @@ class BaseTestCase(unittest.TestCase):
         pass
 
     def test_sample(self):
-    	response = self.app.get('/')
-    	assert '' in response.data
+        response = self.app.get('/')
+        assert '' in response.data
 
 if __name__ == '__main__':
     unittest.main()
