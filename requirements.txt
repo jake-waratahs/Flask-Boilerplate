@@ -8,3 +8,6 @@ flask-classy
 flask-uploads
 flask-babel
 meinheld
+flask-boilerplate-utils
+raven
+flask-script

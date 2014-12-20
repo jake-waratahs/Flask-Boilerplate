@@ -14,6 +14,7 @@ from wtforms import (
 )
 
 from wtforms.ext.sqlalchemy.orm import model_form
+from flask_boilerplate_utils.forms import Unique
 
 class SampleForm(FlaskView):
     route_base = '/form/'
@@ -40,7 +41,7 @@ SampleForm.register(app)
 
 class BackupSettingsForm(Form):
     number_field = IntegerField('Number', [validators.Required()])
-    text = TextField('Text Field', [validators.Optional()])
+    text = TextField('Text Field', [validators.Required(), Unique(model=User, field=User.email)])
     password = PasswordField('Password', [validators.Optional()])
     submit = SubmitField('Submit', [validators.Optional()])
     toggle = BooleanField('Toggle', [validators.Optional()])

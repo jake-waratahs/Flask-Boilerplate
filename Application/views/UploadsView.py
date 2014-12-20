@@ -12,7 +12,7 @@ from wtforms import (
     FileField
 )
 from Application.lib.uploads import main_uploads
-from Application.lib.wtforms_utils import ValidFileFormat
+from flask_boilerplate_utils.forms import ValidFileFormat
 
 import os
 

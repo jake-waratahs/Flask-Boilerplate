@@ -5,10 +5,12 @@ from flask.ext.uploads import (
     IMAGES
 )
 
-# Stores CYO Creations
-
 # Use lowercase only.
 allowed = ('png', 'jpg', 'jpeg', 'tiff')
+# Or
+# Using flask_uploads's own types
+# allowed = IMAGES
+
 main_uploads_config = UploadConfiguration('./Application/static/uploads/',
                                  base_url='/static/uploads/',
                                  allow=allowed,

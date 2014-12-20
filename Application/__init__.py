@@ -4,23 +4,20 @@ from flask.ext import restful
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.security import Security, SQLAlchemyUserDatastore
 from flask_mail import Mail
+from flask_boilerplate_utils import Boilerplate
 
-import os
-
-# -------------------
 #  Initial App Setup
-# -------------------
-
 app = Flask(__name__)
-app.config['APPLICATION_FOLDER_ROOT'] = os.path.dirname(os.path.realpath(__file__))
 
 # Configure the app.
 import Application.config as config
 app.config.from_object(config.get_config())
 
+# Initialise the boilerplate
+Boilerplate(app)
+
 api = restful.Api(app)
 db = SQLAlchemy(app)
-
 
 # Import everything so the auto-reloader works.
 import Application.views as views
@@ -33,21 +30,9 @@ security = Security(app, user_datastore)
 db.create_all()
 mail = Mail(app)
 
-# WTforms/CSRF Protection
-from flask_wtf.csrf import CsrfProtect
-csrf = CsrfProtect(app)
-
 # Lib Setup
 import Application.lib.setup as setup
 import Application.lib.uploads as uploads
-import Application.lib.jinja_filters as jinja_filters
 
 setup.configure_app()
 uploads.configure_uploads(app)
-jinja_filters.configure_filters(app)
-
-# Setup App Debug via Sentry (When in production)
-if not app.debug:
-    from raven.contrib.flask import Sentry
-    sentry = Sentry(APP)
-
