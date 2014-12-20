@@ -23,7 +23,7 @@ class BaseTestCase(unittest.TestCase):
 
     def test_sample(self):
         response = self.app.get('/')
-        assert '' in response.data
+        assert '' in response.data.decode('UTF-8')
 
 if __name__ == '__main__':
     unittest.main()
