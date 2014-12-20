@@ -49,7 +49,6 @@ $(VENV_LOCATION)/.db:
 
 venv: $(VENV_LOCATION)
 $(VENV_LOCATION): requirements.txt requirements-mysql.txt
-	echo $(DB_DATABASE_DRIVER)
 	test -d $(VENV_LOCATION) || virtualenv $(VENV_LOCATION) -p $(PYTHON_BINARY)
 	. $(VENV_ACTIVATE); pip install -r requirements.txt
 	if [ "$(DB_DATABASE_DRIVER)" = "mysql+pymysql" ]; then . $(VENV_ACTIVATE); pip install -r 'requirements-mysql.txt'; fi
