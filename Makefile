@@ -1,10 +1,10 @@
 # Determine the DB Driver
-CONFIG_TYPE=`python Application/config`
-DB_DATABASE=`python Application/config -k DB_DATABASE`
-DB_DATABASE_DRIVER=`python Application/config -k DB_DRIVER`
+CONFIG_TYPE=`.venv/bin/python Application/config`
+DB_DATABASE=`.venv/bin/python Application/config -k DB_DATABASE`
+DB_DATABASE_DRIVER=`.venv/bin/python Application/config -k DB_DRIVER`
 
-DB_USER=`python Application/config -k DB_USERNAME`
-DB_BASE=`python Application/config -k DB_BASE`
+DB_USER=`.venv/bin/python Application/config -k DB_USERNAME`
+DB_BASE=`.venv/bin/python Application/config -k DB_BASE`
 
 RUN_SCRIPT='app'
 RUN_TEST_SCRIPT='test.py'

@@ -1,9 +1,9 @@
-import os, sys
+import sys
 
-SECRET_KEY = None
-SECURITY_PASSWORD_SALT = None
-if sys.argv[0] != 'Application/config':
-	from .keys import SECRET_KEY, SECURITY_PASSWORD_SALT
+from flask_boilerplate_utils.configuration.keys import (
+	SECRET_KEY, 
+	SECURITY_PASSWORD_SALT
+)
 
 class Config(object):	
 	# General App Config
@@ -95,12 +95,21 @@ class CI(Production):
 	
 
 def get_config():
-	if os.environ.get('BUILD_ID') or os.environ.get('CI_BUILD_ID'):
-		return CI
-	elif '-prod' in sys.argv or os.environ.get('PRODUCTION'):
-		return Production
-	elif os.environ.get('MYSQL_DEV'):
-		return MySQLStd
-	else:
-		return Development
+	"""
+	Choose a configuration class.
+	Flask Boilerplate Utils will choose one depending on 
+	your Environment Variables. 
+
+	Set FLASK_CONFIG=<CLASS NAME> in your bash/zsh profile
+	
+	export 'FLASK_CONFIG=<CLASS NAME>' >> ~/.bashrc
+	export 'FLASK_CONFIG=<CLASS NAME>' >> ~/.zshrc
+
+	Alternatively, invoke the application using the 
+	--config or -c argument and supply a class.
+
+	You can also override this function.
+	"""
+	from flask_boilerplate_utils.configuration import choose_config
+	return choose_config(config_module=sys.modules[__name__])
 
