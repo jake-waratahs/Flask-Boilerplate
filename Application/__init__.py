@@ -25,14 +25,13 @@ import Application.models as models
 import Application.api as api
 
 # Setup Flask-Security
-user_datastore = SQLAlchemyUserDatastore(db, models.User, models.Role)
-security = Security(app, user_datastore)
+app.user_datastore = SQLAlchemyUserDatastore(db, models.User, models.Role)
+security = Security(app, app.user_datastore)
 db.create_all()
 mail = Mail(app)
 
 # Lib Setup
-import Application.lib.setup as setup
-import Application.lib.uploads as uploads
-
-setup.configure_app()
-uploads.configure_uploads(app)
+from Application.lib.setup import Setup
+from Application.lib.uploads import Uploads
+Setup(app, db)
+Uploads(app)

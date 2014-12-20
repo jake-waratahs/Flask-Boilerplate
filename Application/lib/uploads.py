@@ -19,7 +19,6 @@ main_uploads_config = UploadConfiguration('./Application/static/uploads/',
 main_uploads = UploadSet('mainuploads', allowed)
 main_uploads._config = main_uploads_config
 
-def configure_uploads(APP):
-	with APP.app_context():
-		# Allow Uploads of up to 32 MB.
-		patch_request_class(APP, 32 * 1024 * 1024)
+def Uploads(app):
+	with app.app_context():
+		patch_request_class(app, 32 * 1024 * 1024)
