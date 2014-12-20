@@ -1,8 +1,8 @@
 import sys
 
-from flask_boilerplate_utils.configuration.keys import (
+from flask_boilerplate_utils.configuration import (
 	SECRET_KEY, 
-	SECURITY_PASSWORD_SALT
+	SECURITY_PASSWORD_SALT,
 )
 
 class Config(object):	
