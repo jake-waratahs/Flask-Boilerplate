@@ -9,5 +9,6 @@ flask-uploads
 flask-babel
 meinheld
 flask-boilerplate-utils
+flask_boilerplate_buildutils
 raven
 flask-script

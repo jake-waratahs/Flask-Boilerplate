@@ -8,9 +8,10 @@ Flask Boilerplate (Python 3)
 Getting Started
 ---------------
 
-#### 1. Install the [pre-requisites][2]
+#### 1. Install the pre-requisites
 
-[2]: <#pre-requisites>
+`pip3 install flask-boilerplate-buildutils`
+
 
 #### 2. Clone to the current working directory
 
@@ -18,16 +19,12 @@ Getting Started
 git clone git@github.com:nickw444/Flask-Boilerplate.git .
 ```
 
-#### 3. Setup
+#### 3. Run
 ```
-make venv
+./app
 ```
-This command will configure a virtual environment and setup all the required prerequisites outlined in the requirements.txt file. 
+This command will configure a virtual environment and setup all the required prerequisites outlined in the requirements.txt file. (Only the first time)
 
-#### 4. Run
-```
-make debug
-```
 
 Navigate to [http://localhost:8000/](http://localhost:8000/) and poke around at the included examples in this boilerplate.
 
@@ -40,6 +37,11 @@ When you first run the webapp, an administrator user is created in the database.
 You should consider configuring the app further with your settings
 [3]: <#configuration>
 
+
+#### Upgrading Requirements
+touch requirements.txt
+touch requirements-mysql.txt
+./app
 
 Going Further
 ---------------
