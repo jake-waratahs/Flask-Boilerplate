@@ -1,15 +1,15 @@
 import sys
 
-from flask_boilerplate_utils.configuration import (
-	SECRET_KEY, 
-	SECURITY_PASSWORD_SALT,
+from flask_boilerplate_buildutils.configuration import (
+	make_keys,
 	BaseConfiguration
 )
-from flask_boilerplate_utils.buildtools import (
+from flask_boilerplate_buildutils.targets import (
 	StandardRegenerateTarget,
 	StandardMySQLDBTarget,
-	StandardSQLiteTarget,
 )
+
+keys = make_keys()
 
 class Config(BaseConfiguration):
 	# General App Config
@@ -33,8 +33,8 @@ class Config(BaseConfiguration):
 	SECURITY_EMAIL_SENDER = 'security@localhost'
 	SECURITY_UNAUTHORIZED_VIEW = '/unauthorised'	
 	SECURITY_PASSWORD_HASH = 'bcrypt'
-	SECURITY_PASSWORD_SALT = SECURITY_PASSWORD_SALT
-	SECRET_KEY = SECRET_KEY
+	SECURITY_PASSWORD_SALT = keys['SECURITY_PASSWORD_SALT']
+	SECRET_KEY = keys['SECRET_KEY']
 
 	dependencies = BaseConfiguration.dependencies + (StandardRegenerateTarget,)
 	
@@ -45,31 +45,14 @@ class Production(Config):
 	DB_PASSWORD = 'password'
 	DB_HOST = '127.0.0.1'
 	DB_DATABASE = ''
-
 	SENTRY_DSN = ''
-
-	SQLALCHEMY_DATABASE_URI = '%s://%s:%s@%s/%s' % (
-			DB_DRIVER, 
-			DB_USERNAME,
-			DB_PASSWORD,
-			DB_HOST,
-			DB_DATABASE,
-		)
 
 class Development(Config):
 
 	DEBUG = True
 	DB_DRIVER = 'sqlite'
 
-
-	SQLALCHEMY_DATABASE_URI = '%s:///%s.db' % (
-		DB_DRIVER,
-		Config.DB_BASE
-	)
-
 class MySQLStd(Development):
-	# For use with TwoPi Std SQL Development Setup
-	# See readme
 
 	dependencies = Development.dependencies + (StandardMySQLDBTarget,)
 
@@ -78,12 +61,6 @@ class MySQLStd(Development):
 	DB_HOST = '127.0.0.1'
 	DB_DATABASE = 'DEV_%s' % Development.DB_BASE
 
-	SQLALCHEMY_DATABASE_URI = '%s://%s@%s/%s' % (
-			DB_DRIVER, 
-			DB_USERNAME,
-			DB_HOST,
-			DB_DATABASE,
-		)
 
 class CI(Production):
 	SQLALCHEMY_ECHO = False
@@ -94,13 +71,6 @@ class CI(Production):
 	DB_HOST = '127.0.0.1'
 	DB_DATABASE = 'CI_%s' % Development.DB_BASE
 
-	SQLALCHEMY_DATABASE_URI = '%s://%s@%s/%s' % (
-			DB_DRIVER, 
-			DB_USERNAME,
-			DB_HOST,
-			DB_DATABASE,
-		)
-	
 
 def get_config():
 	"""
@@ -118,6 +88,6 @@ def get_config():
 
 	You can also override this function.
 	"""
-	from flask_boilerplate_utils.configuration import choose_config
+	from flask_boilerplate_buildutils.configuration import choose_config
 	return choose_config(config_module=sys.modules[__name__])
 
