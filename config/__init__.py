@@ -3,9 +3,15 @@ import sys
 from flask_boilerplate_utils.configuration import (
 	SECRET_KEY, 
 	SECURITY_PASSWORD_SALT,
+	BaseConfiguration
+)
+from flask_boilerplate_utils.buildtools import (
+	StandardRegenerateTarget,
+	StandardMySQLDBTarget,
+	StandardSQLiteTarget,
 )
 
-class Config(object):	
+class Config(BaseConfiguration):
 	# General App Config
 	APP_NAME = 'Boilerplate'
 	DB_BASE = 'boilerplate'
@@ -30,7 +36,7 @@ class Config(object):
 	SECURITY_PASSWORD_SALT = SECURITY_PASSWORD_SALT
 	SECRET_KEY = SECRET_KEY
 
-
+	dependencies = BaseConfiguration.dependencies + (StandardRegenerateTarget,)
 	
 class Production(Config):
 	# SQL Configuration for Production
@@ -64,6 +70,8 @@ class Development(Config):
 class MySQLStd(Development):
 	# For use with TwoPi Std SQL Development Setup
 	# See readme
+
+	dependencies = Development.dependencies + (StandardMySQLDBTarget,)
 
 	DB_DRIVER = 'mysql+pymysql'
 	DB_USERNAME = 'dev'

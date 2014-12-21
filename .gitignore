@@ -1,5 +1,5 @@
 *.pyc
 .venv/*
 Application/static/uploads/*
-Application/config/security.key
-Application/config/salt.key
+config/security.key
+config/salt.key

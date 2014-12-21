@@ -10,10 +10,11 @@ from flask_boilerplate_utils import Boilerplate
 app = Flask(__name__)
 
 # Configure the app.
-import Application.config as config
-app.config.from_object(config.get_config())
+import config
+app.config_class = config.get_config()
+app.config.from_object(app.config_class)
 
-# Initialise the boilerplate
+# Initialise the boilerplate and do Configuration Magic.
 Boilerplate(app)
 
 api = restful.Api(app)

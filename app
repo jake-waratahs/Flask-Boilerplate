@@ -1,8 +1,9 @@
-#!.venv/bin/python
-from Application import app
-from flask_boilerplate_utils.commands import MainManager
+#!/usr/bin/python3
+from config import get_config
+import os, sys
+# Build project dependencies before importing the app.
+config = get_config()
+config.build_dependencies()
 
-manager = MainManager(app,with_default_commands=False)
-
-if __name__ == "__main__":
-    manager.run(default_command="server")
+# Run the app
+os.system('./.venv/bin/python3 ./run.py %s' % ' '.join(sys.argv[1:]))
