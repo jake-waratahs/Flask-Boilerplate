@@ -7,6 +7,7 @@ from flask_boilerplate_buildutils.configuration import (
 from flask_boilerplate_buildutils.targets import (
 	StandardRegenerateTarget,
 	StandardMySQLDBTarget,
+	StandardCIMySQLDBTarget,
 )
 
 keys = make_keys()
@@ -64,7 +65,7 @@ class MySQLStd(Development):
 
 
 class CI(Production):
-	dependencies = Development.dependencies + (StandardMySQLDBTarget,)
+	dependencies = Development.dependencies + (StandardCIMySQLDBTarget,)
 	
 	SQLALCHEMY_ECHO = False
 	DEBUG = True
