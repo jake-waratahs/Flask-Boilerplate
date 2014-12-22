@@ -63,6 +63,8 @@ class MySQLStd(Development):
 
 
 class CI(Production):
+	dependencies = Development.dependencies + (StandardMySQLDBTarget,)
+	
 	SQLALCHEMY_ECHO = False
 	DEBUG = True
 
