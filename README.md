@@ -10,7 +10,7 @@ Getting Started
 
 #### 1. Install the pre-requisites
 
-`pip3 install flask-boilerplate-buildutils`
+`pip3 install requirements.txt`
 
 
 #### 2. Clone to the current working directory
