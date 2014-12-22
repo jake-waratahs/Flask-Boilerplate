@@ -6,4 +6,6 @@ import subprocess
 config = get_config()
 config.build_dependencies()
 
-os.system('./.venv/bin/python3 ./run.py %s' % ' '.join(sys.argv[1:]))
+os.system('source ./.venv/bin/activate && unset __PYVENV_LAUNCHER__ && python3 ./run.py {args}'.format(
+	args=' '.join(list(map(lambda x: "'{arg}'".format(arg=x), sys.argv[1:])))
+	))
