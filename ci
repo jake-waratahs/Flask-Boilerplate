@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 from config import get_config
-import sys, os
-import subprocess
+from flask_boilerplate_buildutils.run import run_app
+import os
 
 os.environ['FLASK_CONFIG'] = 'CI'
+
 # Build project dependencies before importing the app.
 config = get_config()
 config.build_dependencies()
 
-os.system('./.venv/bin/python3 ./test.py %s' % ' '.join(sys.argv[1:]))
+run_app('./test.py')
