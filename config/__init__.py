@@ -51,6 +51,7 @@ class Development(Config):
 
 	DEBUG = True
 	DB_DRIVER = 'sqlite'
+	DB_DATABASE = Config.DB_BASE
 
 class MySQLStd(Development):
 
