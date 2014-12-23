@@ -18,7 +18,7 @@ class BaseTestCase(unittest.TestCase):
         Application.app.config['WTF_CSRF_ENABLED'] = False
         self.app = Application.app.test_client()
         self._app = Application.app
-    
+
     def tearDown(self):
         pass
 
