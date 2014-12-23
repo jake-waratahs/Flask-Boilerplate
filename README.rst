@@ -13,8 +13,8 @@ This module is part of the flask-boilerplate project.
 
 Features
 *******************
-- Makes use of `virtual environments <http://docs.python-guide.org/en/latest/dev/virtualenvs/>`_ transparently, so you never need to worry about source ./venv/bin/activate again or any dependency errors.
-- Abstracted boilerplate utilities in flask-boilerplate-buildutils and flask-boilerplate-utils  - you can always upgrade to the latest and greatest.
+- Makes use of `virtual environments <http://docs.python-guide.org/en/latest/dev/virtualenvs/>`_ transparently, so you never need to worry about ``source ./venv/bin/activate`` or any dependency errors ever again.
+- Abstracted boilerplate utilities in `flask-boilerplate-buildutils <http://flask-boilerplate-buildutils.readthedocs.org/en/latest/>`_ and `flask-boilerplate-utils <http://flask-boilerplate-utils.readthedocs.org/en/latest/>`_  - you can always upgrade to the latest and greatest.
 - Instantly ready for deployment. Never mess around with gunicorn again. See :doc:`deployment` for more details on how to deploy using supervisor and nginx.
 
 

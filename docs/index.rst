@@ -80,7 +80,10 @@ See the :doc:`configuration` to learn how to to correctly configure your project
    :maxdepth: 2
    :hidden:
 
+   index
    running
    configuration
+   develop_mysql
+   develop_ci
    development
    deployment
