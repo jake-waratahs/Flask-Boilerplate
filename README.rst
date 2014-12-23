@@ -1,7 +1,7 @@
 Flask Boilerplate
 ================================================
 
-Get started with flask in 30 minutes. This boilerplate skeleton includes everything to get you up and running with flask. 
+Get started with flask MVC in 30 minutes. This boilerplate skeleton includes everything to get you up and running with flask. The collection of packages bundled with this boilerplate represents a selection of packages I have found extremely helpful when getting an app up and running as quick as possible.
 
 This module is part of the flask-boilerplate project.
 
@@ -20,8 +20,23 @@ Features
 
 Full usage available at `read the docs <http://flask-boilerplate.readthedocs.org/en/latest/>`_
 
+What's Included
+*******************
+
+Everything to get you up and running with flask. Take a peek inside the
+``Application/requirements.txt`` file to get an idea of what’s included.
+
+:flask-restful:         for an extensive API
+:flask-security:        for login management
+:sqlalchemy:      for an ORM (Got to save the data somewhere)
+:flask-classy:          for Views (MVC)
+:flask-uploads:         for making your life easier with file uploads.
+:flask-babel:           for easier translations and easy localisation (Timezones are hard)
+:flask-wtforms:         for easy user input
+:Meinheld:   for hosting on production in a single click
+
 
 Prerequisites
 *********************************
-- You have Python3 Installed
-- You have Pip3 Installed through Python3.
+- You have Python 3 Installed
+- You have Pip 3 Installed through Python 3.

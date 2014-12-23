@@ -73,13 +73,14 @@ in your shell. See more about the ./app command in :doc:`running`
 See the :doc:`development` to learn how to structure your project using the
 boilerplate.
 
+See the :doc:`configuration` to learn how to to correctly configure your project.
 
-Pages
-******************************************
 
 .. toctree::
    :maxdepth: 2
+   :hidden:
 
    running
+   configuration
    development
    deployment
