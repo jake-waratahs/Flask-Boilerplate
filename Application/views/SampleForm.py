@@ -46,7 +46,7 @@ class BackupSettingsForm(Form):
     submit = SubmitField('Submit', [validators.Optional()])
     toggle = BooleanField('Toggle', [validators.Optional()])
 
-UserForm = model_form(User, db_session=db.create_scoped_session(), base_class=Form, field_args={
+UserForm = model_form(User, db_session=db.session, base_class=Form, field_args={
 })
 # Override the password field to set it's type manually.
 UserForm.password = PasswordField('Password')
