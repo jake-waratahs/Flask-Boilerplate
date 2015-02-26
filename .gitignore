@@ -37,6 +37,7 @@ docs/_build/
 
 # PyBuilder
 
+.buildutils_version
 .venv/*
 Application/static/uploads/*
 config/security.key
