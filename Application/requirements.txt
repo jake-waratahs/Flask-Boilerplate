@@ -1,9 +1,0 @@
-py-bcrypt
-flask
-flask-restful
-flask-security
-flask-sqlalchemy
-flask-classy
-flask-uploads
-flask-boilerplate-utils
-flask_boilerplate_buildutils

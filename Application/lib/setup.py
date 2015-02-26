@@ -1,5 +1,7 @@
-from Application.models.User import User
-from Application.models.Role import Role
+from models import (
+    User, 
+    Role
+)
 from flask.ext.security.utils import encrypt_password
 
 def Setup(app, db):

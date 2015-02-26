@@ -1,5 +1,5 @@
 from Application import app, db
-from Application.models.User import User
+from models import User
 from flask import render_template
 from flask.ext.classy import FlaskView, route
 
