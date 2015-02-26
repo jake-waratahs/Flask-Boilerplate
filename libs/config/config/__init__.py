@@ -67,6 +67,7 @@ class CI(Production):
     DB_DRIVER = 'mysql+pymysql'
     DB_USERNAME = 'ci'
     DB_HOST = '127.0.0.1'
+    DB_PASSWORD = None
     DB_DATABASE = 'CI_%s' % Development.DB_BASE
 
 
