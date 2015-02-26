@@ -14,17 +14,23 @@ This skeleton is part of the flask-boilerplate project.
 - `flask-boilerplate-buildutils <https://github.com/nickw444/flask-boilerplate-buildutils>`_
 - `flask-boilerplate-utils <https://github.com/nickw444/flask-boilerplate-utils>`_
 
-
 Features
 *******************
 - Promotes the use of `virtual environments <http://docs.python-guide.org/en/latest/dev/virtualenvs/>`_ through `autoenv <https://github.com/kennethreitz/autoenv>`_. 
 
 - Abstracted boilerplate utilities in `flask-boilerplate-buildutils <http://flask-boilerplate-buildutils.readthedocs.org/en/latest/>`_ and `flask-boilerplate-utils <http://flask-boilerplate-utils.readthedocs.org/en/latest/>`_  - you can always upgrade to the latest and greatest without restructuring your skeleton.
 - Instantly ready for deployment. Never mess around with gunicorn again. See :doc:`deployment` for more details on how to deploy using supervisor and nginx.
+- Abstracted models module, using raw SQLAlchemy (which are then imported to flask-sqlalchemy). Prevents circular imports and allows you to share the models with non flask apps, such as a web sockets server.
+- Abstracted config module, share the configuration between multiple python apps. 
+- Many additional helper decorators and functions included in flask-boilerplate-utils. 
+
+
+Full Documentation 
+*******************************************************
 
 Full usage available at `read the docs <http://flask-boilerplate.readthedocs.org/en/latest/>`_
 
-Additional feature docs for flask-boilerplate-utils available at `read the docs <http://flask-boilerplate-uitls.readthedocs.org/en/latest/>`_
+Additional feature docs for flask-boilerplate-utils available at `read the docs <http://flask-boilerplate-utils.readthedocs.org/en/latest/>`_
 
 
 What's Included

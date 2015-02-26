@@ -58,13 +58,14 @@ followed the above steps correctly).
 
 .. code-block:: bash
     
-    . .env
+    source .env
     python3 run.py
 
 This will install the project's local dependencies to the virtual environment. 
-``. .env`` activates the virtual environment and installs dependencies, and ``python3 run.py`` runs the actual program.
+``source .env`` activates the virtual environment and installs dependencies, and ``python3 run.py`` runs the actual program.
 
-See :doc:`autoenv` for streamlining this process even more.
+See :doc:`autoenv` for streamlining this process even more. See :doc:`env` for more info 
+on what the ``.env`` file provides.
 
 
 4. Developing with Flask-Boilerplate
