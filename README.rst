@@ -1,6 +1,11 @@
 Flask Boilerplate
 ================================================
 
+|build status|
+
+.. |build status| image:: http://ci.nickwhyte.com/projects/2/status.png?ref=master
+   :target: http://ci.nickwhyte.com/projects/2?ref=master
+
 Get started with flask MVC in 30 minutes. This boilerplate skeleton includes everything to get you up and running with flask. The collection of packages bundled with this boilerplate represents a selection of packages I have found extremely helpful when getting an app up and running as quick as possible.
 
 This module is part of the flask-boilerplate project.
