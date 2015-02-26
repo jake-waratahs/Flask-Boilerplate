@@ -1,5 +1,5 @@
 import sys
-from __init__ import get_config
+from .__init__ import get_config
 
 if __name__ == '__main__':
     if '-k' in sys.argv:
