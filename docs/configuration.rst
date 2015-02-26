@@ -1,7 +1,7 @@
 Configuration
 ==================================================
 
-The boilerplate comes with some configuration already set.  Visit the ``./config/__init__.py`` file to see what the skeleton has to offer.
+The boilerplate comes with some configuration already set.  Visit the ``./libs/config/config/__init__.py`` file to see what the skeleton has to offer.
 
 Included are classes: 
 
@@ -19,7 +19,7 @@ The ``get_config()`` function returns a class for the desired configuration. By 
 
 **Default Behavior**
 
-Flask Boilerplate Build Utils will first check the command line arguments for ``'-c CONFIGNAME'`` or ``'--c CONFIGNAME'`` and use the config name from there. If no '-c' flag is set, it will check the environment to determine if you have the ``"FLASK_CONFIG"`` environment variable set. If it is set, it will set the config class string to the value of this variable. 
+Flask Boilerplate Build Utils will first check the command line arguments for ``'-c CONFIGNAME'`` or ``'--config CONFIGNAME'`` and use the config name from there. If no '-c' flag is set, it will check the environment to determine if you have the ``"FLASK_CONFIG"`` environment variable set. If it is set, it will set the config class string to the value of this variable. 
 
 Once we have a config class name, the module looks up the class, and returns it as a Class, ready for usage around the app. 
 
