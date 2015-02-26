@@ -21,6 +21,9 @@ Open a MYSQL console using a user that has root privileges
 **Add a CI Build Script** on your CI Server:
 
 .. code-block:: bash
-
+    
+    source .env
     export FLASK_CONFIG=CI
-    ./app test
+    
+    python3 run.py test
+
