@@ -81,6 +81,7 @@ See the :doc:`configuration` to learn how to to correctly configure your project
 
    index
    running
+   autoenv
    configuration
    develop_mysql
    develop_ci
