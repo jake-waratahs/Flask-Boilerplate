@@ -9,4 +9,3 @@ flask-boilerplate-utils<0.2.0,>=0.1.0
 flask-boilerplate-buildutils<0.3.0,>=0.2.0
 -e libs/models
 -e libs/config
-pysqlite2
