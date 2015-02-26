@@ -22,8 +22,6 @@ Open a MYSQL console using a user that has root privileges
 
 .. code-block:: bash
     
-    source .env
-    export FLASK_CONFIG=CI
-    
+    export FLASK_CONFIG=CI &&
+    source .env &&
     python3 run.py test
-

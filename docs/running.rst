@@ -2,34 +2,6 @@ Running & Usage
 ==================================================
 
 
-About ./app
-##################################################
-
-``./app`` is actually a very simple program. The main magic lies within ``flask-boilerplate-buildutils``. 
-
-.. literalinclude:: ../app
-    :language: python
-
-When ``./app`` is run, it first performs ``patch_cwd``. This helper function within flask-boilerplate-buildutils changes the subprocess's working directory to allow the app to be run no matter what working directory you are in. 
-
-Following, it gets your configuration from the ``config`` module. It then builds the dependencies for the selected config. Such dependencies include setting up the virtual environment for the first time, intitialising the database, or regenerating and minifying css from less.
-
-Next, ``run_app()`` is invoked. This tells your system to run your webapp. ``run_app()`` takes advantage of the ``run.py`` file and any other ``*.py`` files in the root directory of your webapp. 
-
-Usage:
-***********************
-
-
-./app PYFILE ARG1 ARG2 ARG3 ARG4 ARG5 ARGN
-    :PYFILE:    The name of a python file in the root directory. ie, <PYFILE>.py
-    :ARG1 to ARGN: Arguments to be passed to PYFILE.
-
-By default, ``./app`` will execute the ``run.py`` file. Hence you can omit `PYFILE` if you wish to only run the ``run.py`` file.  *For example:*
- 
-*./app run.py ARG1 ARG2* is the same as *./app ARG1 ARG2*
-
-
-
 About run.py
 ##################################################
 
@@ -77,42 +49,24 @@ After the ``manager=`` line, add your new classes:
 
     manager.add_command('commandname', MyNewCommand(app))
 
+Upgrading Local Requirements
+****************************************
 
-About test.py
+If you update your requirements.txt files within the ``req`` folder, you will need to execute a macro to update your local virtual environment.
+
+.. code-block:: bash
+
+    upgrade
+
+This will update your local requirements for the project.
+
+Testing
 ##################################################
 
-This is the supplied test file for the app. Unlike run.py, test.py does not make use of the boilerplate libraries. It simply is invoked to perform tests on the application. 
+By invoking ``python3 run.py test``, all tests in the ApplicationTests folder
+will be executed. 
+
+For finer control, you can execute ``python3 -m unittest ApplicationTests`` which allows arguments to be passed.
 
 For more details about tests, see :doc:`writing_tests`
-
-
-Usage
-**************************
-
-**usage: ./app test [-h] [-v] [-q] [-f] [-c] [-b] [tests [tests ...]]**
-
-*positional arguments:*
-  :tests:           a list of any number of test modules, classes and test
-                  methods.
-
-*optional arguments:*
-  -h, --help      show this help message and exit
-  -v, --verbose   Verbose output
-  -q, --quiet     Quiet output
-  -f, --failfast  Stop on first fail or error
-  -c, --catch     Catch ctrl-C and display results so far
-  -b, --buffer    Buffer stdout and stderr during tests
-
-*Examples:*
-
-  ./app test                           - run default set of tests
-
-  ./app test MyTestSuite               - run suite 'MyTestSuite'
-
-  ./app test MyTestCase.testSomething  - run MyTestCase.testSomething
-
-  ./app test MyTestCase                - run all 'test*' test methods
-                                       in MyTestCase
-
-
 

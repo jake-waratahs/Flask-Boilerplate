@@ -19,29 +19,41 @@ To add a new model, make a new file in models named the same as the name of the 
 Use parts of the following sample to create your new model:
 
 .. code-block:: python
+    
+    from .Base import Base
+    from sqlalchemy import (
+        Table,
+        Column,
+        ForeignKey,
+        Integer,
+        Text,
+        Float,
+        String,
+        DateTime,
+        Boolean
+    )
+    from sqlalchemy.orm import relationship
 
-    from Application import db
-
-    many_to_many_helper = db.Table('many_to_many_helper',
-        db.Column('class1_id', db.Integer, db.ForeignKey('class1.id')),
-        db.Column('class2_id', db.Integer, db.ForeignKey('class2.id'))
+    many_to_many_helper = Table('many_to_many_helper',
+        Column('class1_id', Integer, ForeignKey('class1.id')),
+        Column('class2_id', Integer, ForeignKey('class2.id'))
     )
 
-    class Class1(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        text = db.Column(db.Text())
-        float = db.Column(db.Float())
-        string = db.Column(db.String(255), unique=True)
-        _hidden_string = db.Column(db.String(255))
-        boolean = db.Column(db.Boolean())
-        date = db.Column(db.DateTime())
+    class Class1(Base):
+        id = Column(Integer, primary_key=True)
+        text = Column(Text())
+        float = Column(Float())
+        string = Column(String(255), unique=True)
+        _hidden_string = Column(String(255))
+        boolean = Column(Boolean())
+        date = Column(DateTime())
         
         # Many to One relationship
-        related_item_id = db.Column(db.Integer, db.ForeignKey('class2.id'))
-        related_item = db.relationship('Class2')
+        related_item_id = Column(Integer, ForeignKey('class2.id'))
+        related_item = relationship('Class2')
 
         # Many to Many relationship
-        related_items = db.relationship('Class2', secondary=many_to_many_helper, lazy='dynamic')
+        related_items = relationship('Class2', secondary=many_to_many_helper, lazy='dynamic')
 
         @property
         def hidden_string(self):
@@ -49,18 +61,18 @@ Use parts of the following sample to create your new model:
 
 
 .. code-block:: python
-
-    from Application import db
+    
+    from .Base import Base
     from .Class1 import many_to_many_helper
 
-    class Class2(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
+    class Class2(Base):
+        id = Column(Integer, primary_key=True)
 
         # One to Many relationship
-        related_items = db.relationship('Class1',lazy='dynamic')
+        related_items = relationship('Class1',lazy='dynamic')
 
         # Many to Many relationship
-        related_items = db.relationship('Class1', secondary=many_to_many_helper, lazy='dynamic')
+        related_items = relationship('Class1', secondary=many_to_many_helper, lazy='dynamic')
 
         @property
         def hidden_string(self):

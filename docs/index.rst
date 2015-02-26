@@ -49,24 +49,23 @@ followed the above steps correctly).
 
 .. code-block:: bash
     
-    pip3 install -r requirements.txt
+    sudo pip3 install flask-boilerplate-buildutils
+    
 
-This will install the required packages. These include:
-
-.. include:: ../requirements.txt
     
 3. Test it out
 ##########################################
 
 .. code-block:: bash
     
-    ./app
+    . .env
+    python3 run.py
 
-This invokes the flask-boilerplate executor. During the first run it will 
-perform some build commands which setup and configure a virtual environment
-in the folder ./.venv/. The `./app` command always invoke your app via the
-virtualenv so there is never any reason for you to perform any `source` commands
-in your shell. See more about the ./app command in :doc:`running`
+This will install the project's local dependencies to the virtual environment. 
+``. .env`` activates the virtual environment and installs dependencies, and ``python3 run.py`` runs the actual program.
+
+See :doc:`autoenv` for streamlining this process even more.
+
 
 4. Developing with Flask-Boilerplate
 ##########################################
