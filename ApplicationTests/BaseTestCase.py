@@ -1,15 +1,8 @@
-#!./.venv/bin/python3
-import Application
 import unittest
 
-class FlaskTestClientProxy(object):
-    def __init__(self, app):
-        self.app = app
+from .FlaskTestClientProxy import FlaskTestClientProxy
+import Application
 
-    def __call__(self, environ, start_response):
-        environ['REMOTE_ADDR'] = environ.get('REMOTE_ADDR', '127.0.0.1')
-        environ['HTTP_USER_AGENT'] = environ.get('HTTP_USER_AGENT', 'Chrome')
-        return self.app(environ, start_response)
 
 class BaseTestCase(unittest.TestCase):
     def setUp(self):
@@ -25,6 +18,3 @@ class BaseTestCase(unittest.TestCase):
     def test_sample(self):
         response = self.app.get('/')
         assert '' in response.data.decode('UTF-8')
-
-if __name__ == '__main__':
-    unittest.main()
