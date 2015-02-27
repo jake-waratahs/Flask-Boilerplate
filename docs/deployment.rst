@@ -35,7 +35,7 @@ Debian, Ubuntu and Similar
 
 #. Copy your project to the server.
 
-##. Option 1) Configure a git deploy key for the server
+**Option 1:** Configure a git deploy key for the server
     
     This option will take a bit of extra configuration, but will let you simply
     perform a git pull every time you want to upgrade to a new release. You could
@@ -62,7 +62,7 @@ Debian, Ubuntu and Similar
     Obviously you should give this a useful name. Keeping reverse fqdn notation
     neatens things up down the line.
 
-##. Option 2) (Easier) Upload project to the server
+**Option 2:** (Easier) Upload project to the server
 
     Easier to begin with, but a pain to manage. Simply upload your project
     directory to ``/deploy/appliance/com.mycompany.myapp/``
