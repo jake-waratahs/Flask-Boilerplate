@@ -50,7 +50,7 @@ After the ``manager=`` line, add your new classes:
     manager.add_command('commandname', MyNewCommand(app))
 
 Upgrading Local Requirements
-****************************************
+##################################################
 
 If you update your requirements.txt files within the ``req`` folder, you will need to execute a macro to update your local virtual environment.
 
