@@ -1,0 +1,74 @@
+{% extends "frontend/base.html" %}
+{% block navbar %}
+    {{ super() }}
+    <style type="text/css">
+        #main-navbar {
+            margin-bottom: 0px; /* Was 21 */
+        }
+        #submenu {
+            background: #eee;
+            z-index: 500;
+            min-height: 0px;
+            border-bottom: 1px solid #ccc;
+        }
+        #submenu ul>li>a {
+            padding-top:10px;
+            padding-bottom: 10px;
+        }
+        #submenu ul>li>a {
+            color:#444;
+            font-size: 14px;
+        }
+        #submenu ul>li.open>a,
+        #submenu ul>li.active>a {
+            background:#ccc;
+        }
+        #submenu .container {
+            padding-left: 
+        }
+        #submenu .dropdown-menu>li>a {
+            padding-top: 3px;
+            padding-bottom: 3px;
+        }
+        #submenu .dropdown-menu>li>a:hover,
+        #submenu .dropdown-menu>li>a:active,
+        #submenu .dropdown-menu>li>a:focus {
+            background:#ccc;
+        }
+    </style>
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" id="submenu">
+        <div class="container">
+                <ul class="nav navbar-nav">
+                    {% for item in current_menu.submenu('frontend.submodule.left').children recursive %}
+                        <li class="{{ 'active' if item.active or item.has_active_child() }} {{ 'dropdown' if item.children }}">
+                            {% if item.children %}
+                                <a href="{{ item.url }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ item.text }} <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    {{ loop(item.children) }}
+                                </ul>
+                            {% else %}
+                                <a href="{{ item.url }}">{{ item.text }}</a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% for item in current_menu.submenu('frontend.submodule.right').children recursive %}
+                        {% if item.visible %}
+                            <li class="{{ 'active' if item.active or item.has_active_child() }} {{ 'dropdown' if item.children }}">
+                                {% if item.children and item.has_visible_child() %}
+                                    <a href="{{ item.url }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ item.text }} <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        {{ loop(item.children) }}
+                                    </ul>
+                                {% else %}
+                                    <a href="{{ item.url }}">{{ item.text }}</a>
+                                {% endif %}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+        </div>
+    </nav>
+{% endblock %}
+

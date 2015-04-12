@@ -1,0 +1,46 @@
+{% extends "frontend/base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <div class="jumbotron">
+            <h2><a href="{{ url_for('.submodule.Index:index', id=1) }}">Nested Blueprint Submodule</a></h2>
+            <p>A blueprint nested beneath this current blueprint. Inspect how <code>flask-menu</code> and <code>Flask-Classy</code> handles having a url parameter defined in a blueprint's path.</p>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <div class="jumbotron">
+            <h2><a href="{{ url_for('.submodule.Index:index', id=1) }}">Security</a></h2>
+            <p>Play with <code>flask-security's</code> login system. Includes roles/permissions to easily lock down those admin only resources.</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <div class="jumbotron">
+            <h2><a href="{{ url_for('.submodule.Index:index', id=1) }}">WTForms</a></h2>
+            <p>Take a look at how <code>wtforms</code> makes dealing with HTML forms easy. Validation and awesomeness right out of the box.</p>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <div class="jumbotron">
+            <h2><a href="{{ url_for('.submodule.Index:index', id=1) }}">File Uploads</a></h2>
+            <p>See how easy <code>flask-uploads</code> and <code>wtforms</code> makes uploading files. Safe, and <i>possibly</i> secure</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <div class="jumbotron">
+            <h2><a href="{{ url_for('.submodule.Index:index', id=1) }}">Other Goodies</a></h2>
+            <p>Find out all the other cool stuff <code>Flask-Boilerplate</code> brings to your flask environment.</p>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <div class="jumbotron">
+            <h2><a href="{{ url_for('.submodule.Index:index', id=1) }}">Blueprints</a></h2>
+            <p>Make your app as modular as possible with <code>flask</code> blueprints.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

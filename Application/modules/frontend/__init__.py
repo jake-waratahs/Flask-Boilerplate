@@ -7,3 +7,7 @@ frontend = NestableBlueprint('frontend', __name__, template_folder="templates",
 from .controllers.Index import Index
 Index.register(frontend)
 menu.register_flaskview(frontend, Index)
+
+
+from .modules.submodule import submodule
+frontend.register_blueprint(submodule, url_prefix='/submodule/<int:id>')

@@ -1,5 +1,9 @@
 {% extends "frontend/base.html" %}
 
 {% block content %}
-Hello World from the frontend
+<div class="jumbotron">
+    <h2>Welcome to the Flask Boilerplate</h2>
+    <p>This is an example of a home page.</p>
+    <p>Navigate to some examples by clicking the <a href="{{ url_for('.Index:examples_home') }}"><code>Examples</code></a> button in the top menu</p>
+</div>
 {% endblock %}
