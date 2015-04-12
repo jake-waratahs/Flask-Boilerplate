@@ -13,6 +13,7 @@ keys = make_keys(key_store)
 class Config(BaseConfiguration):
     # General App Config
     APP_NAME = 'Boilerplate'
+    APP_DESCRIPTION = 'Welcome to my website'
     DB_BASE = 'boilerplate'
     
     # Mail Configuration
@@ -35,6 +36,7 @@ class Config(BaseConfiguration):
     SECURITY_PASSWORD_SALT = keys['SECURITY_PASSWORD_SALT']
     SECRET_KEY = keys['SECRET_KEY']
 
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     
 class Production(Config):
     # SQL Configuration for Production

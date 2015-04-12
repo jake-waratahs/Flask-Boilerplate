@@ -35,10 +35,10 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
-# PyBuilder
-
+# Other Stuff
 .buildutils_version
 .venv/*
 Application/static/uploads/*
 config/security.key
 config/salt.key
+node_modules/*

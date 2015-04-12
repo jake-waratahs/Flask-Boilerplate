@@ -1,0 +1,31 @@
+{% extends "_bases/_base.html" %}
+
+{% block body %}
+
+    <nav class="navbar navbar-default navbar-top">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                {% for item in current_menu.submenu('frontend').children if item.visible recursive %}
+                    {%- if item.children -%}
+                    <li class='dropdown {{ 'active' if item.active }}'>
+                        <a href="{{ item.url }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ item.text }}<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            {{ loop(item.children) }}
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li {{ 'class=active' if item.active }}>
+                        <a href="{{ item.url }}">{{ item.text }}</a>
+                    </li>
+                    {%- endif -%}
+                {% endfor %}
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+    <h1>Welcome to the front end</h1>
+    {% block content %}
+
+    {% endblock %}
+    </div>
+{% endblock %}
