@@ -8,9 +8,9 @@ class Index(FlaskView):
 
     @menu.classy_menu_item('frontend.submodule.left.index', 'Index', order=0)
     def index(self, id):
-        return render_template('submodule/index.html', is_form=True)
+        return render_template('submodule/index.html', is_form=True, id=id)
 
     @menu.classy_menu_item('frontend.submodule.right.settings', 'Settings', order=0)
     def settings(self, id):
-        return render_template('submodule/index.html', is_form=True)
+        return render_template('submodule/index.html', is_form=True, id=id)
 
