@@ -32,9 +32,7 @@ mail = Mail(app)
 
 # Register blueprints
 from Application.modules.frontend import frontend
-from Application.modules.backend import backend
 app.register_blueprint(frontend, url_prefix='')
-app.register_blueprint(backend, url_prefix='/backend')
 
 from .setup import setup_database
 setup_database(app)

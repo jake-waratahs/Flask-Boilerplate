@@ -10,4 +10,9 @@ menu.register_flaskview(frontend, Index)
 
 
 from .modules.submodule import submodule
+from .modules.learn_flask import learn_flask
 frontend.register_blueprint(submodule, url_prefix='/submodule/<int:id>')
+frontend.register_blueprint(learn_flask, url_prefix='/learn-flask')
+
+
+
