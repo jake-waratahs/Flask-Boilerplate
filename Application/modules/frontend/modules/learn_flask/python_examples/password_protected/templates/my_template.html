@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My File!</title>
+</head>
+<body>
+    <h2>If Statement</h2>
+    {% if should_show_secret %}
+        This is some super secret text!!!
+    {% else %}
+        <p>Too bad, you don't know the secret :( 
+        {% if request.form.get('password') %}
+            Your last guess was "{{ request.form.get('password') }}"
+        {% endif %}
+        </p>
+        <p>Try and guess it:</p>
+        <form method="POST">
+            <input type="text" name="password" />
+            <input type="submit" />
+        </form>
+    {% endif %}
+</body>
+</html>

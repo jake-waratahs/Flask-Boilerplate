@@ -13,8 +13,16 @@
 	</p>
 	<p>That was easier than setting up PHP.</p>
 	<p>
-		This example (and many more) are included in this module, and can be found in <code>/Application/modules/frontend/modules/learn_flask/python_examples</code>
+		This example (and all the following) are included in this module, and can be found in <code>/Application/modules/frontend/modules/learn_flask/python_examples</code>
 	</p>
+</div>
+
+<div class="jumbotron">
+	<h2>Multiple Views and <code>url_for()</code></h2>
+	<p>Having just a single page is good for a resume or basic info website, but not very practical in the sense of a WebApp. We will build upon the original example to add a second view and use <code>url_for()</code> to link between the two.</p>
+	<pre>{{ load_example_with_name('simple_app_with_multiple_views.py') }}</pre>
+
+	<p>We use <code>url_for()</code> to generate links because paths can change. If you change a path it's an annoyance to go an change every static link in your app, instead, flask will make these for you at runtime. Additionally, using url_for fixes any issues you may have with relative references, so no more of this <code>../../</code> nonsense.</p>
 </div>
 
 <div class="jumbotron">
@@ -43,14 +51,44 @@
 
 <div class="jumbotron">
 	<h2>Advanced Templating (Loops, If Statements, Expressions, Filters)</h2>
+	<p>Lets play with some further templating features. We will again build upon the previous example.</p>
+	<p>Lets first take the controller. Lets make an array that we will iterate through. For this example it will just be an array of tuples, however this can be anything, from a dictionary to an object. Additionally, lets add some boolean flags, and some data that we will process within the template.</p>
+	<pre>{{ load_example_with_name('advanced_template/advanced_template_app.py') }}</pre>
+	<p>And lets take a look at the template. I've split it up and heavily commented it so we can see what's going on.</p>
+	<pre>{{ load_example_with_name('advanced_template/templates/my_template.html') }}</pre>
 </div>
+
+<div class="jumbotron">
+	<h2>Routes with Arguments</h2>
+	<p>Lets go back to the second example where we began to use <code>url_for()</code>. Flask lets us have dynamic endpoint mappings/routes. This means users can give us data without specifying a query string or performing a POST request. This means really clean URLS, ie <code>/user/&lt;user_id&gt;</code></p>
+	<p>Lets build upon the second example:</p>
+	<pre>{{ load_example_with_name('simple_app_with_multiple_views_and_arguments.py') }}</pre>
+	<p>Notice how our usage of <code>url_for()</code> now requires some arguments. Additionally pay attention to the route of the method <code>profile_page</code>. It takes an integer, and maps it to the controller's argument <code>user_id</code>. View all the types that flask supports <a href="http://flask.pocoo.org/docs/0.10/api/#url-route-registrations">here</a>.</p>
+
+</div>
+
 
 <div class="jumbotron">
 	<h2>The Request Variable (Getting data from the users)</h2>
 	<p>
-
+		Well, the above example is useful, but what if you need to get data from the user? Say you need them to enter a password to make that "secret text" appear on the page. 
 	</p>
-</div>
+	<p>
+		Flask uses a proxy called the <code>request</code> variable which is imported from flask library. It contains all the information about the request that was just made, and we can use it in both our controller and in our templates.
+	</p>
+	<p>Lets take a stripped down version of the previous example, where we add a form and only show the secret if the user enters the right password.</p>
+	<pre>{{ load_example_with_name('password_protected/password_protected_app.py') }}</pre>
+	<p>In the template file, we'll add a HTML form and tell it to POST to self.</p>
+	<pre>{{ load_example_with_name('password_protected/templates/my_template.html') }}</pre>
 
+	<p>Awesome, now we can get info from users. But what if they sent a <code>query string</code>? Instead of using <code>request.form.get('fieldname')</code> we instead use <code>request.args.get('argname')</code> to get the value. Remember, .get() will return <code>None</code> if the arg isn't defined but will return <code>""</code> (empty string) if the arg is defined as <code>?myarg=</code>.
+
+	<p>If you're interested in forms, you'll fall in love with WTForms. It generates HTML forms from a python class.</p>
+</div>
+<div class="jumbotron">
+	<p>
+		By now you've probably got the hang of the basics of flask, and can move onto some more advanced concepts like logging in, logging out, and using a database. We will cover this in the next section. Time to move on.
+	</p>
+</p>
 
 {% endblock %}

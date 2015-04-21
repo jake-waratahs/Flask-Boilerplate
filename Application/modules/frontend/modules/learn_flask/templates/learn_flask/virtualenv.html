@@ -1,0 +1,37 @@
+{% extends "learn_flask/base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h2>Virtual Environments</h2>
+    <p>
+        Before we continue, we must cover this pre-requisite. A Virtual Environment is a tool to keep the dependencies required by different projects in separate places, by creating virtual Python environments for them. It's basically a <i>virtual</i> Python installation.
+    </p>
+    <p>But why? Say project X depends on version <code>0.9</code> of Flask and does not work with version <code>0.10.0</code>, but project Y depends on version <code>0.10.0</code>. Virtual Environments resolve this complication.</p>
+    <p>
+        When you create a project, you should always create a requirements.txt file. Here is the file from the examples directory. 
+    </p>
+    <pre>{{ load_example_with_name('requirements.txt') }}</pre>
+    <p>
+        The file specifies all the libraries and their versions required to make this project run correctly. We generally call this file <code>requirements.txt</code>
+    </p>
+
+    <h3>How To Use Virtualenv?</h3>
+    <p>We firstly need to install the <code>virtualenv</code> package.</p>
+    <pre>pip install virtualenv && pip3 install virtualenv</pre>
+    <p>Now, lets create a virtualenv for the examples directory.</p>
+<pre>cd ./Application/modules/frontend/modules/learn_flask/python_examples
+virtualenv -p python3.4 venv
+</pre>
+    <p>This sets up a virtual environment in the folder called <code>venv</code>. We now need to activate this. Type <code>source venv/bin/activate</code> to activate it.</p>
+
+    <p>Your bash prompt should now begin with <code>(venv)</code>. To deactivate the venv at any time, type <code>deactivate</code></p>
+
+    <p>Typing all of that can become cumbersome. Sometimes you just want a script to take care of it all. Generally a script called <code>.env</code> is created which does all that - it checks if a virtualenv exists, if not, it will make one and then activate it. Using a utility called <a href="https://github.com/kennethreitz/autoenv">autoenv</a> will even automatically execute this file when you <code>cd</code> to the directory so you don't have to worry about a thing.</p>
+
+    <h3>Installing Requirements</h3>
+    <p>So your virtual environment is now set up and activated. We can now install the project requirements locally, without conflicting with the global packages.</p>
+    <pre>pip install -r requirements.txt --upgrade</pre>
+    <p>This will install (and upgrade) all the requirements to the local venv. You're now ready to keep moving now that you understand virtual environments.</p>
+
+</p>
+{% endblock %}

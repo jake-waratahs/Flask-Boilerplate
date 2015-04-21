@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My File!</title>
+</head>
+<body>
+	<h2>Loop Example!</h2>
+    {# Here we are going to loop through some data passed to us #}
+    <ul>
+    {% for item in list_data %}
+        {# Notice how we use the percent bracket for loops and any template logic, whereas {{ }} brackets are used for expressions #}
+        <li>{{ item[0] }} - {{ item[1] }} <br/> {{ item[2] }}</li>
+    {% endfor %}
+    </ul>
+
+    {# Exciting, that example just spat out every item in the list. 
+        We can actually do even cooler things with that list.
+    #}
+
+    <h4>Skip The First Item:</h4>
+    <ul>
+    {# Skip the first item in the list (Python List Index Notation Magic) #}
+    {% for item in list_data[1:] %}
+        <li>{{ item[0] }} - {{ item[1] }} <br/> {{ item[2] }}</li>
+    {% endfor %}
+    </ul>
+
+    <h4>Impose a condition</h4>
+    <ul>
+    {# Only loop items which a condition is true for. #}
+    {% for item in list_data if item[0] == 0 %}
+        <li>{{ item[0] }} - {{ item[1] }} <br/> {{ item[2] }}</li>
+    {% endfor %}
+    </ul>
+
+    <h4>Show a message if no items are in the list (or matched the conditions)</h4>
+    <ul>
+    {# Only loop items which a condition is true for. #}
+    {% for item in list_data if item[0] == 10 %}
+        <li>{{ item[0] }} - {{ item[1] }} <br/> {{ item[2] }}</li>
+    {% else %}
+        <p>Sorry, no items are in this list :(</p>
+    {% endfor %}
+    </ul>
+
+    <hr />
+
+    <h2>If Statement</h2>
+    {% if should_show_secret %}
+        "This is some super secret text!!!"
+    {% else %}
+        "Sorry, I can't show you the secret :("
+    {% endif %}
+
+    <hr />
+    <h2>Expressions</h2>
+    <p>What if you wanted to do some math on the page?</p>
+    <p>The Result was: {{ 42 * 42 }}</p>
+    {# Just put your python expression in the curly braces and it will be evaluated (just as variables would too). #}
+
+    <hr />
+    <h2>Filters</h2>
+    <p>A Filter is a function that takes text as it's first argument, and can take optional/required parameters. They are useful for formatting text and other items within a template.</p>
+    <p>{{ lowercase_text|upper }}</p> {# turn the string in lowercase_text uppercase. #}
+</body>
+</html>
