@@ -5,7 +5,7 @@ from flask.ext import menu
 class Index(FlaskView):
     route_base = '/'
 
-    @menu.classy_menu_item('frontend.account', 'Index', order=0)
+    @menu.classy_menu_item('frontend.account', 'Home', order=0)
     def index(self):
         return render_template('frontend/index.html', is_form=True)
 

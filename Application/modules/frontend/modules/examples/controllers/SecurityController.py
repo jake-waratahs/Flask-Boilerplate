@@ -7,6 +7,6 @@ from flask.ext import menu
 class SecurityController(FlaskView):
     route_base = '/security'
 
-    @menu.classy_menu_item('frontend.examples.security', 'Security', order=3)
+    @menu.classy_menu_item('frontend.examples.security', 'Security', order=12)
     def index(self):
         return render_template('frontend.examples/index.html', is_form=True)

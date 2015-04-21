@@ -1,0 +1,51 @@
+{% extends "frontend/base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h2>Running &amp; Usage</h2>
+    <h3><code>run.py</code></h3>
+    <p>This is the supplied runfile for the app. It makes use of the <code>flask-boilerplate-utils.commands</code> package to provide abstracted application execution.</p>
+    <pre>{{  load_file_with_name('run.py') }}</pre>
+
+    <h3>Usage</h3>
+    <strong>usage ./app run [-?] {server,meinheld,test,info}</strong>
+    <table class="docutils field-list" style="margin-left:30px;" frame="void" rules="none">
+        <colgroup>
+            <col class="field-name">
+            <col class="field-body">
+        </colgroup>
+        <tbody valign="top">
+        <tr class="field-odd field"><th class="field-name">server:</th><td class="field-body">Run the Flask Builtin Server (Not for production)</td>
+        </tr>
+        <tr class="field-even field"><th class="field-name">meinheld:</th><td class="field-body">Run a Web Server for Hosting using meinheld.</td>
+        </tr>
+        <tr class="field-odd field"><th class="field-name">test:</th><td class="field-body">Test the application against the test casts</td>
+        <tr class="field-odd field"><th class="field-name">info:</th><td class="field-body">Get info about the flask app.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Extending</h3>
+    <p>MainManager returns a flask-script manager object. You can override this and write your own flask-script commands.</p>
+    <p>If you wish to not override the entire manager, you can just make new BaseCommands:</p>
+    <p>After the manager= line, add your new classes:</p>
+    <pre>from flask_boilerplate_utils.commands import BaseCommand
+from flask.ext.script import Option
+
+Class MyNewCommand(BaseCommand):
+    option_list = (
+        Option('--hostname', '-h', dest='hostname', default='0.0.0.0', type=str),
+    ) + BaseCommand.option_list
+
+    def run(self, hostname):
+        # don't do anything fancy, just print the given hostname
+        print(hostname)
+
+manager.add_command('commandname', MyNewCommand(app))</pre>
+
+    <h3>Upgrading Local Requirements</h3>
+    <p>If you update your requirements.txt files within the req folder, you will need to execute a macro to update your local virtual environment.</p>
+    <pre>upgrade</pre>
+    <p>This will update your local requirements for the project.</p>
+</div>
+{% endblock %}

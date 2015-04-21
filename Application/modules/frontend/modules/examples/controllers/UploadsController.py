@@ -6,7 +6,7 @@ from flask.ext import menu
 class UploadsController(FlaskView):
     route_base = '/uploads'
 
-    @menu.classy_menu_item('frontend.examples.uploads', 'File Uploads', order=3)
+    @menu.classy_menu_item('frontend.examples.uploads', 'File Uploads', order=13)
     def index(self):
         return render_template('frontend.examples/index.html', is_form=True)
 

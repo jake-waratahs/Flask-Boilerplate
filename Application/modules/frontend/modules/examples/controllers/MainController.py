@@ -7,7 +7,7 @@ from flask.ext import menu
 class MainController(FlaskView):
     route_base = '/'
 
-    @menu.classy_menu_item('frontend.examples', 'Examples', order=1)
-    @menu.classy_menu_item('frontend.examples.all', 'All Examples', order=0)
+    @menu.classy_menu_item('frontend.examples', 'Examples/Docs', order=1)
+    @menu.classy_menu_item('frontend.examples.all', 'All Examples/Docs', order=0)
     def index(self):
         return render_template('frontend.examples/index.html', is_form=True)

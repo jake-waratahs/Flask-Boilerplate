@@ -23,3 +23,11 @@ menu.register_flaskview(examples, Features)
 
 from .modules.submodule import submodule
 examples.register_blueprint(submodule, url_prefix='/submodule/<int:id>')
+
+import os
+examples_dir = os.path.realpath(os.path.join(os.path.realpath(__file__), '../../../../../../'))
+@examples.app_template_global('load_file_with_name')
+def load_file_with_name(filename):
+    fpath = os.path.join(examples_dir, filename)
+    with open(fpath) as fh: 
+        return fh.read()
