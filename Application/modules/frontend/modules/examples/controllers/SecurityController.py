@@ -4,10 +4,9 @@ from flask.ext import menu
 
 
 
-class MainController(FlaskView):
-    route_base = '/'
+class SecurityController(FlaskView):
+    route_base = '/security'
 
-    @menu.classy_menu_item('frontend.examples', 'Examples', order=1)
-    @menu.classy_menu_item('frontend.examples.all', 'All Examples', order=0)
+    @menu.classy_menu_item('frontend.examples.security', 'Security', order=3)
     def index(self):
         return render_template('frontend.examples/index.html', is_form=True)

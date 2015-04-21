@@ -1,6 +1,5 @@
-py-bcrypt
 flask
-flask-restful
+py-bcrypt
 flask-security
 git+https://github.com/nickw444/flask-sqlalchemy
 flask-classy

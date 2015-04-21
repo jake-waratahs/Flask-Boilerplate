@@ -3,8 +3,26 @@
 {% block content %}
 <div class="jumbotron">
     <h2>Welcome to the Flask Boilerplate</h2>
-    <p>This is an example of a home page.</p>
+    <p>Get started with flask MVC in 30 minutes. This boilerplate skeleton includes everything to get you up and running with flask. The collection of packages bundled with this boilerplate represents a selection of packages I have found extremely helpful when getting an app up and running as quick as possible.</p>
+
+    <p>This skeleton is part of the flask-boilerplate project.</p>
+    <ul>
+        <li><a href="https://github.com/nickw444/Flask-Boilerplate">flask-boilerplate</a></li>
+        <li><a href="https://github.com/nickw444/flask-boilerplate-buildutils">flask-boilerplate-buildutils</a></li>
+        <li><a href="https://github.com/nickw444/flask-boilerplate-utils">flask-boilerplate-utils</a></li>
+    </ul>
+
     <p>Learn about Flask and how to use it <a href="{{ url_for('.learn_flask.MainController:index') }}">here</a></p>
-    <p>Navigate to some examples by clicking the <a href="{{ url_for('.examples.MainController:index') }}"><code>Examples</code></a> button in the top menu</p>
+
+    <h3>Features</h3>
+    <ul class="simple">
+        <li>Promotes the use of <a class="reference external" href="http://docs.python-guide.org/en/latest/dev/virtualenvs/">virtual environments</a> through <a class="reference external" href="https://github.com/kennethreitz/autoenv">autoenv</a>.</li>
+        <li>Abstracted boilerplate utilities in <a class="reference external" href="http://flask-boilerplate-buildutils.readthedocs.org/en/latest/">flask-boilerplate-buildutils</a> and <a class="reference external" href="http://flask-boilerplate-utils.readthedocs.org/en/latest/">flask-boilerplate-utils</a>  - you can always upgrade to the latest and greatest without restructuring your skeleton.</li>
+        <li>Instantly ready for deployment. Never mess around with gunicorn again. See <a class="reference internal" href="deployment.html"><em>Deployment</em></a> for more details on how to deploy using supervisor and nginx.</li>
+        <li>Abstracted models module, using raw SQLAlchemy (which are then imported to flask-sqlalchemy). Prevents circular imports and allows you to share the models with non flask apps, such as a web sockets server.</li>
+        <li>Abstracted config module, share the configuration between multiple python apps.</li>
+        <li>Many additional helper decorators and functions included in flask-boilerplate-utils.</li>
+    </ul>
+    <!-- <p>Navigate to some examples by clicking the <a href="{{ url_for('.examples.MainController:index') }}"><code>Examples</code></a> button in the top menu</p> -->
 </div>
 {% endblock %}

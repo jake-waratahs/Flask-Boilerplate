@@ -1,5 +1,15 @@
 {% extends "_bases/_base.html" %}
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+    .jumbotron ul, .jumbotron ol {
+        font-size: 1.5em;
+        padding-left: 2.5em;
+        font-weight: 300;
+    }
+    </style>
 
+{% endblock %}
 {% block body %}
     {% block navbar %}
     <nav class="navbar navbar-inverse navbar-static-top" id="main-navbar">
