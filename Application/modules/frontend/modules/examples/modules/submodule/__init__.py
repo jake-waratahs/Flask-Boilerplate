@@ -1,7 +1,7 @@
 from flask_boilerplate_utils.overrides import NestableBlueprint
 from flask.ext import menu
 
-submodule = NestableBlueprint('frontend.submodule', __name__, template_folder="templates", 
+submodule = NestableBlueprint('frontend.examples.submodule', __name__, template_folder="templates", 
     static_folder="static")
 submodule.expected_parameters = ['id']
 

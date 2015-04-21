@@ -1,6 +1,6 @@
 from flask_boilerplate_utils.overrides import NestableBlueprint
 
-learn_flask = NestableBlueprint('learn_flask', __name__, template_folder="templates", 
+learn_flask = NestableBlueprint('frontend.learn_flask', __name__, template_folder="templates", 
     static_folder="static")
 
 from .controllers.MainController import MainController

@@ -33,16 +33,12 @@ class MainController(FlaskView):
     def virtualenv(self):
         return render_template('learn_flask/virtualenv.html')
 
-    @menu.classy_menu_item('frontend.learn_flask.using_the_boilerplate', 'Using the Boilerplate', order=6)
+    @menu.classy_menu_item('frontend.learn_flask.using_the_boilerplate', 'Using the Boilerplate', order=7)
     def using_the_boilerplate(self):
         return render_template('learn_flask/using-the-boilerplate.html')
 
-    @menu.classy_menu_item('frontend.learn_flask.further_usage', 'Further Usage', order=7)
-    def further_usage(self):
-        return render_template('learn_flask/further-usage.html')
 
-
-    @menu.classy_menu_item('frontend.learn_flask.starting_up', 'Starting Up', order=8)
+    @menu.classy_menu_item('frontend.learn_flask.starting_up', 'Starting Up', order=6)
     def starting_up(self):
         return render_template('learn_flask/starting-up.html')
 

@@ -1,5 +1,75 @@
 {% extends "learn_flask/base.html" %}
 
 {% block content %}
+<div class="jumbotron">
+    <h2>The Boilerplate</h2>
+    <p>This tutorial <i>is</i> running <i>in</i> the boilerplate. Since this tutorial is a pluggable Flask blueprint, it can be removed/deactivated at any time without breaking any other package dependencies. When you're confident enough to venture into new and exciting things, you can disable and remove this blueprint.</p>
+</div>
+<div class="jumbotron">
+    <h2>The Structure</h2>
+    <p>The boilerplate promotes modular development of apps. It helps you when you are ready to <i>go big</i>. Take a second to see how the file structure is laid out:</p>
+    <pre>.
+├── Application
+│   ├── __init__.py
+│   ├── modules
+│   ├── static
+│   └── templates
+├── ApplicationTests
+├── Deploy
+├── libs
+│   ├── config
+│   │   └── config
+│   └── models
+│       └── models
+└── reqs</pre>
+    <p>Dive inside <code>Application</code>. This is where all your WebApp related files will go. The main file to inspect is the <code>__init__.py</code> file. This is the file to defines your application. Within this folder we also have:
+        <ul>
+            <li>modules: A place to store your pluggable blueprints</li>
+            <li>static: A place to store globally accessible static content. By default, flask-boilerplate comes with bootstrap in the static folder and is included in the base template</li>
+            <li>templates: A place for global templates. By default, the base template will include the bootstrap static files.</li>
+        </ul>
+    </p>
+    <p>What about the other folder?
+        <ul>
+            <li>libs: This folder contains globally accessible modules for the app. These include the config and models. Neither of these modules are dependent on Flask and can be used in non-flask apps.</li>
+            <li>Deploy: Contains deployment specific configuration files for nginx and supervisor.</li>
+            <li>reqs: Contains requirements files for all configurations. Sometimes a Production configuration requires different modules to a development environment. Define configuration specific requirements in this folder.</li>
+            <li>ApplicationTests: Contains boilerplate code for writing tests for your application.</li>
+        </ul>
+    </p>
+</div>
 
+<div class="jumbotron">
+    <h2>__init__.py</h2>
+    <p>This is the <strong>most</strong> important file of your Flask App. It defines everything about your app. Lets take the <code>__init__.py</code> for the boilerplate and see how everything fits together.</p>
+    <pre>{{ load_example_with_name('../../../../../__init__.py') }}</pre>
+    <p>We can inspect that this file does all the heavy lifting. It sets up a database, configures the application, and registers all the blueprints.</p>
+</div>
+
+<div class="jumbotron">
+    <h2>Going from using static routes to using blueprints.</h2>
+    <p>All the code from the previous section was based around the application root. We registered routes to the root application. What if we wanted pluggable modules that we could move between different apps, and re-use them? Blueprints solve this problem very well.</p>
+
+    <p>Below is the <code>__init__.py</code> file from the Flask tutorial module.</p>
+    <pre>{{ load_example_with_name('../__init__.py') }}</pre>
+    <p>Instead of using the <code>Flask</code> class, we define a blueprint with the <code>NestableBlueprint</code> or <code>Blueprint</code> class. A Blueprint behaves similarly to an app, and has most of the functionality of an app. Similarly to an <code>app</code> object, a <code>blueprint</code> object can also have routes added to it - the exact same way as we did in the previous examples. This does however become very messy, and it is often a very good idea to use <code>Flask-Classy</code>, a library to <i>Classify</i> similar views and register them all at the same time.</p>
+
+    <p>We can see in the above example we are using a Classy view - <code>from .controllers.MainController import MainController</code>. This line imports the FlaskView from the submodule's <code>controllers</code> folder. We then call <code>MainController.register(learn_flask)</code> which registers the view with the blueprint and all its routes become accessible. More examples, and info about <code>Flask-Classy</code> can be found in the <a href="#">examples TODO</a>.</p>
+</div>
+
+<div class="jumbotron">
+    <h2>What is Boilerplate-buildutils and boilerplate-utils?</h2>
+    <p>These two packages bring extra functionality to flask-boilerplate that would otherwise be difficult to achieve. These packages can be updated and all the new features they bring can be used in your flask app without ever changing the boilerplate code you started with.</p>
+    <p>Specificallly:</p>
+    <h3>Flask-Boilerplate-Buildutils</h3>
+    <p>Supplies virtual environment magic, adding extra shell macros and automatic configuration and setup when running your application. Additionally it makes the <code>configuration</code> module possible. This module takes care of selecting the appropriate configuration class for your application to use at runtime depending on passed arguments and current environment variables. This package only depends on <code>virtualenv</code>. It is expected to be installed globally on your system.</p>
+    <h3>Flask-Boilerplate-Utils</h3>
+    <p>Brings extra Flask specific functionality to the boilerplate. These things include Redis Server side sessions, reverse proxy detection and fixing, Nestable Blueprints, FlaskViews which are available for use within blueprints which take arguments, additional jinja filters for date parsing, jinja globals for rendering form fields and CSRF protection, and commands for running the app, and a production WSGI server (meinheld).</p>
+
+</div>
+<div class="jumbotron">
+    <h2>Okay, lets make something cool!</h2>
+    <p>The boilerplate comes with <a href="{{ url_for('frontend.examples.MainController:index') }}">tonnes</a> of examples. Please check them out when you are feeling confident with flask. They cover logins, logouts, using an ORM, and much more.</p>
+    <p>Remember, this whole site <i>is</i> the boilerplate, so if you ever need examples, they are all here!</p>
+</div>
 {% endblock %}

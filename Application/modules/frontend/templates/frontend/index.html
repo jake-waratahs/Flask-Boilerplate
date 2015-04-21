@@ -4,6 +4,7 @@
 <div class="jumbotron">
     <h2>Welcome to the Flask Boilerplate</h2>
     <p>This is an example of a home page.</p>
-    <p>Navigate to some examples by clicking the <a href="{{ url_for('.Index:examples_home') }}"><code>Examples</code></a> button in the top menu</p>
+    <p>Learn about Flask and how to use it <a href="{{ url_for('.learn_flask.MainController:index') }}">here</a></p>
+    <p>Navigate to some examples by clicking the <a href="{{ url_for('.examples.MainController:index') }}"><code>Examples</code></a> button in the top menu</p>
 </div>
 {% endblock %}
