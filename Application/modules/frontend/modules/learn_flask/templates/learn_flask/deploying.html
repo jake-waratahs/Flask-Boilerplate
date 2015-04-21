@@ -1,5 +1,105 @@
 {% extends "learn_flask/base.html" %}
 
 {% block content %}
+<div class="jumbotron">
+    <h2>Deploying Your App</h2>
+    <p>Deploying your app is actually surprisingly easy (and inexpensive). Despite services like heroku and docker providing <i>easy to use</i> services, doing a DIY deployment with your own Linux VPS can often be <i>just</i> as easy. But please be warned: Only proceed if you understand the risks, and know how to keep your linux machine up to date and secure.</p>
+    <p>Skip to step 6 if you have already deployed to this server once.</p>
+</div>
+<div class="jumbotron">
+    <h3>1. Get a VPS.</h3>
+    <p>You can often find cheap VPS's on <a href="http://lowendbox.com/">http://lowendbox.com/</a>, but be warned they will be crude and often won't perform well. It is recomended you spend a little extra money and purchase a VPS from a reputable company.</p>
+    <h3>2. Install Debian (Or Similar)</h3>
+    <p>This tutorial only covers deploying to a debian machine.</p>
+
+    <h3>3. Install Python from Source</h3>
+    <p>Since the latest stable Debian distribution at the time of writing does not include python3.4 in it's APT repositories, we are required to compile python from source.</p>
+    <p>Only perform this step the first time you deploy on this server.</p>
+<pre>sudo apt-get install zlib1g-dev libssl-dev wget python2.7 python2.7-dev
+wget https://www.python.org/ftp/python/3.4.3/Python-3.4.3.tgz
+tar -xvf Python-3.4.3
+cd Python-3.4.3
+./configure
+sudo make install
+wget https://bootstrap.pypa.io/get-pip.py && python3.4 get-pip.py</pre>
+    
+    <h3>4. Install Supervisor, MySQL, Nginx, and Git</h3>
+    <p>Also only perform this step the first time you deploy on this server.</p>
+<pre>sudo apt-get update
+sudo apt-get install python3 python3-dev python3-setuptools git postgresql libpq-dev nginx
+sudo apt-get install supervisor
+sudo service supervisor restart
+sudo easy_install3 pip
+sudo pip3 install flask-boilerplate-buildutils</pre>
+    
+    <h3>5. Configure User Accounts, Deployment Folder, and Supervisor</h3>
+    <p>You also only need to perform this step the first time you deploy on this server.</p>
+    <p>You need to make a deployment user account and run your web applications as this user to prevent arbitrary code execution.</p>
+<pre>su root # If you aren't already root.
+adduser --home /deploy deploy
+adduser &lt;YOUR_USER&gt; deploy # Give yourself deployment privs
+adduser root deploy #Give root deploy privs
+su deploy
+cd ~/
+mkdir logs
+mkdir appliance
+exit</pre>
+    <p>Alright, the user account and deployment folder is configured. Lets configure supervisor</p>
+<pre># Assuming you are still root,
+nano /etc/supervisor/supervisord.conf
+# Find chmod=0700 section. Change it to:
+# chmod=0770
+# chown=deploy:deploy
+
+# Save the file.
+
+supervisorctl reload</pre>
+    <p>Excellent. You are now ready to deploy this specific app.</p>
+</div>
+
+<div class="jumbotron">
+    <h3>6. Put the Project on your Server</h3>
+    <p>It is generally a good idea to deploy using git. Generate a ssh private key for your <code>deploy</code> user and add it to your project repository's <code>deployment keys</code>. This lets the server pull code, but not push. This makes updating to the latest code really simple and you can even write a simple web hook to automatically pull changes when they are pushed to a specific branch.</p>
+
+    <pre> # Assuming you have root.
+su deploy
+cd ~/appliance/
+git clone &lt;ssh git clone url&gt; com.mycompany.myapp</pre>
+    <p>Obviously you should give the project a reasonable name on the server when you clone it. Reverse FQDN notation keeps things neat as you deploy more and more apps to this single server.</p>
+
+    <h3>7. Configure MySQL</h3>
+    <p>This includes setting up a new database and credentials for the flask app to connect with. You need to set this information in the configuration folder of your project when you have it.</p>
+
+    <h3>8. Check Everything Works</h3>
+    <p>Double check everything works without running the server in daemonized mode.</p>
+<pre>source .env # warning, magic.
+python3.4 run.py meinheld
+# If you're having flask-related trouble, use debug mode:
+python3.4 run.py server</pre>
+    <p>Once you're satisfied everything is working, we'll set it up as a daemon.</p>
+    <h3>9. Configure Supervisor</h3>
+    <p>There are included supervisor example scripts in the boilerplate. I will assume you edited these for this part of the tutorial.</p>
+<pre># Assuming you are root.
+ln -s /deploy/appliance/com.mycompany.myapp/Deploy/supervisor.conf /etc/supervisor/conf.d/com.mycompany.myapp.conf
+supervisorctl reload
+supervisorctl
+</pre>
+    <p>From supervisor you can now check the status of your application. With any luck it should be running!</p>
+    <h3>10. Configure Nginx</h3>
+    <p>Routing /static/ through flask is considered a waste, and can slow down resources on your webapp like css files and javascript.</p>
+
+    <p>By routing it through nginx we can pull it straight from the disk and send it to the client without Flask as the middle man.</p>
+
+    <p>You will need to edit <code>Deploy/nginx.conf</code> to reflect the name you give the project/folder.</p>
+
+<pre># Assuming you are root.
+ln -s /deploy/appliance/com.mycompany.myapp/Deploy/nginx.conf /etc/nginx/sites-enabled/com.mycompany.myapp.conf
+sudo nginx -t #Test the nginx configuration.
+sudo service nginx restart
+</pre>
+    <p>From here, everything should be set up, and your app should be accessible on the WWW. If you are using supervisor and nginx, when you make changes to your Deploy/* config files, they will be automatically updated. It is just a matter of reloading nginx and supervisor.
+    </p>
+</div>
+
 
 {% endblock %}

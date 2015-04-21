@@ -1,5 +1,17 @@
 {% extends "learn_flask/base.html" %}
 
 {% block content %}
+<div class="jumbotron">
+    <h2>Starting Up</h2>
+    <p>By this stage, you've seen some very basic flask apps. You should be partially familiar with running a flask app, since you did that in the earlier section, using <code>python myapp.py</code>. We will now move into starting up using Flask-Boilerplate</p>
+    <p>Flask-Boilerplate relies on one global package installed on your computer: <code>flask-boilerplate-buildutils</code>. This package manages things such as the virtual environment and how configuration gets chosen for your app depending where you are developing.</p>
 
+    <p>Firstly, acquire a copy of this boilerplate, either by downloading it from github as a zip or cloning it. Once you have it, <code>cd</code> into the root directory.</p>
+    <p>From here, execute <code>source .env</code> in your terminal. This will install flask-boilerplate-buildutils, set up a virtual environment and install all the requirements, including config specific requirements (provided you have the environment variable <code>FLASK_CONFIG</code> set). BONUS: If you have autoenv installed, the script would have already run without you typing anything.</p>
+    <p>Everything should now be installed, and you should be ready to develop. Start the development server by typing:</p>
+    <pre>python run.py
+ * Running on http://127.0.0.1:8000/ (Press CTRL+C to quit)
+ * Restarting with stat</pre>
+    <p>Pull up your web browser and you should see this exact website. Awesome!</p>
+</div>
 {% endblock %}
