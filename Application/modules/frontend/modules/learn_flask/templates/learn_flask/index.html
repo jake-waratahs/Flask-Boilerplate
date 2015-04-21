@@ -4,5 +4,12 @@
 <div class="jumbotron">
     <h2>Learn Flask!</h2>
     <p>Welcome to the Flask Tutorial! We will cover most of the basics of Flask</p>
+    <p>What we will cover:</p>
+    <ol>
+    {% for item in current_menu.submenu('frontend.learn_flask').children[1:] %}
+    	<li><a href="{{ item.url }}">{{ item.text }}</a></li>
+    {% endfor %}
+    </ol>
+
 </div>
 {% endblock %}

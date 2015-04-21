@@ -1,0 +1,19 @@
+{% extends "learn_flask/base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+	<h2>WSGI vs CGI</h2>
+	<div class='note'>Who has programmed in PHP?</div>
+	<p>
+		In most cases, when developing a PHP application, you use CGI to deploy and develop it. CGI is the process of executing the requested file, and returning the <code>stdout</code> output to the browser. Quite simple in principle, however difficult to get set up and annoying to develop with. Every time you wish to develop, you need to configure apache/nginx and setup fastcgi on your local machine. 
+	</p>
+	<img src="{{url_for('.static', filename='learn_flask/classical-stack.png') }}" width="300" class="pull-right" />
+	<p>
+		WSGI was originally designed for the Python language, and stands for Web Server Gateway Interface. Originally, python web applications required serving via CGI, in a very similar manner to PHP websites.
+	</p>
+	<p>
+		Flask WebApps run as their own contained instances. Flask includes a builtin WSGI server (for development only). When deploying, a WSGI server, such as <code>Gunicorn</code> or <code>meinheld</code>. A WSGI server provides a an interface between your Python instance and HTTP requests.
+	</p>
+</div>
+
+{% endblock %}

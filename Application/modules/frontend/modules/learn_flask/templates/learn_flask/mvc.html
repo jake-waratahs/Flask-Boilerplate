@@ -1,0 +1,17 @@
+{% extends "learn_flask/base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+	<h2>MVC - Models, Views, Controllers</h2>
+	<img src="{{url_for('.static', filename='learn_flask/2000px-MVC-Process.svg.png') }}" width="300px" class="pull-right" />
+	<p>
+		Flask applications can be as small as a single page, or as large as an e-commerce website. Most of the time you'll be developing an application which requires a database (Models), multiple pages to present to the user (Views), and ways for the user to interface with the app (Controllers). 
+	</p>
+	<p>
+		Most tutorials which cover Flask don't cover <i>"Going large"</i>, which is a very big problem. Generally, it is wise to split up the specific parts of your application into smaller more broken down parts.
+	</p>
+	<p>
+		The Flask library makes heavy use for the term <i>"Template"</i>. For this reason, we will refer to MVC <i>"Views"</i> as Templates. 
+	</p>
+</div>
+{% endblock %}

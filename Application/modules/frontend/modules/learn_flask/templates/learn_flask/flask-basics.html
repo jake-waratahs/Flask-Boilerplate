@@ -1,0 +1,56 @@
+{% extends "learn_flask/base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+	<h2>A Seriously Basic App</h2>
+	<p>
+		Lets make a simple hello world Flask app, just to get started with...
+		<pre>{{ load_example_with_name('simple_app.py') }}</pre>
+	</p>
+	<p>Lets run it!
+		<pre>pip install Flask && python simple_app.py
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)</pre>
+	</p>
+	<p>That was easier than setting up PHP.</p>
+	<p>
+		This example (and many more) are included in this module, and can be found in <code>/Application/modules/frontend/modules/learn_flask/python_examples</code>
+	</p>
+</div>
+
+<div class="jumbotron">
+	<h2>Templates</h2>
+	<p>
+		Flask makes it super simple to write your controller code and integrate it with templates. We will continue using the example above and extend it a little. You can find this example in the same folder as above, in the subdirectory <code>template_example</code>.
+	</p>
+	<p>We will make use of the <code>render_template</code> flask builtin function, which makes use of <code>Jinja 2</code> to render a given HTML file.</p>
+	<pre>{{ load_example_with_name('template_example/simple_template_app.py') }}</pre>
+	<p>We also need to make our HTML template file</p>
+	<pre>{{ load_example_with_name('template_example/templates/my_template.html') }}</pre>
+	<p>Start it up like we did before, and have a look!</p>
+</div>
+
+<div class="jumbotron">
+	<h2>Templates with Dynamic Content</h2>
+	<p>Rendering templates is good, but we do sometimes need to render other, more dynamic things, such as variables that were calculated in the controller. Let's take a look at doing this, building upon the previous example.</p>
+
+	<p>Firstly, lets take the controller (For this example we will only focus on the actual controller function).</p>
+	<pre>{{ load_example_with_name('dynamic_template/dynamic_template_app.py') }}</pre>
+	<p>Now, lets have a look at the template file.</p>
+	<pre>{{ load_example_with_name('dynamic_template/templates/my_template.html') }}</pre>
+	<p>Take note of the <code>{{ "{{ variablename }}" }}</code> tags. These tell Jinja (Flask's template renderer) to inject the context's varible with the name in the tag here. You aren't just limited to variables in here, you can call functions, perform evaluations, and much more (more of that later...).</p>
+	<p>Notice in the controller, when we pass <code>**kwargs</code> to render_template, the key for these arguments is used to access the actual value inside the template. Say you wrote <code>integer_var=my_integer_variable</code>, you would use <code>{{ "{{ integer_var }}" }}</code> in your template code.</p>
+</div>
+
+<div class="jumbotron">
+	<h2>Advanced Templating (Loops, If Statements, Expressions, Filters)</h2>
+</div>
+
+<div class="jumbotron">
+	<h2>The Request Variable (Getting data from the users)</h2>
+	<p>
+
+	</p>
+</div>
+
+
+{% endblock %}
