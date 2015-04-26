@@ -1,7 +1,7 @@
 {% extends "frontend/base.html" %}
 
 {% block content %}
-{% for row in current_menu.submenu('frontend.examples').children[1:]|batch(2) %}
+{% for row in current_menu.submenu('frontend.docs').children[1:]|batch(2) %}
 <div class="row">
     {% for item in row %}
     <div class="col-xs-12 col-sm-6">

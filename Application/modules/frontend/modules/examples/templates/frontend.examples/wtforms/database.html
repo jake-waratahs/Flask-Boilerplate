@@ -1,0 +1,18 @@
+{% extends "frontend/base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h2>Example Form</h2>
+    {% if validated %}
+        <h3>Validated successfully!</h3>
+    {% endif %}
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ render_field(form.email, class="form-control") }}
+        {{ render_field(form.password, class="form-control") }}
+        {{ render_field(form.submit, class="btn btn-primary") }}
+    </form>
+</div>
+
+{% endblock %}

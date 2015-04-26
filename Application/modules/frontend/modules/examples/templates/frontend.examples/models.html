@@ -2,6 +2,27 @@
 
 {% block content %}
 <div class="jumbotron">
-
+    <h2>Models</h2>
+    <p>This boilerplate encourages users to use an ORM with their Flask app. This page details the usage of Flask-SQLAlchemy with your Flask app. It must first be noted, however, instead of using Flask-SQLAlchemy's model pattern, we instead use raw SQLAlchemy models. This allows usage of models across multiple apps, and non flask-apps.</p>
 </div>
+<div class="jumbotron">
+    <h3>Locating the Models</h3>
+    <p>All models for this flask app are contained within <code>./libs/models/models</code>. This is a pip/setuptools installable package, which means it is globally accessible (within your virtual environment). It can be imported at any time with a single line: <code>import models</code></p>
+    <p>It is highly recommended that you stucture your models into subdirectories such as <code>models.core</code>, <code>models.auth</code>, etc. This helps when <i>going big</i>.</p>
+</div>
+<div class="jumbotron">
+    <h3>Adding your First Model</h3>
+    <p>For this example, we will make a new model used to store a <i>blog post</i>. Additionally, we will create a model for a <i>Category</i> and a <i>Label</i>. This will depict how to make a many to many, and a one to many join.</p>
+
+    <h4>Blog Post Model <code>BlogPost.py</code></h4>
+    <pre>{{ load_file_with_name('libs/models/models/examples/BlogPost.py') }}</pre>
+
+    <h4>Category <code>Category.py</code></h4>
+    <pre>{{ load_file_with_name('libs/models/models/examples/Category.py') }}</pre>
+
+    <h4>Label <code>Label.py</code></h4>
+    <p>Labels will be able to be added to any number of categories and categories can have any number of labels (many to many)</p>
+    <pre>{{ load_file_with_name('libs/models/models/examples/Label.py') }}</pre>
+</div>
+
 {% endblock %}

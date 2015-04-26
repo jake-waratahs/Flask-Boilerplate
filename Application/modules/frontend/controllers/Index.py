@@ -10,3 +10,11 @@ class Index(FlaskView):
         return render_template('frontend/index.html', is_form=True)
 
 
+    def generalize(self):
+        """
+        Provide a HTTP endpoint to generalize this boilerplate. This method 
+        will remove all flask-boilerplate examples and clean up the boilerplate
+        ready for development of your app.
+
+        TODO
+        """

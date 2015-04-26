@@ -1,0 +1,29 @@
+{% extends "frontend/base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h2>Develop using MySQL</h2>
+    <p>It's often quite nice to develop locally using a MySQL database, but it's not always very easy to do. It generally requires setting up a username and a password for the specific use.</p>
+    <p>In a development environment, instead of setting up app specific user accounts and databases, a general "dev" user should be created (with local only access). It should only have privileges to databases prefixed with "dev".</p>
+
+    <h4>Setup MySQL Account for Development</h4>
+    <p>Open a MySQL console using a user that has root privileges</p>
+<pre>
+mysql -u <USER> -p<PASSWORD>
+
+-- Create the user account
+CREATE USER 'dev'@'localhost';
+-- Grant Privs for the dev account
+GRANT ALL PRIVILEGES ON `dev%`.* TO 'dev'@'localhost';
+-- Exit Mysql
+EXIT;
+</pre>
+    <h4>Set Environment Variables</h4>
+    <p>To tell Flask to use MySQL for all your projects, set the <code>FLASK_CONFIG</code> environment variable. If you wish to only use MySQL in a single application, simply invoke it using the <code>-c MySQLStd</code> argument.</p>
+<pre>
+echo "export FLASK_CONFIG=MySQLStd" >> ~/.bashrc
+echo "export FLASK_CONFIG=MySQLStd" >> ~/.zshrc
+</pre>
+    <p>Once you've set those environment variables, you'll be required to re-open your shell for them to be loaded.</p>
+</div>
+{% endblock %}

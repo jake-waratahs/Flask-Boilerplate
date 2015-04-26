@@ -1,0 +1,13 @@
+{% extends "frontend/base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h2>Views</h2>
+    <p>The boilerplate promotes use of Flask-Classy for endpoint views. It allows easy grouping of similar endpoints in a single class.</p>
+    <p>An example of a FlaskView has been included below:</p>
+    <pre>{{ load_file_with_name('Application/modules/frontend/modules/examples/controllers/MainController.py') }}</pre>
+
+    <h3>Menu Items</h3>
+    <p>Notice above the use of the <code>@menu.classy_menu_item</code> decorator? This tells flask-menu to add this endpoint to the specified menu.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "frontend/base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h2>Configuration</h2>
+    <p>Similar to how the boilerplate handles models, configuration is defined in a standlone python module. This allows the config to be imported across multiple apps if ever required. Additionally it allows it to be imported at the command line and evaluated in shell scripts.</p>
+    <p>The configuration module is stored in <code>./libs/config/config</code>.</p>
+
+    <h3>Accessing Config at Python Runtime</h3>
+    <p>To get the required key from the config, a helper within <code>flask-boilerplate-buildutils</code> is called from the config module. It will determine which configuration class to load depending on the <code>-c CONFIG_NAME</code> argument or local environment variables (<code>FLASK_CONFIG</code>).</p>
+    <p>Code example of accessing config at runtime:</p>
+<pre>
+
+## At Flask Instantiation:
+import config
+config_cls = config.get_config()
+app.config_class = config.get_config()
+app.config.from_object(app.config_class)
+
+## At runtime in a non flask app or without app context:
+import config
+cfg = config.get_config()
+print(cfg.CONFIG_KEY)
+
+</pre>
+    <h3>Accessing Config from the command line</h3>
+    <p>Additionally configuration can be read from the command line by using the config module.</p>
+<pre>
+## Get the current config class name:
+python -m config
+
+## Get a specific key for the current config class:
+python -m config -k &lt;CONFIG_KEY&gt;
+</pre>
+</div>
+{% endblock %}

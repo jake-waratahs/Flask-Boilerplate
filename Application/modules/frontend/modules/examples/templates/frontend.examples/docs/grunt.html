@@ -1,0 +1,18 @@
+{% extends "frontend/base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h2>Grunt</h2>
+    <p>Although the boilerplate comes with a version of Bootstrap, Jquery, and some other extras, it is nice to be able to upgrade these web dependencies. For this reason, a gruntfile has been provided to perform these tasks. Additionally grunt can be used to minify/compress javascript and CSS, and to compile LESS.</p>
+    <p>Grunt requires node-js to be installed. Install node and node package manager on your system and then return here to continue.</p>
+    <p>We first need to install the package dependencies for this project. Run <code>npm install</code>  to do this.</p>
+    <p>With all dependencies now installed, execute <code>grunt</code>. The default task for grunt is to <code>watch</code>.</p>
+    <p>The gruntfile comes with the following tasks:</p>
+    <ul>
+        <li>Install/Copy/Download Bower Dependencies (<code>bower_global</code>)</li>
+        <li>Compile and compress LESS (<code>less</code>)</li>
+        <li>Compress JS (<code>uglify</code>)</li>
+        <li>Watch LESS/JS files and minify/compile upon safe. (<code>watch</code>)(Default task)</li>
+    </ul>
+</div>
+{% endblock %}

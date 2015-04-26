@@ -1,0 +1,23 @@
+{% extends "frontend/base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h2>Security</h2>
+    <p>Flask-Security provides a basic security framework for you application. It supports user logins, and roles. You can lock down specific views to requiring a login or lock them down to requiring specific access (roles)</p>
+    <ul>
+        <li><a href="{{ url_for('.SecurityController:secure_view') }}">Login Only Area</a></li>
+        {% if not current_user.is_anonymous() %}
+            <li><a href="{{ url_for_security('logout', next=request.path)}}">Logout</a></li>
+        {% else %}
+            <li><a href="{{ url_for_security('login', next=request.path)}}">Login</a></li>
+        {% endif %}
+    </ul>
+    <p>Lets take a look at the controller serving up this section of the boilerplate.</p>
+    <pre>{{ load_file_with_name('Application/modules/frontend/modules/examples/controllers/SecurityController.py') }}</pre>
+    <p>Notice the use of the <code>login_required</code> decorator.</p>
+    <p>And we'll have a look at the template as well, considering it has some UI logic in it.</p>
+    <pre>{{ load_file_with_name('Application/modules/frontend/modules/examples/templates/frontend.examples/security/index.html') }}</pre>
+    <p>Notice the use of the <code>if/else</code> block to show a specific item depending if the user is logged in or not.</p>
+</div>
+
+{% endblock %}

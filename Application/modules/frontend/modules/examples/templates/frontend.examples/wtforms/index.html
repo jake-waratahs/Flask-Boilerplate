@@ -1,0 +1,15 @@
+{% extends "frontend/base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h2>WTForms</h2>
+    <p>HTML forms are really difficult to get right. Validation ends up having non-reusable nested if statements, and gets really messy to read and understand the logic. For this reason, WTForms makes forms on the web 100x easier.</p>
+    <p>WTForms lets you generate a form from a Python class. Links to some examples are included below:</p>
+    <ul>
+        <li><a href="{{ url_for('.WTFormsController:form') }}">WTForms Form With Validation</a></li>
+        <li><a href="{{ url_for('.WTFormsController:database')}}">WTForms Form from a Database Model</a></li>
+        <li><a href="{{ url_for('.UploadsController:index') }}">WTForms Form with a File upload</a></li>
+    </ul>
+</div>
+
+{% endblock %}

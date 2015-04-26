@@ -136,6 +136,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-remove');
 
     grunt.registerTask('bower_global', ['bower:install', 'copy:bower_global', 'remove:bower'])
-    grunt.registerTask('default', ['copy:bower_global'])
+    grunt.registerTask('default', ['watch'])
 
 }

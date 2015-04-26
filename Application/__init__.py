@@ -36,6 +36,3 @@ app.register_blueprint(frontend, url_prefix='')
 
 from .setup import setup_database
 setup_database(app)
-
-from .uploads import setup_uploads
-setup_uploads(app)

@@ -1,6 +1,6 @@
 {% extends "security/base_security_form.html" %}
 {% block formtitle %}Please sign in.{% endblock %}
-{% block formsubtitle %}Access to this page is restricted.{% endblock %}
+{% block formsubtitle %}{% endblock %}
 {% block form_content %}
 <form method=post action="{{ url_for_security('login') }}">
     {{ login_user_form.hidden_tag() }}
@@ -12,7 +12,5 @@
     {% if security.recoverable %}
         <a href="{{ url_for_security('forgot_password') }}">Forgot your password?</a><br />
     {% endif %}
-
 </form>
 {% endblock %}
-{% set active_page = active_page|default('login') -%}
