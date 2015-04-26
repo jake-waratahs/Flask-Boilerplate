@@ -42,7 +42,3 @@ Application/static/uploads/*
 config/security.key
 config/salt.key
 node_modules/*
-salt.key
-security.key
-
-
