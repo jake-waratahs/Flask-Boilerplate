@@ -6,10 +6,7 @@
     <p>Since this boilerplate comes with a large amount of examples and tutorial content, it is useful for it to be removable.</p>
     <p>All example modules and models will be removed.</p>
 
-    <form method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-        <input type="submit" value="Delete Example Content" class="btn btn-danger" />
-    </form>
+    <p>To perform a cleanup, at a command line, type <code>python run.py cleanup</code>. This command will only be available if the app has not been cleaned before.</p>
 
 </div>
 {% endblock %}
