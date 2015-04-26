@@ -37,6 +37,8 @@ class Config(BaseConfiguration):
     SECRET_KEY = keys['SECRET_KEY']
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    IS_CLEAN = False # Flag to enable cleanup option in run commands
     
 class Production(Config):
     # SQL Configuration for Production
