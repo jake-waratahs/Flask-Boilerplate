@@ -20,6 +20,7 @@ class Cleanup(FlaskView):
     @menu.classy_menu_item('frontend.cleanup', 'Cleanup', order=4)
     def index(self):
         if request.method == 'POST':
+            import shutil
             print(" * Cleaning up...")
             print(" * Unlinking Submodules")
             kept_lines = None
@@ -34,7 +35,11 @@ class Cleanup(FlaskView):
                     fh.write(line)
 
             print(" * Deleting Submodules")
+            shutil.rmtree('./Application/modules/frontend/modules')
+
             print(" * Deleting Models")
+            shutil.rmtree('./libs/models/models/examples')
+
             print(" * Cleanup Complete!")
 
             # return redirect('/')
