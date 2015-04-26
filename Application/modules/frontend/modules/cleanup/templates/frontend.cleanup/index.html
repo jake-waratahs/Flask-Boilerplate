@@ -1,0 +1,15 @@
+{% extends "frontend/base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h2>Cleanup</h2>
+    <p>Since this boilerplate comes with a large amount of examples and tutorial content, it is useful for it to be removable.</p>
+    <p>All example modules and models will be removed.</p>
+
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <input type="submit" value="Delete Example Content" class="btn btn-danger" />
+    </form>
+
+</div>
+{% endblock %}
