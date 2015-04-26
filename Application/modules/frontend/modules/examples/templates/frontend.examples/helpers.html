@@ -2,6 +2,38 @@
 
 {% block content %}
 <div class="jumbotron">
-
+    <h2>Helpers</h2>
+    <p>Strictly speaking, the boilerplate does not come with any helpers. All helpers are included from the <code>flask-boilerplate-utils</code> package. This package brings the following helpers:</p>
+    <h3>Run Commands</h3>
+    <a href="{{ url_for('.DocsController:running') }}">See Running for more info about run commands</a>
+    <h3>Jinja Filters</h3>
+    <ul>
+        <li>timesince: Return a string representing a time since a particular date, ie, 3 days ago, etc.</li>
+        <li>local_date: Returns a babel formatted local date (requires <code>BABEL_ENABLED=True</code> config option).</li>
+        <li>percent_escape: Percent escape a string using percentage symbols (URL Encode)</li>
+        <li>local_date_time: Returns a babel formatted local date and time (requires <code>BABEL_ENABLED=True</code> config option).</li>
+    </ul>
+    <h3>Jinja Globals</h3>
+    <ul>
+        <li>{{ '{{ csrf_setup }}' }}: Returns a CSRF script tag which patches all AJAX requests to send a CSRF token before sending.</li>
+        <li>{{ '{{ render_field }}' }}: Render a WTForms form field object into HTML code.</li>
+    </ul>
+    <h3>Forms</h3>
+    <ul>
+        <li>RequireItemAsMember: A WTForms validator to check if the form data contains a particular item.</li>
+        <li>ValidFileFormat: Validate a fileupload to ensure the uploaded file is in the file upload's allowed types</li>
+        <li>StopIfEqualTo: Stop validation chain if the field value is equal to the getter's return value.</li>
+        <li>Unique: Validator to ensure data doesn't already exist in the database.</li>
+        <li>OptionFileField: Ignore validation if a file is not provided for upload.</li>
+        <li>RequireAny: Require one or more of the selected fields to have data. </li>
+        <li>empty_string_none: A WTForms filter to turn an empty string into a None</li>
+        <li>TimezoneDateTimeField: A timezone aware field for WTForms which understands javascript getTimezoneOffset()</li>
+    </ul>
+    <h3>Overrides</h3>
+    <ul>
+        <li>NestableBlueprint: Nest blueprints within other blueprints</li>
+        <li>FlaskView: Configure Flask-Classy to ignore specific kwargs/args when converting them to an endpoint mapping. Allows blueprints to have dynamic path arguments and allow endpoints to catch them in its args/kwargs.</li>
+    </ul>
+    <p>All of the helpers listed here are documented in the readthedocs documentation for flask-boilerplate-utils over <a href="http://flask-boilerplate-utils.readthedocs.org/en/latest/">here</a></p>
 </div>
 {% endblock %}

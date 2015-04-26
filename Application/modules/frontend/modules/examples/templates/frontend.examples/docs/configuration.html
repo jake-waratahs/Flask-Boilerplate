@@ -32,5 +32,15 @@ python -m config
 ## Get a specific key for the current config class:
 python -m config -k &lt;CONFIG_KEY&gt;
 </pre>
+    <h3>Configuration Keys</h3>
+    <p>The flask-boilerplate-utils takes some config options at runtime to get set up. These include:</p>
+    <ul>
+        <li><code>CSRF_ENABLED</code> (default: True) - Enable CSRF tokens on any POST request</li>
+        <li><code>SENTRY_ENABLED</code> (default: False) - Enable Sentry logging and monitoring for exception handling. Additionally requires the <code>SENTRY_DSN</code> key set.</li>
+        <li><code>BEHIND_REVERSE_PROXY</code> (default: False) - Provide support for the flask app sitting behind a reverse proxy on a sub domain.</li>
+        <li><code>REDIS_SESSIONS_ENABLED</code> (default: False) - Enable server side sessions using Redis</li>
+        <li><code>REDIS_SESSIONS_DB</code> (default: 1) - If server side sessions are enabled, use this Redis database</li>
+        <li><code>BABEL_ENABLED</code> (default: False) - Enable babel for use in this application. Provides additional jinja filters for babel. Requires <code>babel</code> module to be installed.</li>
+    </ul>
 </div>
 {% endblock %}
